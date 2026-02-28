@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Self-Publishing 101 — Student Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;0,700;1,300;1,500;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #0f0e0c;
+    --surface:  #171512;
+    --card:     #1e1b17;
+    --border:   rgba(184,146,42,0.18);
+    --gold:     #b8922a;
+    --gold-lt:  #e8c96a;
+    --gold-dim: rgba(184,146,42,0.12);
+    --cream:    #f0e8d5;
+    --muted:    #7a7060;
+    --soft:     #4a4438;
+    --white:    #faf8f4;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--cream);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(15,14,12,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--gold-lt);
+  }
+
+  .nav-logo span {
+    color: var(--muted);
+    font-weight: 300;
+    font-style: italic;
+    margin-left: 0.4rem;
+  }
+
+  .nav-link {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-link:hover { color: var(--gold-lt); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8rem 2rem 5rem;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(184,146,42,0.12) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .hero-lines {
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(184,146,42,0.04) 80px);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    position: relative;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  .hero-eyebrow::before,
+  .hero-eyebrow::after {
+    content: '';
+    width: 40px; height: 1px;
+    background: var(--gold);
+    opacity: 0.5;
+  }
+
+  .hero-title {
+    position: relative;
+    font-family: 'Cormorant', serif;
+    font-size: clamp(3.5rem, 9vw, 7rem);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold-lt);
+    font-weight: 300;
+  }
+
+  .hero-subtitle {
+    position: relative;
+    font-family: 'Cormorant', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    font-weight: 300;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .hero-desc {
+    position: relative;
+    max-width: 500px;
+    font-size: 0.9rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--soft);
+    margin-bottom: 3rem;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+
+  .hero-cta {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 1rem 2.5rem;
+    background: var(--gold);
+    color: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    animation: fadeUp 0.8s 0.5s ease both;
+  }
+  .hero-cta:hover { background: var(--gold-lt); transform: translateY(-2px); }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--soft);
+    animation: fadeUp 0.8s 0.8s ease both;
+  }
+
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%,100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.1); }
+  }
+
+  /* ── SECTION ── */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 6rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+  }
+
+  .section-title {
+    font-family: 'Cormorant', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 1rem;
+  }
+
+  .section-title em { font-style: italic; color: var(--gold-lt); font-weight: 300; }
+
+  .section-intro {
+    max-width: 560px;
+    font-size: 0.9rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--muted);
+    margin-bottom: 3rem;
+  }
+
+  /* ── ACTIVITY GRID ── */
+  .activity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .activity-card {
+    background: var(--card);
+    padding: 2rem;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    transition: background 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .activity-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+  }
+
+  .activity-card:hover { background: #241f18; }
+  .activity-card:hover::before { transform: scaleX(1); }
+
+  .activity-card.coming-soon {
+    opacity: 0.45;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .card-type {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .card-tag {
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border-radius: 2px;
+  }
+
+  .tag-quiz     { background: rgba(184,146,42,0.15); color: var(--gold); border: 1px solid rgba(184,146,42,0.3); }
+  .tag-assign   { background: rgba(74,103,65,0.2);   color: #8fc482;     border: 1px solid rgba(74,103,65,0.4); }
+  .tag-reflect  { background: rgba(107,74,94,0.2);   color: #d4a0c0;     border: 1px solid rgba(107,74,94,0.4); }
+  .tag-assess   { background: rgba(58,74,92,0.25);   color: #88aacb;     border: 1px solid rgba(58,74,92,0.5); }
+  .tag-soon     { background: rgba(80,70,55,0.3);    color: var(--soft); border: 1px solid rgba(80,70,55,0.4); }
+
+  .card-num {
+    font-family: 'Cormorant', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--soft);
+  }
+
+  .card-title {
+    font-family: 'Cormorant', serif;
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.25;
+  }
+
+  .card-desc {
+    font-size: 0.82rem;
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--muted);
+    flex: 1;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    margin-top: 0.5rem;
+  }
+
+  .card-meta {
+    font-size: 0.72rem;
+    color: var(--soft);
+    font-weight: 300;
+  }
+
+  .card-arrow {
+    font-size: 1rem;
+    color: var(--gold);
+    transition: transform 0.2s ease;
+  }
+  .activity-card:hover .card-arrow { transform: translateX(4px); }
+
+  /* ── DIVIDER ── */
+  .gold-rule {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.3;
+    margin: 0 auto;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .how-step {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .how-num {
+    font-family: 'Cormorant', serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--gold-dim);
+    line-height: 1;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.8rem;
+    margin-bottom: 0.3rem;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-lt) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .how-title {
+    font-family: 'Cormorant', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--white);
+  }
+
+  .how-desc {
+    font-size: 0.82rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--gold);
+  }
+
+  .footer-note {
+    font-size: 0.75rem;
+    font-weight: 300;
+    color: var(--soft);
+  }
+
+  .footer-skool {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .footer-skool:hover { color: var(--gold); border-color: var(--gold); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    nav { padding: 1rem 1.5rem; }
+    section { padding: 4rem 1.25rem; }
+    footer { padding: 2rem 1.5rem; }
+    .activity-grid { grid-template-columns: 1fr; gap: 1px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">Self-Publishing 101 <span>Student Hub</span></span>
+  <div style="display:flex;gap:1rem;align-items:center;" id="nav-right-mount">
+    <a href="about.html" class="nav-link">About</a>
+    <a href="https://www.skool.com/selfpublish" target="_blank" class="nav-link">Skool</a>
+    <a href="join.html" class="nav-cta" id="nav-join-btn">Join Free →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-lines"></div>
+
+  <p class="hero-eyebrow">Self-Publishing 101</p>
+  <h1 class="hero-title">Your Writing<br><em>Journey</em><br>Starts Here</h1>
+  <p class="hero-subtitle">Assessments, quizzes &amp; assignments</p>
+  <p class="hero-desc">
+    Everything you need to complete your coursework — quizzes, writing assignments, reading reflections, and unit assessments — all in one place.
+  </p>
+  <a href="#activities" class="hero-cta">View All Activities →</a>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <section>
+    <p class="section-label reveal">How it works</p>
+    <h2 class="section-title reveal">Simple. <em>Every time.</em></h2>
+    <div class="how-grid">
+      <div class="how-step reveal">
+        <div class="how-num">01</div>
+        <div class="how-title">Find your activity</div>
+        <div class="how-desc">Your teacher will post a direct link in Skool pointing to your assigned quiz or activity below.</div>
+      </div>
+      <div class="how-step reveal">
+        <div class="how-num">02</div>
+        <div class="how-title">Complete your work</div>
+        <div class="how-desc">Answer all questions honestly. Take your time — there are no wrong answers on discovery quizzes, only insight.</div>
+      </div>
+      <div class="how-step reveal">
+        <div class="how-num">03</div>
+        <div class="how-title">Submit &amp; await results</div>
+        <div class="how-desc">Enter your name and email on the final screen. Your teacher will respond with personalized feedback via email or Skool comment.</div>
+      </div>
+      <div class="how-step reveal">
+        <div class="how-num">04</div>
+        <div class="how-title">Return to Skool</div>
+        <div class="how-desc">Head back to the community to discuss your results, ask questions, and connect with fellow writers.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ACTIVITIES -->
+<section id="activities">
+  <p class="section-label reveal">Student Activities</p>
+  <h2 class="section-title reveal">Quizzes, Assignments<br>&amp; <em>Assessments</em></h2>
+  <p class="section-intro reveal">Click any active card to begin. Activities marked "Coming Soon" will be unlocked as the course progresses.</p>
+
+  <div class="activity-grid reveal">
+
+    <!-- CARD 1 — LIVE -->
+    <a class="activity-card" href="writing-genre-quiz.html">
+      <div class="card-type">
+        <span class="card-tag tag-quiz">✦ Discovery Quiz</span>
+        <span class="card-num">01</span>
+      </div>
+      <div class="card-title">What Kind of Writer Are You?</div>
+      <div class="card-desc">25 reflective questions to discover which writing genre matches your personality, instincts, and creative strengths. Covers 8 genres from memoir to fantasy.</div>
+      <div class="card-footer">
+        <span class="card-meta">25 questions · ~10 min</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </a>
+
+    <!-- CARD 2 — COMING SOON -->
+    <div class="activity-card coming-soon">
+      <div class="card-type">
+        <span class="card-tag tag-assign">✎ Assignment</span>
+        <span class="card-num">02</span>
+      </div>
+      <div class="card-title">Your Book Concept Pitch</div>
+      <div class="card-desc">Define your book idea in 300 words or less. Identify your target reader, core promise, and what makes your story or message uniquely yours.</div>
+      <div class="card-footer">
+        <span class="card-meta">Written submission · Coming Soon</span>
+        <span class="card-tag tag-soon">Coming Soon</span>
+      </div>
+    </div>
+
+    <!-- CARD 3 — COMING SOON -->
+    <div class="activity-card coming-soon">
+      <div class="card-type">
+        <span class="card-tag tag-reflect">◎ Reflection</span>
+        <span class="card-num">03</span>
+      </div>
+      <div class="card-title">Reading as a Writer</div>
+      <div class="card-desc">Choose a published book in your target genre. Analyze three craft decisions the author made and reflect on how you'll apply them to your own work.</div>
+      <div class="card-footer">
+        <span class="card-meta">Short essay · Coming Soon</span>
+        <span class="card-tag tag-soon">Coming Soon</span>
+      </div>
+    </div>
+
+    <!-- CARD 4 — COMING SOON -->
+    <div class="activity-card coming-soon">
+      <div class="card-type">
+        <span class="card-tag tag-assess">◈ Assessment</span>
+        <span class="card-num">04</span>
+      </div>
+      <div class="card-title">Unit 1 Assessment</div>
+      <div class="card-desc">Demonstrate your understanding of the self-publishing landscape, genre positioning, and reader identification covered in Unit 1.</div>
+      <div class="card-footer">
+        <span class="card-meta">20 questions · Coming Soon</span>
+        <span class="card-tag tag-soon">Coming Soon</span>
+      </div>
+    </div>
+
+    <!-- CARD 5 — COMING SOON -->
+    <div class="activity-card coming-soon">
+      <div class="card-type">
+        <span class="card-tag tag-quiz">✦ Discovery Quiz</span>
+        <span class="card-num">05</span>
+      </div>
+      <div class="card-title">What's Your Author Brand?</div>
+      <div class="card-desc">Discover your natural author voice, visual identity direction, and the brand personality that will connect most authentically with your ideal readers.</div>
+      <div class="card-footer">
+        <span class="card-meta">20 questions · Coming Soon</span>
+        <span class="card-tag tag-soon">Coming Soon</span>
+      </div>
+    </div>
+
+    <!-- CARD 6 — COMING SOON -->
+    <div class="activity-card coming-soon">
+      <div class="card-type">
+        <span class="card-tag tag-assign">✎ Assignment</span>
+        <span class="card-num">06</span>
+      </div>
+      <div class="card-title">First Chapter Draft</div>
+      <div class="card-desc">Submit your first chapter or opening pages for instructor feedback. Focus on establishing voice, hooking your reader, and setting up your book's core promise.</div>
+      <div class="card-footer">
+        <span class="card-meta">Writing submission · Coming Soon</span>
+        <span class="card-tag tag-soon">Coming Soon</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="gold-rule" style="max-width:1100px;margin:0 auto;"></div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">Self-Publishing 101</span>
+  <span class="footer-note">Student hub · All activities completed here are reviewed by your instructor</span>
+  <a href="https://www.skool.com/selfpublish" target="_blank" class="footer-skool">Return to Skool Community →</a>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+<script src="membership.js"></script>
+<script>
+  // Update nav based on membership tier
+  window.addEventListener('load', () => {
+    const tier = SP_ACCESS.getTier();
+    const navRight = document.getElementById('nav-right-mount');
+    if(!navRight) return;
+    if(tier === 'pro') {
+      navRight.innerHTML = `
+        <span style="font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(184,146,42,.4);padding:.25rem .65rem;">✦ Self-Publish Pro</span>
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+        <button class="nav-logout" onclick="SP_ACCESS.logout()" style="background:none;border:1px solid #4a4438;color:#4a4438;font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .8rem;cursor:pointer;transition:all .2s;">Sign Out</button>
+      `;
+    } else if(tier === 'free') {
+      navRight.innerHTML = `
+        <span style="font-size:.75rem;font-weight:300;color:var(--muted);">👤 ${SP_ACCESS.getName()} <span style="font-size:.62rem;font-weight:700;text-transform:uppercase;color:#4a4438;border:1px solid #4a4438;padding:.1rem .4rem;margin-left:.3rem;">Free</span></span>
+        <a href="upgrade.html" class="nav-cta">Upgrade to Pro →</a>
+      `;
+    }
+  });
+</script>
+</body>
+</html>

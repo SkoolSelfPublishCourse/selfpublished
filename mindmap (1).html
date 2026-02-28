@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Concept Mind Map — Self-Publish 101</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;0,700;1,300;1,500;1,700&family=DM+Sans:wght@300;400;500;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0f0e0c; --surface:#161310; --card:#1d1a15; --card2:#241f18;
+  --border:rgba(184,146,42,0.2); --border-s:rgba(184,146,42,0.08);
+  --gold:#b8922a; --gold-lt:#e8c96a; --gold-dim:rgba(184,146,42,0.1);
+  --cream:#f0e8d5; --white:#faf8f4; --muted:#8a7e6e; --soft:#4a4438;
+  --green-lt:#5eb84d; --red:#c0392b;
+  --c1:#8b3a1a; --c2:#3a4a5c; --c3:#6b4a5e; --c4:#2d6b6b;
+  --c5:#4a6741; --c6:#5a4a3a; --c7:#2a5a5a; --c8:#7a5a1a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--cream);min-height:100vh;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.5;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(15,14,12,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nav-brand{font-family:'Dancing Script',cursive;font-size:1.4rem;color:var(--gold-lt);text-decoration:none;}
+.nav-right{display:flex;align-items:center;gap:1rem;}
+.nav-link{font-size:.7rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+.nav-link:hover{color:var(--gold-lt);}
+.nav-save{padding:.5rem 1.2rem;background:var(--gold);color:var(--bg);border:none;font-family:'DM Sans',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+.nav-save:hover{background:var(--gold-lt);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+/* PAGE */
+.page{max-width:1100px;margin:0 auto;padding:0 1.5rem;}
+
+/* HERO */
+.map-hero{padding:6rem 0 2.5rem;text-align:center;position:relative;}
+.map-hero::before{content:'';position:absolute;width:500px;height:300px;background:radial-gradient(ellipse,rgba(184,146,42,.1),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+.hero-eyebrow{font-size:.65rem;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.7rem;animation:fadeUp .7s ease both;}
+.hero-title{font-family:'Cormorant',serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:700;color:var(--white);line-height:1.1;margin-bottom:.4rem;animation:fadeUp .7s .1s ease both;}
+.hero-title em{font-style:italic;color:var(--gold-lt);font-weight:300;}
+.hero-sub{font-size:.88rem;font-weight:300;color:var(--muted);line-height:1.75;max-width:540px;margin:0 auto 1.5rem;animation:fadeUp .7s .2s ease both;}
+.progress-bar-wrap{max-width:500px;margin:0 auto 1rem;animation:fadeUp .7s .3s ease both;}
+.progress-label{display:flex;justify-content:space-between;font-size:.68rem;font-weight:500;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem;}
+.progress-track{width:100%;height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-lt));border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1);width:0%;}
+
+/* MIND MAP VISUAL */
+.map-visual-section{padding:2rem 0;position:relative;}
+.map-canvas{width:100%;max-width:900px;margin:0 auto;display:block;}
+
+/* BRANCHES (step cards) */
+.branches{display:grid;gap:0;}
+
+.branch {
+  border: 1px solid var(--border);
+  background: var(--card);
+  transition: all .25s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.branch.active { border-color: var(--branch-color); background: var(--card2); }
+.branch.completed { background: #141a12; border-color: rgba(94,184,77,.3); }
+.branch-header {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1.2rem 1.5rem;
+  user-select: none;
+}
+.branch-color-bar {
+  position: absolute; top: 0; left: 0; bottom: 0; width: 3px;
+  background: var(--branch-color);
+}
+.branch-num {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--branch-color); opacity: .15;
+  display: flex; align-items: center; justify-content: center;
+  font-family:'Cormorant',serif; font-size:1rem; font-weight:700;
+  flex-shrink:0; position:relative;
+}
+.branch-num span { position:relative; z-index:1; color: var(--branch-color); opacity: 1; }
+.branch.completed .branch-num { opacity: 1; background: rgba(46,90,30,.4); }
+.branch.completed .branch-num span { color: var(--green-lt); }
+.branch-label {
+  flex: 1;
+  font-family:'Cormorant',serif; font-size:1.1rem; font-weight:700; color:var(--white);
+}
+.branch-sublabel { font-size:.75rem; font-weight:300; color:var(--muted); display:block; margin-top:.1rem; }
+.branch-status {
+  font-size:.62rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+  padding:.2rem .55rem; border-radius:2px; flex-shrink:0;
+}
+.branch-status.todo { background:rgba(74,68,56,.3); color:var(--soft); border:1px solid var(--soft); }
+.branch-status.active-s { background:rgba(184,146,42,.15); color:var(--gold); border:1px solid rgba(184,146,42,.4); }
+.branch-status.done { background:rgba(46,90,30,.25); color:var(--green-lt); border:1px solid rgba(94,184,77,.3); }
+.branch-chevron { color:var(--muted); font-size:.8rem; transition:transform .3s; flex-shrink:0; }
+.branch.active .branch-chevron { transform: rotate(180deg); }
+
+/* BRANCH BODY */
+.branch-body {
+  display: none;
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  border-top: 1px solid var(--border-s);
+  animation: fadeUp .3s ease both;
+}
+.branch.active .branch-body { display: block; }
+
+.branch-intro {
+  font-size:.85rem; font-weight:300; line-height:1.75; color:var(--muted);
+  margin: 1rem 0 1.2rem; max-width:680px;
+}
+.branch-intro strong { color:var(--cream); font-weight:500; }
+
+/* QUESTIONS */
+.question-set { display:flex; flex-direction:column; gap:1rem; }
+.q-item { display:flex; flex-direction:column; gap:.4rem; }
+.q-label { font-size:.68rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); }
+.q-prompt { font-size:.88rem; font-weight:300; color:var(--muted); font-style:italic; line-height:1.5; }
+.q-input {
+  width:100%; padding:.8rem 1rem;
+  background:rgba(255,255,255,.04); border:1px solid var(--border);
+  color:var(--cream); font-family:'DM Sans',sans-serif; font-size:.88rem;
+  outline:none; transition:border-color .2s; resize:vertical;
+}
+.q-input:focus { border-color:var(--gold); }
+.q-input::placeholder { color:var(--soft); }
+textarea.q-input { min-height:80px; }
+
+/* GENRE PILLS */
+.genre-grid { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.3rem; }
+.genre-pill {
+  padding:.4rem 1rem; border:1.5px solid var(--border);
+  background:transparent; color:var(--muted);
+  font-family:'DM Sans',sans-serif; font-size:.75rem; font-weight:500;
+  cursor:pointer; transition:all .2s; letter-spacing:.04em;
+}
+.genre-pill:hover { border-color:var(--gold); color:var(--cream); }
+.genre-pill.selected { background:var(--gold); color:var(--bg); border-color:var(--gold); font-weight:700; }
+
+/* EMOTION SLIDERS */
+.slider-group { display:flex; flex-direction:column; gap:.4rem; }
+.slider-labels { display:flex; justify-content:space-between; font-size:.7rem; font-weight:300; color:var(--soft); }
+.q-slider { width:100%; -webkit-appearance:none; height:3px; background:rgba(255,255,255,.08); outline:none; cursor:pointer; }
+.q-slider::-webkit-slider-thumb { -webkit-appearance:none; width:18px; height:18px; border-radius:50%; background:var(--gold); cursor:pointer; transition:transform .2s; }
+.q-slider::-webkit-slider-thumb:hover { transform:scale(1.2); }
+
+/* BRANCH ACTIONS */
+.branch-actions { display:flex; gap:.8rem; margin-top:1.2rem; align-items:center; flex-wrap:wrap; }
+.btn-complete {
+  padding:.7rem 1.6rem; background:var(--gold); color:var(--bg);
+  border:none; font-family:'DM Sans',sans-serif; font-size:.73rem;
+  font-weight:700; letter-spacing:.15em; text-transform:uppercase;
+  cursor:pointer; transition:all .2s;
+}
+.btn-complete:hover { background:var(--gold-lt); transform:translateY(-1px); }
+.btn-skip { padding:.7rem 1.2rem; background:transparent; color:var(--muted); border:1px solid var(--soft); font-family:'DM Sans',sans-serif; font-size:.72rem; font-weight:500; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; transition:all .2s; }
+.btn-skip:hover { border-color:var(--muted); color:var(--cream); }
+
+/* DIVIDER */
+.rule { width:100%;height:1px;background:var(--border); }
+
+/* CONCEPT SUMMARY */
+.summary-section { padding:3rem 0 5rem; }
+.summary-card {
+  background:linear-gradient(135deg,#1f1a0f 0%,#161310 100%);
+  border:1px solid rgba(184,146,42,.4);
+  padding:2.5rem; position:relative; overflow:hidden;
+}
+.summary-card::before { content:''; position:absolute; top:0;left:0;right:0;height:3px; background:linear-gradient(90deg,var(--gold),var(--gold-lt),var(--gold)); }
+.summary-eyebrow { font-size:.65rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem;display:block; }
+.summary-title { font-family:'Cormorant',serif;font-size:1.8rem;font-weight:700;color:var(--white);margin-bottom:1.5rem; }
+.concept-output { display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem; }
+@media(max-width:600px){.concept-output{grid-template-columns:1fr;}}
+.co-item { background:var(--card);border:1px solid var(--border);padding:1rem; }
+.co-label { font-size:.6rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.3rem;display:block; }
+.co-value { font-size:.88rem;font-weight:300;line-height:1.6;color:var(--cream); }
+.co-value.empty { color:var(--soft);font-style:italic; }
+
+.concept-statement-wrap { background:var(--card);border:1px solid rgba(184,146,42,.3);padding:1.2rem 1.5rem;margin-bottom:1.5rem; }
+.cs-label { font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;display:block; }
+.cs-text { font-family:'Cormorant',serif;font-size:1.1rem;font-style:italic;line-height:1.6;color:var(--cream); }
+
+.summary-actions { display:flex;gap:1rem;flex-wrap:wrap; }
+.btn-print-map { padding:.85rem 2rem;background:var(--gold);color:var(--bg);border:none;font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:all .2s; }
+.btn-print-map:hover{background:var(--gold-lt);transform:translateY(-2px);}
+.btn-reset{padding:.85rem 1.5rem;background:transparent;color:var(--muted);border:1px solid var(--soft);font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+.btn-reset:hover{border-color:var(--muted);color:var(--cream);}
+
+/* LOCKED overlay */
+.locked-overlay{position:absolute;inset:0;background:rgba(15,14,12,.7);backdrop-filter:blur(4px);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;gap:.5rem;}
+.locked-overlay.hidden{display:none;}
+.lo-text{font-size:.8rem;font-weight:300;color:var(--muted);text-align:center;}
+
+/* TIPS */
+.tip-row{display:flex;gap:.6rem;align-items:flex-start;font-size:.78rem;font-weight:300;line-height:1.6;color:var(--soft);margin-top:.5rem;}
+.tip-row::before{content:'💡';flex-shrink:0;font-size:.8rem;}
+
+/* MAP LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:1rem;margin:1rem 0 2rem;}
+.legend-item{display:flex;align-items:center;gap:.4rem;font-size:.72rem;font-weight:300;color:var(--muted);}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+
+footer{border-top:1px solid var(--border);padding:2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;position:relative;z-index:1;}
+.footer-brand{font-family:'Dancing Script',cursive;font-size:1.2rem;color:var(--gold-lt);}
+.footer-note{font-size:.72rem;font-weight:300;color:var(--soft);}
+
+@media(max-width:600px){nav{padding:.8rem 1.2rem;}.map-hero{padding:5rem 0 2rem;}}
+@media print{nav,footer,.branch-actions,.nav-save{display:none!important;}.branch-body{display:block!important;}.branch{page-break-inside:avoid;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">Self&#8209;Publish</a>
+  <div class="nav-right">
+    <a href="index.html" class="nav-link">← Hub</a>
+    <button class="nav-save" onclick="saveAndPrint()">Save My Concept Map</button>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- HERO -->
+  <div class="map-hero">
+    <span class="hero-eyebrow">Self-Publish 101 · Interactive Tool</span>
+    <h1 class="hero-title">Book Concept<br><em>Mind Map</em></h1>
+    <p class="hero-sub">Work through each branch to discover, define, and build the complete concept for your book — from the first spark of an idea to a writing-ready blueprint.</p>
+    <div class="progress-bar-wrap">
+      <div class="progress-label">
+        <span>Your Progress</span>
+        <span id="progress-count">0 of 8 branches complete</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#5eb84d"></div>Complete</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#b8922a"></div>In Progress</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#4a4438"></div>Not Started</div>
+  </div>
+
+  <!-- ════════════════════════════
+       BRANCHES
+  ════════════════════════════ -->
+  <div class="branches" id="branches-container">
+
+    <!-- BRANCH 1: THE SPARK -->
+    <div class="branch" id="branch-1" style="--branch-color:#b8922a">
+      <div class="branch-color-bar"></div>
+      <div class="branch-header" onclick="toggleBranch(1)">
+        <div class="branch-num"><span>1</span></div>
+        <div class="branch-label">The Spark <span class="branch-sublabel">What is the raw idea at the heart of your book?</span></div>
+        <span class="branch-status todo" id="status-1">Not Started</span>
+        <span class="branch-chevron">▼</span>
+      </div>
+      <div class="branch-body">
+        <p class="branch-intro">Every book begins with a spark — a single image, question, memory, or feeling that won't leave you alone. In this branch, you're not trying to define your book yet. You're just capturing the seed of what it might become. <strong>Answer freely and honestly. There are no wrong answers here.</strong></p>
+        <div class="question-set">
+          <div class="q-item">
+            <span class="q-label">Your Raw Idea</span>
+            <span class="q-prompt">Describe your book idea in any form — a sentence, an image, a question, or even just a few words.</span>
+            <textarea class="q-input" id="b1-q1" placeholder="e.g. Something about my father and the letters he never sent..."></textarea>
+          </div>
+          <div class="q-item">
+            <span class="q-label">Why This, Why Now</span>
+            <span class="q-prompt">Why do you feel compelled to write this book? Why now, and why you?</span>
+            <textarea class="q-input" id="b1-q2" placeholder="e.g. I've been carrying this story for 10 years and I finally feel ready to face it..."></textarea>
+          </div>
+          <div class="q-item">
+            <span class="q-label">The Feeling</span>
+            <span class="q-prompt">What emotion do you want readers to feel when they finish your book?</span>
+            <input type="text" class="q-input" id="b1-q3" placeholder="e.g. Understood. Hopeful. Unsettled. Inspired. Seen." />
+          </div>
+        </div>
+        <div class="tip-row">Don't filter yourself here. The most powerful books often come from the ideas writers initially thought were too personal, too strange, or not important enough.</div>
+        <div class="branch-actions">
+          <button class="btn-complete" onclick="completeBranch(1)">Complete This Branch →</button>
+          <button class="btn-skip" onclick="skipBranch(1)">Skip for Now</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BRANCH 2: GENRE -->
+    <div class="branch" id="branch-2" style="--branch-color:#8b3a1a">
+      <div class="branch-color-bar"></div>
+      <div class="branch-header" onclick="toggleBranch(2)">
+        <div class="branch-num"><span>2</span></div>
+        <div class="branch-label">Genre & Format <span class="branch-sublabel">Where does your book live in the world?</span></div>
+        <span class="branch-status todo" id="status-2">Not Started</span>
+        <span class="branch-chevron">▼</span>
+      </div>
+      <div class="branch-body">
+        <p class="branch-intro">Genre is not a cage — it is a contract with your reader. When you choose a genre, you're telling readers what experience to expect. <strong>Pick the genre that fits most naturally, even if your book spans more than one.</strong></p>
+        <div class="question-set">
+          <div class="q-item">
+            <span class="q-label">Primary Genre</span>
+            <span class="q-prompt">Which genre does your book belong to?</span>
+            <div class="genre-grid" id="genre-grid">
+              <button class="genre-pill" onclick="selectGenre(this,'Literary Fiction')">Literary Fiction</button>
+              <button class="genre-pill" onclick="selectGenre(this,'Mystery & Thriller')">Mystery & Thriller</button>
+              <button class="genre-pill" onclick="selectGenre(this,'Romance & Drama')">Romance & Drama</button>
+              <button class="genre-pill" onclick="selectGenre(this,'Fantasy & Sci-Fi')">Fantasy & Sci-Fi</button>
+              <button class="genre-pill" onclick="selectGenre(this,'Self-Help')">Self-Help</button>
+              <button class="genre-pill" onclick="selectGenre(this,'Memoir')">Memoir</button>
+              <button class="genre-pill" onclick="selectGenre(this,'Biography')">Biography</button>
+              <button class="genre-pill" onclick="selectGenre(this,'Non-Fiction')">Non-Fiction</button>
+            </div>
+            <input type="hidden" id="b2-genre" />
+          </div>
+          <div class="q-item">
+            <span class="q-label">Sub-Genre or Tone</span>
+            <span class="q-prompt">Is there a more specific description? (e.g. cozy mystery, literary memoir, business self-help, epic fantasy)</span>
+            <input type="text" class="q-input" id="b2-subgenre" placeholder="e.g. Psychological thriller, coming-of-age memoir, motivational self-help..." />
+          </div>
+          <div class="q-item">
+            <span class="q-label">Comparable Books</span>
+            <span class="q-prompt">Name one or two books already published that share your genre and audience. (These are your "comp titles.")</span>
+            <input type="text" class="q-input" id="b2-comps" placeholder="e.g. 'Educated' by Tara Westover, 'The Midnight Library' by Matt Haig..." />
+          </div>
+        </div>
+        <div class="tip-row">If you're not sure of your genre, think about which section of a bookstore your book would sit in — and which readers already buy those books.</div>
+        <div class="branch-actions">
+          <button class="btn-complete" onclick="completeBranch(2)">Complete This Branch →</button>
+          <button class="btn-skip" onclick="skipBranch(2)">Skip for Now</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BRANCH 3: READER -->
+    <div class="branch" id="branch-3" style="--branch-color:#3a4a5c">
+      <div class="branch-color-bar"></div>
+      <div class="branch-header" onclick="toggleBranch(3)">
+        <div class="branch-num"><span>3</span></div>
+        <div class="branch-label">Your Reader <span class="branch-sublabel">Who is this book written for?</span></div>
+        <span class="branch-status todo" id="status-3">Not Started</span>
+        <span class="branch-chevron">▼</span>
+      </div>
+      <div class="branch-body">
+        <p class="branch-intro">The more specifically you can imagine one real reader, the more powerfully your book will speak to thousands. <strong>Don't write for everyone — write for one person, and everyone like them will find you.</strong></p>
+        <div class="question-set">
+          <div class="q-item">
+            <span class="q-label">Describe Your Reader</span>
+            <span class="q-prompt">Paint a picture of one specific, real type of person who needs this book. Age, life stage, what they're going through.</span>
+            <textarea class="q-input" id="b3-q1" placeholder="e.g. A woman in her late 30s who has spent her whole career doing what she 'should' do and is quietly starting to wonder if she missed something..."></textarea>
+          </div>
+          <div class="q-item">
+            <span class="q-label">Their Pain or Desire</span>
+            <span class="q-prompt">What specific problem, pain, question, or longing does your reader have that your book speaks to?</span>
+            <textarea class="q-input" id="b3-q2" placeholder="e.g. She feels successful on paper but hollow inside, and she doesn't know if that's fixable or just what adulthood is..."></textarea>
+          </div>
+          <div class="q-item">
+            <span class="q-label">What They'll Say After</span>
+            <span class="q-prompt">What do you want your ideal reader to say to a friend after finishing your book?</span>
+            <input type="text" class="q-input" id="b3-q3" placeholder="e.g. 'This book made me feel like someone finally understood my life exactly.'" />
+          </div>
+        </div>
+        <div class="tip-row">The best way to find your reader is to remember yourself at a moment when you desperately needed this book. You are often your own ideal reader.</div>
+        <div class="branch-actions">
+          <button class="btn-complete" onclick="completeBranch(3)">Complete This Branch →</button>
+          <button class="btn-skip" onclick="skipBranch(3)">Skip for Now</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BRANCH 4: CORE ARGUMENT / STORY QUESTION -->
+    <div class="branch" id="branch-4" style="--branch-color:#6b4a5e">
+      <div class="branch-color-bar"></div>
+      <div class="branch-header" onclick="toggleBranch(4)">
+        <div class="branch-num"><span>4</span></div>
+        <div class="branch-label">The Core Question <span class="branch-sublabel">What is the spine of your book?</span></div>
+        <span class="branch-status todo" id="status-4">Not Started</span>
+        <span class="branch-chevron">▼</span>
+      </div>
+      <div class="branch-body">
+        <p class="branch-intro">Every book is built around a central question — the one your story or argument sets out to answer. For fiction this is the <em>story question</em>. For non-fiction it is the <em>thesis</em>. <strong>This single sentence will guide every decision you make while writing.</strong></p>
+        <div class="question-set">
+          <div class="q-item">
+            <span class="q-label">Your Story Question or Thesis</span>
+            <span class="q-prompt">Complete this: "This book explores whether / how / why..." OR "At its heart, this book asks the question..."</span>
+            <textarea class="q-input" id="b4-q1" placeholder="e.g. This book asks whether a person can truly reinvent their identity after fifty, or whether who we've always been is stronger than who we decide to become..."></textarea>
+          </div>
+          <div class="q-item">
+            <span class="q-label">The Central Tension</span>
+            <span class="q-prompt">What is in conflict at the heart of your book? (Character vs. self, old beliefs vs. new evidence, love vs. ambition, etc.)</span>
+            <input type="text" class="q-input" id="b4-q2" placeholder="e.g. What we want vs. what we've been taught to want. Or: survival vs. compassion." />
+          </div>
+          <div class="q-item">
+            <span class="q-label">The Stakes</span>
+            <span class="q-prompt">What is lost or what goes wrong if this question is never answered, or this problem never solved?</span>
+            <input type="text" class="q-input" id="b4-q3" placeholder="e.g. She spends the rest of her life in a career that numbs her. He loses the only relationship he ever truly wanted." />
+          </div>
+        </div>
+        <div class="tip-row">If you find this hard, try writing the question your book scares you most to answer. That is usually the right one.</div>
+        <div class="branch-actions">
+          <button class="btn-complete" onclick="completeBranch(4)">Complete This Branch →</button>
+          <button class="btn-skip" onclick="skipBranch(4)">Skip for Now</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BRANCH 5: STRUCTURE -->
+    <div class="branch" id="branch-5" style="--branch-color:#2d6b6b">
+      <div class="branch-color-bar"></div>
+      <div class="branch-header" onclick="toggleBranch(5)">
+        <div class="branch-num"><span>5</span></div>
+        <div class="branch-label">Structure & Shape <span class="branch-sublabel">How will your book be organized?</span></div>
+        <span class="branch-status todo" id="status-5">Not Started</span>
+        <span class="branch-chevron">▼</span>
+      </div>
+      <div class="branch-body">
+        <p class="branch-intro">Structure is the map your reader follows. You don't need a perfect outline yet — you need a <strong>clear sense of beginning, middle, and end</strong>, and how the book moves from one to the other.</p>
+        <div class="question-set">
+          <div class="q-item">
+            <span class="q-label">Structure Model</span>
+            <span class="q-prompt">Which structure fits your book best?</span>
+            <div class="genre-grid">
+              <button class="genre-pill" onclick="selectStructure(this,'Three-Act Structure')">Three-Act Structure</button>
+              <button class="genre-pill" onclick="selectStructure(this,"Hero's Journey")">Hero's Journey</button>
+              <button class="genre-pill" onclick="selectStructure(this,'Problem → Solution')">Problem → Solution</button>
+              <button class="genre-pill" onclick="selectStructure(this,'Transformational Arc')">Transformational Arc</button>
+              <button class="genre-pill" onclick="selectStructure(this,'Chronological Memoir')">Chronological Memoir</button>
+              <button class="genre-pill" onclick="selectStructure(this,'Thematic Memoir')">Thematic Memoir</button>
+              <button class="genre-pill" onclick="selectStructure(this,'Framework Method')">Framework Method</button>
+              <button class="genre-pill" onclick="selectStructure(this,"I'm not sure yet")">Not Sure Yet</button>
+            </div>
+            <input type="hidden" id="b5-structure" />
+          </div>
+          <div class="q-item">
+            <span class="q-label">How It Begins</span>
+            <span class="q-prompt">What is the first scene, image, question, or statement your book opens with?</span>
+            <textarea class="q-input" id="b5-q1" placeholder="e.g. It opens with the day I got the call that changed everything. Or: It opens with a question the reader has never thought to ask themselves..." rows="2"></textarea>
+          </div>
+          <div class="q-item">
+            <span class="q-label">How It Ends</span>
+            <span class="q-prompt">What is the emotional state or understanding the reader should have when they close the final page?</span>
+            <textarea class="q-input" id="b5-q2" placeholder="e.g. They should feel that change is genuinely possible, even late. Or: They should feel the satisfying click of a mystery completely resolved..." rows="2"></textarea>
+          </div>
+          <div class="q-item">
+            <span class="q-label">Approximate Length</span>
+            <span class="q-prompt">How long do you think your book will be? (Rough chapter count or word count estimate)</span>
+            <input type="text" class="q-input" id="b5-q3" placeholder="e.g. Around 20 chapters, roughly 70,000–80,000 words. Or: Short — maybe 40,000 words." />
+          </div>
+        </div>
+        <div class="branch-actions">
+          <button class="btn-complete" onclick="completeBranch(5)">Complete This Branch →</button>
+          <button class="btn-skip" onclick="skipBranch(5)">Skip for Now</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BRANCH 6: VOICE -->
+    <div class="branch" id="branch-6" style="--branch-color:#4a6741">
+      <div class="branch-color-bar"></div>
+      <div class="branch-header" onclick="toggleBranch(6)">
+        <div class="branch-num"><span>6</span></div>
+        <div class="branch-label">Voice & Tone <span class="branch-sublabel">How will your book sound and feel?</span></div>
+        <span class="branch-status todo" id="status-6">Not Started</span>
+        <span class="branch-chevron">▼</span>
+      </div>
+      <div class="branch-body">
+        <p class="branch-intro">Voice is the personality of your writing — the sound of you on the page. Tone is the emotional atmosphere you maintain. <strong>Both must be consistent throughout your book, and both should feel natural to you.</strong></p>
+        <div class="question-set">
+          <div class="q-item">
+            <span class="q-label">Voice in Three Words</span>
+            <span class="q-prompt">If your writing voice were a person at a dinner party, how would you describe them in three words?</span>
+            <input type="text" class="q-input" id="b6-q1" placeholder="e.g. Warm, funny, and unafraid. Or: Precise, earnest, and slightly ferocious." />
+          </div>
+          <div class="q-item">
+            <span class="q-label">Emotional Tone</span>
+            <span class="q-prompt">Slide to describe the emotional register of your book — where does it sit on this spectrum?</span>
+            <div class="slider-group">
+              <div class="slider-labels"><span>Quiet & Intimate</span><span>Urgent & Intense</span></div>
+              <input type="range" class="q-slider" id="b6-s1" min="1" max="10" value="5" />
+            </div>
+            <div class="slider-group" style="margin-top:.5rem">
+              <div class="slider-labels"><span>Serious & Heavy</span><span>Light & Humorous</span></div>
+              <input type="range" class="q-slider" id="b6-s2" min="1" max="10" value="5" />
+            </div>
+          </div>
+          <div class="q-item">
+            <span class="q-label">Your Writing Influences</span>
+            <span class="q-prompt">Name one or two authors whose writing voice you admire most — not to copy, but as a compass for your own.</span>
+            <input type="text" class="q-input" id="b6-q2" placeholder="e.g. Toni Morrison for her density and power. Brené Brown for her warmth and honesty." />
+          </div>
+          <div class="q-item">
+            <span class="q-label">What Your Voice Is NOT</span>
+            <span class="q-prompt">Sometimes it's easier to define voice by what you want to avoid. What kind of writing do you never want your book to sound like?</span>
+            <input type="text" class="q-input" id="b6-q3" placeholder="e.g. Cold, academic, or inaccessible. Or: Preachy, melodramatic, or condescending." />
+          </div>
+        </div>
+        <div class="branch-actions">
+          <button class="btn-complete" onclick="completeBranch(6)">Complete This Branch →</button>
+          <button class="btn-skip" onclick="skipBranch(6)">Skip for Now</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BRANCH 7: UNIQUE ANGLE -->
+    <div class="branch" id="branch-7" style="--branch-color:#5a4a3a">
+      <div class="branch-color-bar"></div>
+      <div class="branch-header" onclick="toggleBranch(7)">
+        <div class="branch-num"><span>7</span></div>
+        <div class="branch-label">Your Unique Angle <span class="branch-sublabel">What makes your book different?</span></div>
+        <span class="branch-status todo" id="status-7">Not Started</span>
+        <span class="branch-chevron">▼</span>
+      </div>
+      <div class="branch-body">
+        <p class="branch-intro">Almost every book idea has been explored in some form before. That's fine — what matters is your unique perspective, experience, or approach. <strong>Your angle is the specific reason your version of this idea could only come from you.</strong></p>
+        <div class="question-set">
+          <div class="q-item">
+            <span class="q-label">What Only You Can Write</span>
+            <span class="q-prompt">What do you bring to this subject — your experience, identity, expertise, or perspective — that no other author can replicate?</span>
+            <textarea class="q-input" id="b7-q1" placeholder="e.g. I spent 15 years as a trauma surgeon before becoming a writer. This book about fear comes from watching people face death and seeing what they regret..."></textarea>
+          </div>
+          <div class="q-item">
+            <span class="q-label">What's Missing from the Market</span>
+            <span class="q-prompt">Think about the books that already exist in your genre. What do they get wrong, skip over, or fail to say that yours will address?</span>
+            <textarea class="q-input" id="b7-q2" placeholder="e.g. Most self-help books on this topic speak to people who already have support systems. Mine speaks to people who are doing it completely alone..."></textarea>
+          </div>
+          <div class="q-item">
+            <span class="q-label">Your Angle in One Sentence</span>
+            <span class="q-prompt">Complete this: "Unlike other books on this topic, mine..."</span>
+            <input type="text" class="q-input" id="b7-q3" placeholder="e.g. Unlike other books on grief, mine is written from the perspective of someone who never cried — and had to learn how." />
+          </div>
+        </div>
+        <div class="tip-row">Your unique angle does not have to be the most dramatic story ever told. It just needs to be genuinely yours — written from a vantage point no one else occupies.</div>
+        <div class="branch-actions">
+          <button class="btn-complete" onclick="completeBranch(7)">Complete This Branch →</button>
+          <button class="btn-skip" onclick="skipBranch(7)">Skip for Now</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BRANCH 8: THE PROMISE -->
+    <div class="branch" id="branch-8" style="--branch-color:#2a5a5a">
+      <div class="branch-color-bar"></div>
+      <div class="branch-header" onclick="toggleBranch(8)">
+        <div class="branch-num"><span>8</span></div>
+        <div class="branch-label">The Promise <span class="branch-sublabel">What does your book give its reader?</span></div>
+        <span class="branch-status todo" id="status-8">Not Started</span>
+        <span class="branch-chevron">▼</span>
+      </div>
+      <div class="branch-body">
+        <p class="branch-intro">Every book makes a promise to its reader — an implicit contract about the experience, knowledge, or transformation they will receive. <strong>Your promise is what makes someone buy the book. Fulfilling it is what makes them tell others.</strong></p>
+        <div class="question-set">
+          <div class="q-item">
+            <span class="q-label">Your Core Promise</span>
+            <span class="q-prompt">Complete this: "If you read this book, you will..." (What will the reader gain, feel, understand, or be able to do?)</span>
+            <textarea class="q-input" id="b8-q1" placeholder="e.g. If you read this book, you will understand why you keep choosing people who aren't right for you — and what to do differently..."></textarea>
+          </div>
+          <div class="q-item">
+            <span class="q-label">The Transformation</span>
+            <span class="q-prompt">Where is your reader at the beginning of the book? Where should they be at the end?</span>
+            <textarea class="q-input" id="b8-q2" placeholder="e.g. They start: stuck, confused, and ashamed. They finish: clear, compassionate with themselves, and with a concrete first step..."></textarea>
+          </div>
+          <div class="q-item">
+            <span class="q-label">Your Concept in Two Sentences</span>
+            <span class="q-prompt">Now put it all together. Describe your book in two clear, specific sentences that capture everything you've defined in this mind map.</span>
+            <textarea class="q-input" id="b8-concept" placeholder="e.g. 'A memoir about the three years I spent rebuilding my life after losing everything at 42 — and the unexpected discovery that starting over was the most honest thing I'd ever done. For anyone who has ever wondered whether it's too late to become who they were supposed to be.'" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="tip-row">This two-sentence concept statement will become your book's logline — use it on your back cover, in your pitch to readers, and in your own mind every time you sit down to write.</div>
+        <div class="branch-actions">
+          <button class="btn-complete" onclick="completeBranch(8)">Complete This Branch →</button>
+          <button class="btn-skip" onclick="skipBranch(8)">Skip for Now</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end branches -->
+
+  <div class="rule" style="margin:3rem 0 0;"></div>
+
+  <!-- CONCEPT SUMMARY -->
+  <div class="summary-section">
+    <div class="summary-card" id="summary-card">
+      <span class="summary-eyebrow">Your Book Concept Summary</span>
+      <h2 class="summary-title">Your Complete Concept Map</h2>
+
+      <div class="concept-statement-wrap">
+        <span class="cs-label">Your Book in Two Sentences</span>
+        <div class="cs-text" id="cs-concept">Complete Branch 8 to generate your concept statement.</div>
+      </div>
+
+      <div class="concept-output">
+        <div class="co-item"><span class="co-label">Genre</span><div class="co-value empty" id="co-genre">Not yet defined</div></div>
+        <div class="co-item"><span class="co-label">Target Reader</span><div class="co-value empty" id="co-reader">Not yet defined</div></div>
+        <div class="co-item"><span class="co-label">Core Question</span><div class="co-value empty" id="co-question">Not yet defined</div></div>
+        <div class="co-item"><span class="co-label">Structure</span><div class="co-value empty" id="co-structure">Not yet defined</div></div>
+        <div class="co-item"><span class="co-label">Voice</span><div class="co-value empty" id="co-voice">Not yet defined</div></div>
+        <div class="co-item"><span class="co-label">Unique Angle</span><div class="co-value empty" id="co-angle">Not yet defined</div></div>
+        <div class="co-item"><span class="co-label">The Promise</span><div class="co-value empty" id="co-promise">Not yet defined</div></div>
+        <div class="co-item"><span class="co-label">Emotional Tone</span><div class="co-value empty" id="co-emotion">Not yet defined</div></div>
+      </div>
+
+      <div class="summary-actions">
+        <button class="btn-print-map" onclick="saveAndPrint()">🖨 Save / Print My Concept Map</button>
+        <button class="btn-reset" onclick="resetMap()">↺ Start Over</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end page -->
+
+<footer>
+  <span class="footer-brand">Self&#8209;Publish</span>
+  <span class="footer-note">Self-Publish 101 · Book Concept Mind Map</span>
+  <a href="index.html" style="font-size:.72rem;color:var(--muted);text-decoration:none;">← Back to Hub</a>
+</footer>
+
+<script>
+  const completedBranches = new Set();
+  const skippedBranches = new Set();
+  let selectedGenre = '';
+  let selectedStructure = '';
+
+  function toggleBranch(n) {
+    const branch = document.getElementById('branch-' + n);
+    const isActive = branch.classList.contains('active');
+    // Close all
+    document.querySelectorAll('.branch.active').forEach(b => {
+      if(b.id !== 'branch-' + n) b.classList.remove('active');
+    });
+    // Toggle current
+    branch.classList.toggle('active', !isActive);
+  }
+
+  function selectGenre(el, genre) {
+    document.querySelectorAll('#genre-grid .genre-pill').forEach(p => p.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedGenre = genre;
+    document.getElementById('b2-genre').value = genre;
+  }
+
+  function selectStructure(el, structure) {
+    el.closest('.genre-grid').querySelectorAll('.genre-pill').forEach(p => p.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedStructure = structure;
+    document.getElementById('b5-structure').value = structure;
+  }
+
+  function completeBranch(n) {
+    completedBranches.add(n);
+    skippedBranches.delete(n);
+    const branch = document.getElementById('branch-' + n);
+    branch.classList.add('completed');
+    branch.classList.remove('active');
+    const status = document.getElementById('status-' + n);
+    status.className = 'branch-status done';
+    status.textContent = '✓ Complete';
+    updateProgress();
+    updateSummary();
+    // Auto-open next branch
+    const next = n + 1;
+    if(next <= 8 && !completedBranches.has(next)) {
+      setTimeout(() => {
+        const nextBranch = document.getElementById('branch-' + next);
+        if(nextBranch) {
+          nextBranch.classList.add('active');
+          nextBranch.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 300);
+    }
+  }
+
+  function skipBranch(n) {
+    skippedBranches.add(n);
+    const branch = document.getElementById('branch-' + n);
+    branch.classList.remove('active');
+    const status = document.getElementById('status-' + n);
+    status.className = 'branch-status todo';
+    status.textContent = 'Skipped';
+    // Open next
+    const next = n + 1;
+    if(next <= 8) {
+      const nextBranch = document.getElementById('branch-' + next);
+      if(nextBranch) {
+        nextBranch.classList.add('active');
+        nextBranch.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }
+
+  function updateProgress() {
+    const count = completedBranches.size;
+    const pct = (count / 8) * 100;
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-count').textContent = count + ' of 8 branches complete';
+  }
+
+  function updateSummary() {
+    const get = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+
+    // Genre
+    const genre = selectedGenre || get('b2-genre');
+    const sub = get('b2-subgenre');
+    setOutput('co-genre', genre ? (sub ? genre + ' · ' + sub : genre) : '');
+
+    // Reader
+    const reader = get('b3-q1');
+    setOutput('co-reader', reader ? truncate(reader, 80) : '');
+
+    // Question
+    const q = get('b4-q1');
+    setOutput('co-question', q ? truncate(q, 100) : '');
+
+    // Structure
+    setOutput('co-structure', selectedStructure || '');
+
+    // Voice
+    const voice = get('b6-q1');
+    setOutput('co-voice', voice || '');
+
+    // Angle
+    const angle = get('b7-q3');
+    setOutput('co-angle', angle ? truncate(angle, 100) : '');
+
+    // Promise
+    const promise = get('b8-q1');
+    setOutput('co-promise', promise ? truncate(promise, 100) : '');
+
+    // Emotion
+    const s1 = document.getElementById('b6-s1') ? document.getElementById('b6-s1').value : 5;
+    const s2 = document.getElementById('b6-s2') ? document.getElementById('b6-s2').value : 5;
+    const intensity = s1 > 6 ? 'Urgent & Intense' : s1 < 4 ? 'Quiet & Intimate' : 'Balanced';
+    const lightness = s2 > 6 ? 'Light & Humorous' : s2 < 4 ? 'Serious & Weighty' : 'Mixed';
+    setOutput('co-emotion', intensity + ' / ' + lightness);
+
+    // Concept statement
+    const concept = get('b8-concept');
+    const csEl = document.getElementById('cs-concept');
+    if(concept) {
+      csEl.textContent = concept;
+      csEl.style.color = '';
+    } else {
+      csEl.textContent = 'Complete Branch 8 to generate your concept statement.';
+      csEl.style.color = 'var(--soft)';
+    }
+  }
+
+  function setOutput(id, val) {
+    const el = document.getElementById(id);
+    if(!el) return;
+    if(val) {
+      el.textContent = val;
+      el.classList.remove('empty');
+    } else {
+      el.textContent = 'Not yet defined';
+      el.classList.add('empty');
+    }
+  }
+
+  function truncate(str, max) {
+    return str.length > max ? str.slice(0, max) + '...' : str;
+  }
+
+  function saveAndPrint() {
+    updateSummary();
+    window.print();
+  }
+
+  function resetMap() {
+    if(!confirm('Are you sure you want to clear your entire concept map and start over?')) return;
+    completedBranches.clear();
+    skippedBranches.clear();
+    selectedGenre = '';
+    selectedStructure = '';
+    document.querySelectorAll('.q-input').forEach(i => { i.value = ''; });
+    document.querySelectorAll('.genre-pill').forEach(p => p.classList.remove('selected'));
+    document.querySelectorAll('.branch').forEach(b => {
+      b.classList.remove('active','completed');
+    });
+    for(let i=1;i<=8;i++){
+      const s=document.getElementById('status-'+i);
+      if(s){s.className='branch-status todo';s.textContent='Not Started';}
+    }
+    updateProgress();
+    updateSummary();
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  // Auto-open first branch
+  window.addEventListener('load', () => {
+    document.getElementById('branch-1').classList.add('active');
+    // Update status to active
+    document.getElementById('status-1').className = 'branch-status active-s';
+    document.getElementById('status-1').textContent = 'In Progress';
+  });
+</script>
+</body>
+</html>
