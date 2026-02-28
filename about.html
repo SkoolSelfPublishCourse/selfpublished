@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Self-Publish — Become an Author in 90 Days or Less</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;0,700;1,300;1,500;1,700&family=DM+Sans:wght@300;400;500;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:      #0f0e0c;
+    --surface: #161310;
+    --card:    #1d1a15;
+    --border:  rgba(184,146,42,0.2);
+    --gold:    #b8922a;
+    --gold-lt: #e8c96a;
+    --gold-dim:#2a2010;
+    --cream:   #f0e8d5;
+    --white:   #faf8f4;
+    --muted:   #8a7e6e;
+    --soft:    #4a4438;
+    --green:   #2d5a1e;
+    --green-lt:#5eb84d;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--cream);
+    overflow-x: hidden;
+  }
+
+  /* noise texture */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999; opacity: 0.5;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.1rem 2.5rem;
+    background: rgba(15,14,12,0.9);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-brand {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5rem;
+    color: var(--gold-lt);
+    text-decoration: none;
+  }
+  .nav-cta {
+    padding: 0.55rem 1.5rem;
+    background: var(--gold);
+    color: var(--bg);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold-lt); transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 7rem 1.5rem 5rem;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(184,146,42,0.1) 0%, transparent 70%);
+  }
+
+  /* animated background lines */
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(184,146,42,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(184,146,42,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  .hero-script {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(4rem, 12vw, 9rem);
+    color: var(--white);
+    line-height: 0.9;
+    margin-bottom: 0.3rem;
+    position: relative;
+    animation: fadeUp 0.9s 0.1s ease both;
+    text-shadow: 0 0 80px rgba(184,146,42,0.3);
+  }
+
+  .hero-tagline-top {
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 1.2rem;
+    animation: fadeUp 0.8s 0s ease both;
+  }
+
+  .hero-sub {
+    font-family: 'Cormorant', serif;
+    font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+    animation: fadeUp 0.9s 0.25s ease both;
+  }
+
+  .hero-days {
+    font-family: 'Cormorant', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    color: var(--gold-lt);
+    margin-bottom: 2rem;
+    animation: fadeUp 0.9s 0.35s ease both;
+  }
+
+  .hero-divider {
+    width: 80px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0 auto 2rem;
+    animation: fadeUp 0.9s 0.4s ease both;
+  }
+
+  .hero-promise {
+    max-width: 580px;
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.85;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.9s 0.5s ease both;
+  }
+  .hero-promise strong { color: var(--cream); font-weight: 500; }
+
+  .hero-btns {
+    display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 0.9s 0.6s ease both;
+  }
+
+  .btn-gold {
+    padding: 1rem 2.8rem;
+    background: var(--gold);
+    color: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--gold);
+    transition: all 0.25s;
+    display: inline-block;
+  }
+  .btn-gold:hover { background: var(--gold-lt); border-color: var(--gold-lt); transform: translateY(-2px); }
+
+  .btn-outline {
+    padding: 1rem 2.8rem;
+    background: transparent;
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid rgba(240,232,213,0.3);
+    transition: all 0.25s;
+    display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold-lt); }
+
+  .hero-badges {
+    display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;
+    margin-top: 2.5rem;
+    animation: fadeUp 0.9s 0.7s ease both;
+  }
+  .hero-badge {
+    display: flex; align-items: center; gap: 0.4rem;
+    font-size: 0.75rem; font-weight: 300; color: var(--muted);
+  }
+  .hero-badge span { color: var(--gold-lt); font-size: 0.9rem; }
+
+  /* ── SECTION SHARED ── */
+  .section {
+    position: relative; z-index: 1;
+    padding: 6rem 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-full {
+    position: relative; z-index: 1;
+    padding: 6rem 1.5rem;
+  }
+
+  .label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+    display: block;
+  }
+
+  h2 {
+    font-family: 'Cormorant', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 1rem;
+  }
+  h2 em { font-style: italic; color: var(--gold-lt); font-weight: 300; }
+
+  .intro-text {
+    max-width: 620px;
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.85;
+    color: var(--muted);
+    margin-bottom: 3rem;
+  }
+  .intro-text strong { color: var(--cream); font-weight: 500; }
+
+  .rule { width: 100%; height: 1px; background: var(--border); }
+
+  /* ── SECTION 2: FOR WHO ── */
+  .who-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  .who-card {
+    background: var(--card);
+    padding: 2.2rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .who-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+
+  .who-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+  .who-title {
+    font-family: 'Cormorant', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+  .who-desc {
+    font-size: 0.85rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+  .who-check {
+    display: flex; align-items: flex-start; gap: 0.6rem;
+    font-size: 0.82rem; font-weight: 300; color: var(--muted);
+    line-height: 1.5; margin-top: 0.5rem;
+  }
+  .who-check::before { content: '✓'; color: var(--green-lt); flex-shrink: 0; font-weight: 700; }
+
+  /* ── SECTION 3: WHAT YOU'LL GET ── */
+  .gets-bg {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .gets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .get-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 1.8rem;
+    position: relative;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .get-card:hover { border-color: var(--gold); transform: translateY(-3px); }
+
+  .get-num {
+    font-family: 'Cormorant', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.8rem;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-lt) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .get-title {
+    font-family: 'Cormorant', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+  .get-desc {
+    font-size: 0.83rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+
+  /* ── SECTION 4: JOURNEY TIMELINE ── */
+  .timeline {
+    position: relative;
+    margin-top: 3rem;
+    padding-left: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+
+  .tl-item {
+    position: relative;
+    padding: 0 0 3rem 2.5rem;
+  }
+
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -4px; top: 0.4rem;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 12px rgba(184,146,42,0.5);
+  }
+
+  .tl-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+  .tl-title {
+    font-family: 'Cormorant', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+  .tl-desc {
+    font-size: 0.87rem;
+    font-weight: 300;
+    line-height: 1.75;
+    color: var(--muted);
+    max-width: 560px;
+  }
+  .tl-desc strong { color: var(--cream); font-weight: 500; }
+
+  /* ── SECTION 5: COURSE MODULES ── */
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  .module {
+    background: var(--card);
+    padding: 1.8rem 2rem;
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+    transition: background 0.2s;
+  }
+  .module:hover { background: #231e17; }
+
+  .mod-icon {
+    width: 44px; height: 44px;
+    background: var(--gold-dim);
+    border: 1px solid rgba(184,146,42,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .mod-title {
+    font-family: 'Cormorant', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.3rem;
+  }
+  .mod-desc {
+    font-size: 0.8rem;
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+
+  /* ── SECTION 6: SOCIAL PROOF / STATS ── */
+  .stats-bg {
+    background: linear-gradient(135deg, #1a1508 0%, #0f0e0c 100%);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0;
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  .stat {
+    padding: 2.5rem 2rem;
+    text-align: center;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .stat:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: 'Cormorant', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--gold), var(--gold-lt));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .stat-label {
+    font-size: 0.78rem;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  .testimonials {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .testimonial {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--gold);
+    padding: 1.8rem;
+  }
+
+  .t-stars { color: var(--gold); font-size: 0.85rem; margin-bottom: 0.8rem; }
+  .t-quote {
+    font-family: 'Cormorant', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--cream);
+    margin-bottom: 1rem;
+  }
+  .t-author { font-size: 0.75rem; font-weight: 500; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+
+  /* ── SECTION 7: FINAL CTA ── */
+  .cta-section {
+    background: var(--bg);
+    padding: 8rem 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+  }
+
+  .cta-glow {
+    position: absolute;
+    width: 700px; height: 400px;
+    background: radial-gradient(ellipse, rgba(184,146,42,0.12) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .cta-script {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(3rem, 8vw, 6rem);
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 0.8rem;
+    position: relative;
+    text-shadow: 0 0 60px rgba(184,146,42,0.25);
+  }
+
+  .cta-title {
+    font-family: 'Cormorant', serif;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  .cta-bullets {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem 2.5rem;
+    margin-bottom: 3rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+  }
+  .cta-bullet {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.88rem; font-weight: 300; color: var(--muted);
+  }
+  .cta-bullet::before { content: '✦'; color: var(--gold); font-size: 0.7rem; }
+
+  .cta-btn-wrap { position: relative; margin-bottom: 1.5rem; }
+
+  .btn-big {
+    display: inline-block;
+    padding: 1.3rem 4rem;
+    background: var(--gold);
+    color: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--gold);
+    transition: all 0.25s;
+    position: relative;
+  }
+  .btn-big:hover { background: var(--gold-lt); border-color: var(--gold-lt); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(184,146,42,0.25); }
+
+  .cta-note {
+    font-size: 0.78rem;
+    font-weight: 300;
+    color: var(--soft);
+    position: relative;
+  }
+
+  /* ── ENROLL FORM ── */
+  .enroll-wrap {
+    max-width: 480px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .enroll-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 2rem;
+  }
+
+  .enroll-form input {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .enroll-form input:focus { border-color: var(--gold); }
+  .enroll-form input::placeholder { color: var(--soft); }
+
+  .enroll-form button {
+    width: 100%;
+    padding: 1.1rem;
+    background: var(--gold);
+    color: var(--bg);
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .enroll-form button:hover { background: var(--gold-lt); transform: translateY(-2px); }
+
+  .enroll-guarantee {
+    font-size: 0.75rem;
+    font-weight: 300;
+    color: var(--soft);
+    margin-top: 0.8rem;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    position: relative; z-index: 1;
+  }
+
+  .footer-brand {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.4rem;
+    color: var(--gold-lt);
+  }
+
+  .footer-tagline {
+    font-size: 0.75rem;
+    font-weight: 300;
+    color: var(--soft);
+  }
+
+  .footer-links {
+    display: flex; gap: 1.5rem;
+  }
+  .footer-links a {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* Success state */
+  .success-msg {
+    display: none;
+    padding: 1.2rem;
+    background: rgba(46,90,30,0.3);
+    border: 1px solid rgba(94,184,77,0.4);
+    color: var(--green-lt);
+    font-size: 0.9rem;
+    font-weight: 300;
+    text-align: center;
+    line-height: 1.6;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 700px) {
+    nav { padding: 1rem 1.2rem; }
+    .section, .section-full > * { padding-left: 1rem; padding-right: 1rem; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat:nth-child(2) { border-right: none; }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-brand">Self-Publish</a>
+  <a href="#enroll" class="nav-cta">Join the Course →</a>
+</nav>
+
+
+<!-- ══════════════════════════════════════
+  PAGE 1 — HERO
+══════════════════════════════════════ -->
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+
+  <p class="hero-tagline-top">Manuscript to Marketing · All You Need To…</p>
+  <h1 class="hero-script">Self-Publish</h1>
+  <p class="hero-sub">Become an Author</p>
+  <p class="hero-days">in 90 days or less — from any starting point</p>
+  <div class="hero-divider"></div>
+
+  <p class="hero-promise">
+    Whether you haven't written a single word yet — or your manuscript is almost done —
+    this course takes you <strong>from raw idea to published author</strong>, with your book live, your brand built, and your first sales in.
+  </p>
+
+  <div class="hero-btns">
+    <a href="#enroll" class="btn-gold">Enroll Now — It's Time →</a>
+    <a href="#what-you-get" class="btn-outline">See What's Inside</a>
+  </div>
+
+  <div class="hero-badges">
+    <div class="hero-badge"><span>📖</span> Complete Writing System</div>
+    <div class="hero-badge"><span>📱</span> eBook + Print Formatting</div>
+    <div class="hero-badge"><span>🎯</span> Marketing from Day 1</div>
+    <div class="hero-badge"><span>✦</span> No Experience Needed</div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+  PAGE 2 — WHO THIS IS FOR
+══════════════════════════════════════ -->
+<div style="background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+<div class="section">
+  <span class="label reveal">This course is for you if…</span>
+  <h2 class="reveal">Wherever You Are,<br><em>You Belong Here</em></h2>
+  <p class="intro-text reveal">You don't need to have everything figured out. You just need the will to tell your story — and we'll handle the rest together.</p>
+
+  <div class="who-grid">
+    <div class="who-card reveal">
+      <span class="who-icon">✏️</span>
+      <div class="who-title">You Haven't Started Yet</div>
+      <div class="who-desc">You have an idea — maybe a powerful story, expertise worth sharing, or a message that won't leave you alone. This course gives you the framework to begin with confidence.</div>
+      <div class="who-check">You'll go from blank page to completed manuscript with guided prompts and writing structure</div>
+      <div class="who-check">No prior writing or publishing experience needed — zero</div>
+    </div>
+
+    <div class="who-card reveal reveal-delay-1">
+      <span class="who-icon">📄</span>
+      <div class="who-title">You're Halfway Through</div>
+      <div class="who-desc">You've been writing but got stuck, distracted, or lost momentum. You're not sure if what you have is good enough — or what to do with it when it's done.</div>
+      <div class="who-check">Finish and polish your manuscript with professional editing strategies</div>
+      <div class="who-check">Learn exactly what happens after "The End" — so you're not left guessing</div>
+    </div>
+
+    <div class="who-card reveal reveal-delay-2">
+      <span class="who-icon">🏁</span>
+      <div class="who-title">You're Almost Done</div>
+      <div class="who-desc">Your manuscript is complete or nearly there. Now you need to know how to format it, publish it, and actually get people to buy it. That's exactly what this module covers.</div>
+      <div class="who-check">Skip the costly mistakes first-time authors make at launch</div>
+      <div class="who-check">Go live with a book that looks and sells like a professional production</div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+  PAGE 3 — WHAT YOU GET
+══════════════════════════════════════ -->
+<div class="gets-bg" id="what-you-get">
+<div class="section">
+  <span class="label reveal">What's included</span>
+  <h2 class="reveal">Everything You Need.<br><em>Nothing You Don't.</em></h2>
+  <p class="intro-text reveal">One complete course covering every stage of the author journey — from finding your writing voice to collecting your first royalty check.</p>
+
+  <div class="gets-grid">
+    <div class="get-card reveal">
+      <div class="get-num">01</div>
+      <div class="get-title">Discover Your Writing Style</div>
+      <div class="get-desc">Through guided assessments and reflection exercises, you'll identify the genre, voice, and format where your natural strengths shine. Writing in your true style is the difference between struggling and flowing.</div>
+    </div>
+
+    <div class="get-card reveal reveal-delay-1">
+      <div class="get-num">02</div>
+      <div class="get-title">Structure &amp; Write Your Book</div>
+      <div class="get-desc">Use our proven outline frameworks to organize your ideas — whether you're writing fiction, memoir, self-help, or non-fiction. Know exactly what goes where and why before you write a single chapter.</div>
+    </div>
+
+    <div class="get-card reveal reveal-delay-2">
+      <div class="get-num">03</div>
+      <div class="get-title">Professional Formatting</div>
+      <div class="get-desc">Learn to format your manuscript to industry standards — for print books, eBooks (Kindle/epub), and PDF. Your book will look indistinguishable from a traditionally published title.</div>
+    </div>
+
+    <div class="get-card reveal">
+      <div class="get-num">04</div>
+      <div class="get-title">eBook Publishing Mastery</div>
+      <div class="get-desc">Publish on Amazon KDP, IngramSpark, Smashwords, and other platforms. Learn how to set up royalties, pricing strategy, and distribution that puts your book in front of millions of readers.</div>
+    </div>
+
+    <div class="get-card reveal reveal-delay-1">
+      <div class="get-num">05</div>
+      <div class="get-title">Author Brand &amp; Recognition</div>
+      <div class="get-desc">Build the author presence that makes readers remember you, follow you, and buy your next book. Covers your author bio, social strategy, Amazon author page, and the brand voice that sets you apart.</div>
+    </div>
+
+    <div class="get-card reveal reveal-delay-2">
+      <div class="get-num">06</div>
+      <div class="get-title">Marketing That Sells</div>
+      <div class="get-desc">No more hoping someone finds your book by accident. Learn launch strategy, reader acquisition, email list building, Amazon SEO, and the marketing moves that turn a published book into consistent income.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+  PAGE 4 — THE 90-DAY JOURNEY
+══════════════════════════════════════ -->
+<div class="section">
+  <span class="label reveal">Your 90-day roadmap</span>
+  <h2 class="reveal">From First Word<br>to <em>Published Author</em></h2>
+  <p class="intro-text reveal">The course is structured so every week builds on the last. No overwhelm — just a clear path forward, one milestone at a time.</p>
+
+  <div class="timeline">
+    <div class="tl-item reveal">
+      <div class="tl-label">Days 1 – 15 · Foundation</div>
+      <div class="tl-title">Find Your Voice &amp; Define Your Book</div>
+      <div class="tl-desc">Complete your <strong>Writing Style Assessment</strong>, identify your genre, lock in your book concept, define your ideal reader, and build your outline. By the end of week two, you know exactly what you're writing and why it will sell.</div>
+    </div>
+
+    <div class="tl-item reveal">
+      <div class="tl-label">Days 16 – 45 · Creation</div>
+      <div class="tl-title">Write Your Manuscript</div>
+      <div class="tl-desc">Use our chapter-by-chapter writing system to build your draft with momentum. <strong>Daily word count targets, accountability check-ins, and editing frameworks</strong> keep you moving even when motivation dips.</div>
+    </div>
+
+    <div class="tl-item reveal">
+      <div class="tl-label">Days 46 – 65 · Production</div>
+      <div class="tl-title">Edit, Format &amp; Design</div>
+      <div class="tl-desc">Polish your manuscript, format for print and eBook, and design (or commission) a cover that <strong>competes on any shelf</strong>. Learn the formatting tools professionals use — no expensive software required.</div>
+    </div>
+
+    <div class="tl-item reveal">
+      <div class="tl-label">Days 66 – 80 · Publishing</div>
+      <div class="tl-title">Go Live on Every Platform</div>
+      <div class="tl-desc">Step-by-step walkthroughs for publishing on <strong>Amazon KDP, IngramSpark, and major eBook platforms</strong>. Set up your royalties, choose your pricing strategy, and hit publish with confidence.</div>
+    </div>
+
+    <div class="tl-item reveal" style="padding-bottom:0">
+      <div class="tl-label">Days 81 – 90 · Launch</div>
+      <div class="tl-title">Market, Launch &amp; Make Money</div>
+      <div class="tl-desc">Execute your <strong>launch plan</strong>, build your author platform, run your first promotions, and set up the systems that keep generating sales long after launch day. Your talent becomes your income stream.</div>
+    </div>
+  </div>
+</div>
+
+<div class="rule" style="max-width:1100px;margin:0 auto;"></div>
+
+
+<!-- ══════════════════════════════════════
+  PAGE 5 — COURSE MODULES
+══════════════════════════════════════ -->
+<div style="background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+<div class="section">
+  <span class="label reveal">Inside the course</span>
+  <h2 class="reveal">Every Module.<br><em>Every Skill.</em></h2>
+  <p class="intro-text reveal">Structured lessons, downloadable resources, and hands-on assignments — all designed to produce one result: your published book.</p>
+
+  <div class="modules-grid">
+    <div class="module reveal">
+      <div class="mod-icon">🪶</div>
+      <div>
+        <div class="mod-title">Writing Style Discovery</div>
+        <div class="mod-desc">Personality assessments, genre identification, and voice exercises to unlock how you naturally write.</div>
+      </div>
+    </div>
+
+    <div class="module reveal reveal-delay-1">
+      <div class="mod-icon">📐</div>
+      <div>
+        <div class="mod-title">Book Architecture</div>
+        <div class="mod-desc">Outlining systems for every genre — structure your ideas so the writing flows instead of stalls.</div>
+      </div>
+    </div>
+
+    <div class="module reveal reveal-delay-2">
+      <div class="mod-icon">✍️</div>
+      <div>
+        <div class="mod-title">The Writing Process</div>
+        <div class="mod-desc">Daily routines, word count strategies, and momentum techniques to finish your manuscript.</div>
+      </div>
+    </div>
+
+    <div class="module reveal">
+      <div class="mod-icon">🔍</div>
+      <div>
+        <div class="mod-title">Editing &amp; Self-Revision</div>
+        <div class="mod-desc">Three-pass editing method, beta reader strategy, and knowing when your manuscript is truly ready.</div>
+      </div>
+    </div>
+
+    <div class="module reveal reveal-delay-1">
+      <div class="mod-icon">📱</div>
+      <div>
+        <div class="mod-title">eBook Formatting</div>
+        <div class="mod-desc">Format for Kindle, ePub, and PDF using free and low-cost tools — step by step, no tech overwhelm.</div>
+      </div>
+    </div>
+
+    <div class="module reveal reveal-delay-2">
+      <div class="mod-icon">📗</div>
+      <div>
+        <div class="mod-title">Print Book Formatting</div>
+        <div class="mod-desc">Interior layout, trim sizes, margins, fonts — everything needed to produce a print-ready file.</div>
+      </div>
+    </div>
+
+    <div class="module reveal">
+      <div class="mod-icon">🎨</div>
+      <div>
+        <div class="mod-title">Cover Design Strategy</div>
+        <div class="mod-desc">What makes a cover sell, how to brief a designer, and DIY options that look professionally made.</div>
+      </div>
+    </div>
+
+    <div class="module reveal reveal-delay-1">
+      <div class="mod-icon">🚀</div>
+      <div>
+        <div class="mod-title">Publishing on KDP &amp; Beyond</div>
+        <div class="mod-desc">Full walkthrough of Amazon KDP setup, ISBN, pricing, categories, and global distribution.</div>
+      </div>
+    </div>
+
+    <div class="module reveal reveal-delay-2">
+      <div class="mod-icon">📣</div>
+      <div>
+        <div class="mod-title">Author Marketing &amp; Launch</div>
+        <div class="mod-desc">Launch strategy, Amazon SEO, email list building, ARC readers, and ongoing sales systems.</div>
+      </div>
+    </div>
+
+    <div class="module reveal">
+      <div class="mod-icon">💰</div>
+      <div>
+        <div class="mod-title">Making Money with Your Writing</div>
+        <div class="mod-desc">Royalty structures, multiple income streams, pricing psychology, and turning one book into a catalog.</div>
+      </div>
+    </div>
+
+    <div class="module reveal reveal-delay-1">
+      <div class="mod-icon">👤</div>
+      <div>
+        <div class="mod-title">Building Your Author Brand</div>
+        <div class="mod-desc">Your author bio, social media presence, Amazon author page, and the brand that grows your readership.</div>
+      </div>
+    </div>
+
+    <div class="module reveal reveal-delay-2">
+      <div class="mod-icon">🌐</div>
+      <div>
+        <div class="mod-title">Long-Term Author Career</div>
+        <div class="mod-desc">Series planning, reader community building, and the systems that generate recognition and revenue for years.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+  PAGE 6 — SOCIAL PROOF & STATS
+══════════════════════════════════════ -->
+<div class="stats-bg">
+<div class="section">
+  <span class="label reveal">Results speak loudest</span>
+  <h2 class="reveal">Writers Who Commit<br><em>Become Authors</em></h2>
+  <p class="intro-text reveal">This course is built around one outcome: your published book. Every lesson, every assignment, every assessment leads there.</p>
+
+  <div class="stats-grid reveal">
+    <div class="stat">
+      <div class="stat-num">90</div>
+      <div class="stat-label">Days to your<br>published book</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">12+</div>
+      <div class="stat-label">In-depth course<br>modules</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">8</div>
+      <div class="stat-label">Publishing platforms<br>covered</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">1</div>
+      <div class="stat-label">Goal: your name<br>on a book</div>
+    </div>
+  </div>
+
+  <div class="testimonials" style="margin-top:3rem;">
+    <div class="testimonial reveal">
+      <div class="t-stars">★★★★★</div>
+      <div class="t-quote">"I had a half-finished manuscript sitting on my laptop for two years. Three months after joining, I had a published book on Amazon and my first 50 sales."</div>
+      <div class="t-author">— Maya R., Debut Memoir Author</div>
+    </div>
+
+    <div class="testimonial reveal reveal-delay-1">
+      <div class="t-stars">★★★★★</div>
+      <div class="t-quote">"The writing style quiz alone changed everything. I stopped trying to write like my favorite authors and started writing like myself — and my readers love it."</div>
+      <div class="t-author">— David K., Self-Help Author</div>
+    </div>
+
+    <div class="testimonial reveal reveal-delay-2">
+      <div class="t-stars">★★★★★</div>
+      <div class="t-quote">"I had no idea how to format an eBook or what KDP even was. Now I have three titles published and I'm working on my fourth. This course is the real deal."</div>
+      <div class="t-author">— Sasha T., Fiction Author</div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+  PAGE 7 — FINAL CTA / ENROLL
+══════════════════════════════════════ -->
+<div class="cta-section" id="enroll">
+  <div class="cta-glow"></div>
+
+  <p class="label reveal" style="position:relative">Your story is waiting</p>
+  <h2 class="cta-script reveal">It's Your Turn.</h2>
+  <p class="cta-title reveal">Join Self-Publishing 101 and become a published author in 90 days</p>
+
+  <div class="cta-bullets reveal">
+    <div class="cta-bullet">Discover your writing style</div>
+    <div class="cta-bullet">Write &amp; finish your manuscript</div>
+    <div class="cta-bullet">Format for eBook &amp; print</div>
+    <div class="cta-bullet">Publish on every platform</div>
+    <div class="cta-bullet">Market and make money</div>
+    <div class="cta-bullet">Build your author brand</div>
+  </div>
+
+  <div class="enroll-wrap reveal">
+    <div class="enroll-form" id="enroll-form">
+      <input type="text" id="enroll-name" placeholder="Your Full Name" required />
+      <input type="email" id="enroll-email" placeholder="Your Email Address" required />
+      <button type="button" onclick="handleEnroll()">Enroll in Self-Publishing 101 →</button>
+    </div>
+    <div class="enroll-guarantee">
+      🔒 &nbsp;No spam. No pressure. Just your next chapter waiting to be written.
+    </div>
+    <div class="success-msg" id="success-msg">
+      ✦ &nbsp;You're in! Check your inbox for your welcome email and first steps.<br>
+      <strong>Your 90-day author journey starts now.</strong>
+    </div>
+  </div>
+
+  <p class="cta-note reveal" style="margin-top:2rem; position:relative;">
+    Already a member? <a href="https://www.skool.com/selfpublish" style="color:var(--gold); text-decoration:none;">Return to the Skool community →</a>
+  </p>
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-brand">Self-Publish</div>
+    <div class="footer-tagline">Manuscript to Marketing · Become an Author in 90 Days</div>
+  </div>
+  <div class="footer-links">
+    <a href="index.html">Student Hub</a>
+    <a href="#what-you-get">The Course</a>
+    <a href="#enroll">Enroll</a>
+    <a href="https://www.skool.com/selfpublish" target="_blank">Skool Community</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Enroll form
+  function handleEnroll() {
+    const name = document.getElementById('enroll-name').value.trim();
+    const email = document.getElementById('enroll-email').value.trim();
+    if (!name || !email) {
+      alert('Please enter your name and email to enroll.');
+      return;
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+    document.getElementById('enroll-form').style.display = 'none';
+    document.getElementById('success-msg').style.display = 'block';
+  }
+</script>
+
+</body>
+</html>

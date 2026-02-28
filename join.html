@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Join Self-Publish 101 — Start Free or Go Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;0,700;1,300;1,500;1,700&family=DM+Sans:wght@300;400;500;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0f0e0c;--surface:#161310;--card:#1d1a15;--border:rgba(184,146,42,0.2);
+  --gold:#b8922a;--gold-lt:#e8c96a;--cream:#f0e8d5;--white:#faf8f4;
+  --muted:#8a7e6e;--soft:#4a4438;--green-lt:#5eb84d;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--cream);min-height:100vh;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.5;}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(15,14,12,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nav-brand{font-family:'Dancing Script',cursive;font-size:1.5rem;color:var(--gold-lt);text-decoration:none;}
+.nav-link{font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+.nav-link:hover{color:var(--gold-lt);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+
+/* PAGE LAYOUT */
+.join-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:7rem 1.5rem 4rem;position:relative;}
+.join-glow{position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(184,146,42,.1) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+
+/* TIER CARDS */
+.tier-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5px;background:var(--border);border:1px solid var(--border);max-width:860px;width:100%;position:relative;z-index:1;}
+@media(max-width:640px){.tier-grid{grid-template-columns:1fr;}}
+
+.tier-card{background:var(--card);padding:2.5rem 2rem;display:flex;flex-direction:column;gap:0;}
+.tier-card.pro{background:#1f1a0f;border:1px solid rgba(184,146,42,.35);}
+
+.tier-badge{display:inline-block;padding:.3rem .8rem;font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:1.2rem;width:fit-content;}
+.tier-badge.free{background:rgba(74,68,56,.4);color:var(--muted);border:1px solid var(--soft);}
+.tier-badge.pro{background:rgba(184,146,42,.15);color:var(--gold);border:1px solid rgba(184,146,42,.4);}
+
+.tier-name{font-family:'Cormorant',serif;font-size:2rem;font-weight:700;color:var(--white);margin-bottom:.3rem;}
+.tier-price{font-family:'Cormorant',serif;font-size:1rem;font-style:italic;color:var(--muted);margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border);}
+.tier-price strong{font-style:normal;font-size:2.2rem;color:var(--gold-lt);font-weight:700;}
+
+.tier-features{flex:1;display:flex;flex-direction:column;gap:.65rem;margin-bottom:2rem;}
+.feat{display:flex;align-items:flex-start;gap:.6rem;font-size:.85rem;font-weight:300;line-height:1.5;color:var(--muted);}
+.feat.yes{color:var(--cream);}
+.feat.no{opacity:.45;text-decoration:line-through;}
+.feat-icon{flex-shrink:0;font-size:.75rem;margin-top:.15rem;}
+.feat.yes .feat-icon{color:var(--green-lt);}
+.feat.no .feat-icon{color:var(--soft);}
+.feat.locked{color:var(--soft);}
+.feat.locked .feat-icon{color:var(--soft);}
+
+/* FORM */
+.join-form{display:flex;flex-direction:column;gap:.75rem;}
+.join-form input{width:100%;padding:.9rem 1.1rem;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--cream);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s;}
+.join-form input:focus{border-color:var(--gold);}
+.join-form input::placeholder{color:var(--soft);}
+
+.btn-free{width:100%;padding:1rem;background:transparent;color:var(--cream);border:2px solid rgba(240,232,213,.2);font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:all .25s;margin-top:.5rem;}
+.btn-free:hover{border-color:var(--muted);color:var(--cream);}
+
+.btn-pro{width:100%;padding:1rem;background:var(--gold);color:var(--bg);border:2px solid var(--gold);font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:all .25s;margin-top:.5rem;}
+.btn-pro:hover{background:var(--gold-lt);border-color:var(--gold-lt);transform:translateY(-2px);}
+
+.tier-note{font-size:.72rem;font-weight:300;color:var(--soft);text-align:center;margin-top:.7rem;line-height:1.5;}
+
+.pro-banner{background:linear-gradient(90deg,rgba(184,146,42,.12),rgba(184,146,42,.05));border-bottom:1px solid rgba(184,146,42,.3);padding:.6rem 2rem;font-size:.72rem;font-weight:500;letter-spacing:.06em;color:var(--gold);text-align:center;}
+
+.success-box{display:none;padding:1.5rem;background:rgba(46,90,30,.25);border:1px solid rgba(94,184,77,.3);color:var(--green-lt);font-size:.88rem;font-weight:300;line-height:1.7;text-align:center;margin-top:1rem;}
+.success-box strong{font-weight:700;display:block;margin-bottom:.3rem;}
+
+/* HEADER TEXT */
+.join-header{text-align:center;margin-bottom:2.5rem;position:relative;z-index:1;}
+.join-eyebrow{font-size:.65rem;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.7rem;}
+.join-title{font-family:'Cormorant',serif;font-size:clamp(2rem,5vw,3rem);font-weight:700;color:var(--white);line-height:1.1;margin-bottom:.5rem;}
+.join-title em{font-style:italic;color:var(--gold-lt);font-weight:300;}
+.join-sub{font-size:.9rem;font-weight:300;color:var(--muted);line-height:1.75;}
+
+/* COMPARISON ARROW */
+.or-divider{display:flex;align-items:center;justify-content:center;background:var(--bg);padding:1.5rem .5rem;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--soft);border-left:1px solid var(--border);border-right:1px solid var(--border);}
+
+footer{border-top:1px solid var(--border);padding:2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;position:relative;z-index:1;}
+.footer-brand{font-family:'Dancing Script',cursive;font-size:1.2rem;color:var(--gold-lt);}
+.footer-note{font-size:.72rem;font-weight:300;color:var(--soft);}
+</style>
+</head>
+<body>
+
+<div class="pro-banner">✦ Self-Publish Pro members get full course access, live author calls, brand coaching &amp; more</div>
+
+<nav>
+  <a href="index.html" class="nav-brand">Self&#8209;Publish</a>
+  <a href="about.html" class="nav-link">About the Course</a>
+</nav>
+
+<div class="join-wrap">
+  <div class="join-glow"></div>
+
+  <div style="width:100%;max-width:860px;position:relative;z-index:1;">
+
+    <div class="join-header reveal">
+      <span class="join-eyebrow">Choose Your Path</span>
+      <h1 class="join-title">Start Free.<br>Go Further <em>with Pro.</em></h1>
+      <p class="join-sub">Create your free account to take the Writing Genre Quiz — then upgrade anytime to unlock the full course, live author access, and your personalized author brand coaching.</p>
+    </div>
+
+    <div class="tier-grid reveal d1">
+
+      <!-- FREE TIER -->
+      <div class="tier-card">
+        <span class="tier-badge free">Free Account</span>
+        <div class="tier-name">Get Started</div>
+        <div class="tier-price">Always <strong>$0</strong></div>
+
+        <div class="tier-features">
+          <div class="feat yes"><span class="feat-icon">✓</span> Writing Genre Quiz (25 questions)</div>
+          <div class="feat yes"><span class="feat-icon">✓</span> Discover your writing style + result</div>
+          <div class="feat yes"><span class="feat-icon">✓</span> Browse the course outline</div>
+          <div class="feat locked"><span class="feat-icon">🔒</span> Full course access (12 modules)</div>
+          <div class="feat locked"><span class="feat-icon">🔒</span> Onboarding call with instructor</div>
+          <div class="feat locked"><span class="feat-icon">🔒</span> Live chats — NYT Bestselling Authors</div>
+          <div class="feat locked"><span class="feat-icon">🔒</span> Author brand development coaching</div>
+          <div class="feat locked"><span class="feat-icon">🔒</span> All downloads, templates &amp; resources</div>
+          <div class="feat locked"><span class="feat-icon">🔒</span> Skool community full access</div>
+        </div>
+
+        <div id="free-form-wrap">
+          <div class="join-form">
+            <input type="text" id="free-name" placeholder="Your full name" />
+            <input type="email" id="free-email" placeholder="Email address" />
+            <button class="btn-free" onclick="joinFree()">Create Free Account →</button>
+          </div>
+          <p class="tier-note">No credit card needed. Takes 30 seconds.</p>
+        </div>
+        <div class="success-box" id="free-success">
+          <strong>Welcome! Your free account is ready.</strong>
+          You can now take the Writing Genre Quiz. When you're ready to go further, upgrade to Self-Publish Pro.
+          <br><br>
+          <a href="writing-genre-quiz.html" style="color:var(--gold-lt);font-weight:700;text-decoration:none;">Take the Quiz Now →</a>
+        </div>
+      </div>
+
+      <!-- OR -->
+      <div class="or-divider">or</div>
+
+      <!-- PRO TIER -->
+      <div class="tier-card pro">
+        <span class="tier-badge pro">✦ Self-Publish Pro</span>
+        <div class="tier-name">Full Access</div>
+        <div class="tier-price">Starting at <strong>$[Price]</strong> <span style="font-size:.85rem;">/one-time</span></div>
+
+        <div class="tier-features">
+          <div class="feat yes"><span class="feat-icon">✓</span> Everything in Free</div>
+          <div class="feat yes"><span class="feat-icon">✓</span> Full course — all 12 modules unlocked</div>
+          <div class="feat yes"><span class="feat-icon">✓</span> All downloads, templates &amp; workbooks</div>
+          <div class="feat yes"><span class="feat-icon">✓</span> Personal onboarding call with instructor</div>
+          <div class="feat yes"><span class="feat-icon">✓</span> Live author chats — NYT Bestsellers</div>
+          <div class="feat yes"><span class="feat-icon">✓</span> Author brand development coaching</div>
+          <div class="feat yes"><span class="feat-icon">✓</span> Full Skool community access</div>
+          <div class="feat yes"><span class="feat-icon">✓</span> Lifetime access — all future updates</div>
+          <div class="feat yes"><span class="feat-icon">✓</span> Manuscript to marketing in 90 days</div>
+        </div>
+
+        <div id="pro-form-wrap">
+          <div class="join-form">
+            <input type="text" id="pro-name" placeholder="Your full name" />
+            <input type="email" id="pro-email" placeholder="Email address" />
+            <button class="btn-pro" onclick="joinPro()">Join Self-Publish Pro →</button>
+          </div>
+          <p class="tier-note">🔒 Secure enrollment · Full access unlocked immediately</p>
+        </div>
+        <div class="success-box" id="pro-success">
+          <strong>🎉 Welcome to Self-Publish Pro!</strong>
+          Your full access is unlocked. Head to your dashboard to begin — and watch for your onboarding call invitation in your inbox.
+          <br><br>
+          <a href="dashboard.html" style="color:var(--gold-lt);font-weight:700;text-decoration:none;">Go to My Dashboard →</a>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="reveal d2" style="text-align:center;font-size:.78rem;font-weight:300;color:var(--soft);margin-top:1.5rem;">
+      Already have an account? <a href="dashboard.html" style="color:var(--gold);text-decoration:none;" onclick="checkLogin(event)">Go to your dashboard →</a>
+    </p>
+
+  </div>
+</div>
+
+<footer>
+  <span class="footer-brand">Self&#8209;Publish</span>
+  <span class="footer-note">Questions? <a href="onboarding.html" style="color:var(--gold);text-decoration:none;">Contact us before enrolling →</a></span>
+  <a href="about.html" style="font-size:.72rem;color:var(--muted);text-decoration:none;">Learn more about the course →</a>
+</footer>
+
+<script src="membership.js"></script>
+<script>
+  // Reveal
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+  },{threshold:.08});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+  function joinFree() {
+    const name = document.getElementById('free-name').value.trim();
+    const email = document.getElementById('free-email').value.trim();
+    if(!name||!email){ alert('Please enter your name and email.'); return; }
+    if(!/\S+@\S+\.\S+/.test(email)){ alert('Please enter a valid email address.'); return; }
+    SP_ACCESS.setFree(name, email);
+    document.getElementById('free-form-wrap').style.display = 'none';
+    document.getElementById('free-success').style.display = 'block';
+  }
+
+  function joinPro() {
+    const name = document.getElementById('pro-name').value.trim();
+    const email = document.getElementById('pro-email').value.trim();
+    if(!name||!email){ alert('Please enter your name and email.'); return; }
+    if(!/\S+@\S+\.\S+/.test(email)){ alert('Please enter a valid email address.'); return; }
+    SP_ACCESS.setPro(name, email);
+    document.getElementById('pro-form-wrap').style.display = 'none';
+    document.getElementById('pro-success').style.display = 'block';
+  }
+
+  function checkLogin(e) {
+    if(!SP_ACCESS.isLoggedIn()){ e.preventDefault(); alert('Please sign in or create an account first.'); }
+  }
+
+  // If already logged in, redirect
+  if(SP_ACCESS.isPro()) window.location.href = 'dashboard.html';
+</script>
+</body>
+</html>

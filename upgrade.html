@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upgrade to Self-Publish Pro — Unlock Everything</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;0,700;1,300;1,500;1,700&family=DM+Sans:wght@300;400;500;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f0e0c;--surface:#161310;--card:#1d1a15;--border:rgba(184,146,42,0.2);--gold:#b8922a;--gold-lt:#e8c96a;--cream:#f0e8d5;--white:#faf8f4;--muted:#8a7e6e;--soft:#4a4438;--green-lt:#5eb84d;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--cream);min-height:100vh;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.5;}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(15,14,12,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nav-brand{font-family:'Dancing Script',cursive;font-size:1.5rem;color:var(--gold-lt);text-decoration:none;}
+.nav-back{font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+.nav-back:hover{color:var(--gold-lt);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+.anim{animation:fadeUp .7s ease both;}
+.a1{animation-delay:.1s}.a2{animation-delay:.2s}.a3{animation-delay:.3s}.a4{animation-delay:.4s}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+
+/* LOCK HERO */
+.lock-hero{min-height:55vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8rem 1.5rem 4rem;position:relative;overflow:hidden;background:radial-gradient(ellipse 60% 50% at 50% 40%,rgba(184,146,42,.09) 0%,transparent 70%);}
+.lock-icon{font-size:3.5rem;margin-bottom:1.2rem;animation:fadeUp .6s ease both;}
+.lock-eyebrow{font-size:.65rem;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.8rem;animation:fadeUp .7s .05s ease both;}
+.lock-title{font-family:'Cormorant',serif;font-size:clamp(2.2rem,6vw,4rem);font-weight:700;color:var(--white);line-height:1.1;margin-bottom:.6rem;animation:fadeUp .7s .1s ease both;}
+.lock-title em{font-style:italic;color:var(--gold-lt);font-weight:300;}
+.lock-sub{font-size:.95rem;font-weight:300;color:var(--muted);line-height:1.8;max-width:520px;margin:0 auto 2.5rem;animation:fadeUp .7s .2s ease both;}
+.lock-sub strong{color:var(--cream);font-weight:500;}
+
+/* WHAT YOU'RE MISSING */
+.missing-strip{background:rgba(184,146,42,.06);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:3rem 1.5rem;}
+.missing-inner{max-width:900px;margin:0 auto;}
+.missing-label{font-size:.65rem;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;display:block;text-align:center;}
+.missing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);}
+.missing-item{background:var(--card);padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;}
+.mi-icon{font-size:1.6rem;flex-shrink:0;}
+.mi-title{font-family:'Cormorant',serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:.25rem;}
+.mi-desc{font-size:.8rem;font-weight:300;line-height:1.6;color:var(--muted);}
+.mi-tag{display:inline-block;font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:rgba(184,146,42,.15);color:var(--gold);border:1px solid rgba(184,146,42,.3);padding:.15rem .5rem;margin-bottom:.4rem;}
+
+/* UPGRADE FORM */
+.upgrade-section{max-width:700px;margin:0 auto;padding:5rem 1.5rem;}
+.upgrade-card{background:var(--card);border:1px solid rgba(184,146,42,.4);padding:2.5rem;position:relative;overflow:hidden;}
+.upgrade-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-lt),var(--gold));}
+.up-badge{display:inline-block;padding:.3rem .8rem;font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;background:rgba(184,146,42,.15);color:var(--gold);border:1px solid rgba(184,146,42,.4);margin-bottom:1.2rem;}
+.up-title{font-family:'Cormorant',serif;font-size:1.8rem;font-weight:700;color:var(--white);margin-bottom:.3rem;}
+.up-price{font-family:'Cormorant',serif;font-size:1rem;font-style:italic;color:var(--muted);margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border);}
+.up-price strong{font-style:normal;font-size:2.5rem;color:var(--gold-lt);font-weight:700;}
+.checklist{display:flex;flex-direction:column;gap:.6rem;margin-bottom:2rem;}
+.check-item{display:flex;align-items:flex-start;gap:.7rem;font-size:.88rem;font-weight:300;line-height:1.5;color:var(--cream);}
+.check-item::before{content:'✓';color:var(--green-lt);font-weight:700;flex-shrink:0;margin-top:.1rem;}
+.form-group{display:flex;flex-direction:column;gap:.45rem;margin-bottom:.9rem;}
+.form-group label{font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);}
+.form-group input{width:100%;padding:.85rem 1rem;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--cream);font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s;}
+.form-group input:focus{border-color:var(--gold);}
+.form-group input::placeholder{color:var(--soft);}
+.btn-upgrade{width:100%;padding:1.15rem;background:var(--gold);color:var(--bg);border:none;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;transition:all .25s;margin-top:.5rem;}
+.btn-upgrade:hover{background:var(--gold-lt);transform:translateY(-2px);box-shadow:0 12px 40px rgba(184,146,42,.2);}
+.up-guarantee{font-size:.72rem;font-weight:300;color:var(--soft);text-align:center;margin-top:.8rem;line-height:1.6;}
+.success-box{display:none;padding:1.5rem;background:rgba(46,90,30,.25);border:1px solid rgba(94,184,77,.3);color:var(--green-lt);font-size:.88rem;font-weight:300;line-height:1.75;text-align:center;margin-top:1rem;}
+.success-box strong{font-weight:700;display:block;margin-bottom:.4rem;font-size:1rem;}
+
+footer{border-top:1px solid var(--border);padding:2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;position:relative;z-index:1;}
+.footer-brand{font-family:'Dancing Script',cursive;font-size:1.2rem;color:var(--gold-lt);}
+.footer-note{font-size:.72rem;font-weight:300;color:var(--soft);}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">Self&#8209;Publish</a>
+  <a href="index.html" class="nav-back">← Back to Hub</a>
+</nav>
+
+<!-- LOCK HERO -->
+<div class="lock-hero">
+  <span class="lock-icon">🔒</span>
+  <span class="lock-eyebrow">Self-Publish Pro Required</span>
+  <h1 class="lock-title">This Content is<br><em>For Pro Members</em></h1>
+  <p class="lock-sub">
+    You've taken the first step — now it's time to go all in. <strong>Self-Publish Pro</strong> unlocks the full course, onboarding call, live NYT Bestseller author access, and personalized brand coaching. Everything you need to publish your book in 90 days.
+  </p>
+  <a href="#upgrade-form" style="display:inline-block;padding:1rem 3rem;background:var(--gold);color:var(--bg);font-size:.8rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:all .25s;animation:fadeUp .7s .35s ease both;" onmouseover="this.style.background='#e8c96a'" onmouseout="this.style.background='#b8922a'">Unlock Full Access →</a>
+</div>
+
+<!-- WHAT YOU'RE MISSING -->
+<div class="missing-strip">
+  <div class="missing-inner">
+    <span class="missing-label reveal">What Self-Publish Pro unlocks for you</span>
+    <div class="missing-grid">
+
+      <div class="missing-item reveal">
+        <span class="mi-icon">📞</span>
+        <div>
+          <div class="mi-tag">Exclusive</div>
+          <div class="mi-title">Personal Onboarding Call</div>
+          <div class="mi-desc">Every Pro member gets a 1-on-1 onboarding call with your instructor. Set your 90-day goals, map your manuscript, and start with total clarity — no guesswork.</div>
+        </div>
+      </div>
+
+      <div class="missing-item reveal d1">
+        <span class="mi-icon">📚</span>
+        <div>
+          <div class="mi-tag">Full Access</div>
+          <div class="mi-title">All 12 Course Modules + Downloads</div>
+          <div class="mi-desc">Every lesson, workbook, template, and resource — from writing style discovery to launch day marketing. Yours to keep, forever.</div>
+        </div>
+      </div>
+
+      <div class="missing-item reveal d2">
+        <span class="mi-icon">🏆</span>
+        <div>
+          <div class="mi-tag">Live Sessions</div>
+          <div class="mi-title">NYT Bestselling Author Live Chats</div>
+          <div class="mi-desc">Sit in live conversations with New York Times Bestselling Authors. Ask real questions. Get real answers from people who've done what you're trying to do.</div>
+        </div>
+      </div>
+
+      <div class="missing-item reveal">
+        <span class="mi-icon">✦</span>
+        <div>
+          <div class="mi-tag">Coaching</div>
+          <div class="mi-title">Author Brand Development</div>
+          <div class="mi-desc">Work with your instructor to develop your author voice, visual identity, and the brand strategy that builds recognition and loyal readers over time.</div>
+        </div>
+      </div>
+
+      <div class="missing-item reveal d1">
+        <span class="mi-icon">👥</span>
+        <div>
+          <div class="mi-tag">Community</div>
+          <div class="mi-title">Full Skool Community Access</div>
+          <div class="mi-desc">Connect with fellow writers, share progress, get feedback on your work, and stay accountable inside the private Self-Publish 101 Skool community.</div>
+        </div>
+      </div>
+
+      <div class="missing-item reveal d2">
+        <span class="mi-icon">🚀</span>
+        <div>
+          <div class="mi-tag">Lifetime</div>
+          <div class="mi-title">All Future Updates Included</div>
+          <div class="mi-desc">The publishing world keeps changing — and your course keeps up with it. All new modules and resources added in the future are included at no extra cost.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- UPGRADE FORM -->
+<div class="upgrade-section" id="upgrade-form">
+
+  <div class="upgrade-card reveal">
+    <span class="up-badge">✦ Self-Publish Pro</span>
+    <div class="up-title">Unlock Everything</div>
+    <div class="up-price">One-time investment: <strong>$[Price]</strong></div>
+
+    <div class="checklist">
+      <div class="check-item">Personal onboarding call with your instructor</div>
+      <div class="check-item">Full course — all 12 modules, unlocked immediately</div>
+      <div class="check-item">All downloads, templates, and workbooks</div>
+      <div class="check-item">Live chats with NYT Bestselling Authors</div>
+      <div class="check-item">Author brand development coaching</div>
+      <div class="check-item">Full Skool community access</div>
+      <div class="check-item">Lifetime access — all future updates included</div>
+    </div>
+
+    <div id="upgrade-form-wrap">
+      <div class="form-group">
+        <label>Your Full Name</label>
+        <input type="text" id="up-name" placeholder="Enter your name…" />
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="up-email" placeholder="you@example.com" />
+      </div>
+      <button class="btn-upgrade" onclick="handleUpgrade()">Enroll in Self-Publish Pro →</button>
+      <p class="up-guarantee">🔒 Secure enrollment · Full access unlocked immediately after joining</p>
+    </div>
+
+    <div class="success-box" id="upgrade-success">
+      <strong>🎉 Welcome to Self-Publish Pro!</strong>
+      Your full access is now unlocked. Head to your dashboard to begin your journey — and watch your inbox for your onboarding call invitation.
+      <br><br>
+      <a href="dashboard.html" style="color:var(--gold-lt);font-weight:700;text-decoration:none;font-size:.95rem;">Go to My Dashboard →</a>
+    </div>
+  </div>
+
+  <p class="reveal" style="text-align:center;font-size:.8rem;font-weight:300;color:var(--soft);margin-top:1.5rem;">
+    Not ready to upgrade yet? <a href="writing-genre-quiz.html" style="color:var(--gold);text-decoration:none;">Continue with your free quiz →</a>
+  </p>
+</div>
+
+<footer>
+  <span class="footer-brand">Self&#8209;Publish</span>
+  <span class="footer-note">Questions about Pro? <a href="onboarding.html" style="color:var(--gold);text-decoration:none;">Contact us →</a></span>
+  <a href="about.html" style="font-size:.72rem;color:var(--muted);text-decoration:none;">Learn more about the course →</a>
+</footer>
+
+<script src="membership.js"></script>
+<script>
+  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.08});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+  function handleUpgrade(){
+    const name=document.getElementById('up-name').value.trim();
+    const email=document.getElementById('up-email').value.trim();
+    if(!name||!email){alert('Please enter your name and email.');return;}
+    if(!/\S+@\S+\.\S+/.test(email)){alert('Please enter a valid email address.');return;}
+    SP_ACCESS.setPro(name,email);
+    document.getElementById('upgrade-form-wrap').style.display='none';
+    document.getElementById('upgrade-success').style.display='block';
+  }
+
+  // Pre-fill name/email if free account exists
+  window.addEventListener('load',()=>{
+    if(SP_ACCESS.isLoggedIn()){
+      document.getElementById('up-name').value=SP_ACCESS.getName();
+      document.getElementById('up-email').value=SP_ACCESS.getEmail();
+    }
+    if(SP_ACCESS.isPro()) window.location.href='dashboard.html';
+  });
+</script>
+</body>
+</html>

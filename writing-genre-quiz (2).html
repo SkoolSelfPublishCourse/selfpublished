@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Kind of Writer Are You? — Genre Personality Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1c1a17;
+    --cream: #faf7f2;
+    --parchment: #f0ead8;
+    --gold: #b8922a;
+    --gold-light: #e8c96a;
+    --rust: #8b3a1a;
+    --sage: #4a6741;
+    --slate: #3a4a5c;
+    --mauve: #6b4a5e;
+    --teal: #2d6b6b;
+    --muted: #7a7060;
+    --border: rgba(28,26,23,0.15);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    background-image:
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b8922a' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  /* ─── SCREENS ─── */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ─── INTRO ─── */
+  #screen-intro {
+    min-height: 100vh;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+    text-align: center;
+  }
+  #screen-intro.active { display: flex; }
+
+  .quill-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1.2rem;
+    animation: floatQuill 3s ease-in-out infinite;
+  }
+
+  @keyframes floatQuill {
+    0%,100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-8px) rotate(5deg); }
+  }
+
+  .intro-eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .intro-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+    max-width: 700px;
+  }
+
+  .intro-title em {
+    font-style: italic;
+    color: var(--rust);
+  }
+
+  .intro-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--muted);
+    margin-bottom: 1.8rem;
+  }
+
+  .intro-divider {
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0 auto 1.8rem;
+  }
+
+  .intro-desc {
+    max-width: 520px;
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+
+  .genre-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+    max-width: 560px;
+  }
+
+  .pill {
+    padding: 0.3rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--muted);
+    background: white;
+    letter-spacing: 0.04em;
+  }
+
+  .name-field-wrap {
+    width: 100%;
+    max-width: 380px;
+    margin-bottom: 1.5rem;
+  }
+
+  .name-field-wrap label {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .name-field-wrap input {
+    width: 100%;
+    padding: 0.85rem 1.1rem;
+    border: 1px solid var(--border);
+    background: white;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.95rem;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .name-field-wrap input:focus { border-color: var(--gold); }
+  .name-field-wrap input::placeholder { color: #ccc; }
+
+  .btn-primary {
+    display: inline-block;
+    padding: 0.95rem 3rem;
+    background: var(--ink);
+    color: var(--cream);
+    font-family: 'Lato', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border: 2px solid var(--ink);
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--ink);
+  }
+
+  /* ─── QUIZ ─── */
+  #screen-quiz {
+    min-height: 100vh;
+    display: none;
+    flex-direction: column;
+    padding: 0;
+  }
+  #screen-quiz.active { display: flex; }
+
+  .quiz-header {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 1.2rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .quiz-logo {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--gold-light);
+  }
+
+  .quiz-progress-wrap { display: flex; align-items: center; gap: 1rem; flex: 1; margin: 0 2rem; }
+
+  .quiz-progress-track {
+    flex: 1;
+    height: 3px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .quiz-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 2px;
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+    width: 0%;
+  }
+
+  .quiz-progress-text {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.5);
+    white-space: nowrap;
+    letter-spacing: 0.08em;
+  }
+
+  .quiz-body {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 3rem 1.5rem 4rem;
+  }
+
+  .question-card {
+    max-width: 680px;
+    width: 100%;
+    animation: slideIn 0.4s ease both;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .q-meta {
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+  }
+
+  .q-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--ink);
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-bottom: 2rem;
+  }
+
+  .option-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    border: 1.5px solid var(--border);
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    width: 100%;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+    line-height: 1.55;
+    color: var(--ink);
+    position: relative;
+  }
+
+  .option-btn:hover {
+    border-color: var(--gold);
+    background: #fffdf5;
+    transform: translateX(3px);
+  }
+
+  .option-btn.selected {
+    border-color: var(--rust);
+    background: #fff8f5;
+    font-weight: 400;
+  }
+
+  .option-btn.selected .opt-letter { color: var(--rust); }
+
+  .option-btn.selected::after {
+    content: '✓';
+    position: absolute;
+    right: 1.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--rust);
+    font-size: 0.85rem;
+  }
+
+  .opt-letter {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--gold);
+    min-width: 1.1rem;
+    margin-top: 0.05rem;
+    flex-shrink: 0;
+  }
+
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .btn-back {
+    padding: 0.7rem 1.5rem;
+    border: 1px solid var(--border);
+    background: transparent;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-back:hover { border-color: var(--ink); color: var(--ink); }
+
+  .btn-next {
+    padding: 0.8rem 2.2rem;
+    background: var(--ink);
+    color: var(--cream);
+    border: 2px solid var(--ink);
+    font-family: 'Lato', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .btn-next.enabled {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .btn-next.enabled:hover {
+    background: transparent;
+    color: var(--ink);
+  }
+
+  /* ─── SUBMIT ─── */
+  #screen-submit {
+    min-height: 100vh;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+    text-align: center;
+  }
+  #screen-submit.active { display: flex; }
+
+  .submit-icon { font-size: 3rem; margin-bottom: 1.2rem; }
+
+  .submit-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+  }
+
+  .submit-desc {
+    max-width: 480px;
+    font-size: 0.92rem;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 2rem;
+  }
+
+  .email-field-wrap {
+    width: 100%;
+    max-width: 380px;
+    margin-bottom: 1rem;
+  }
+
+  .email-field-wrap label {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-align: left;
+  }
+
+  .email-field-wrap input {
+    width: 100%;
+    padding: 0.85rem 1.1rem;
+    border: 1px solid var(--border);
+    background: white;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.95rem;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .email-field-wrap input:focus { border-color: var(--gold); }
+
+  .submit-note {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    font-style: italic;
+  }
+
+  /* ─── TEACHER ANSWER GUIDE ─── */
+  #screen-guide {
+    padding: 3rem 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+    display: none;
+  }
+  #screen-guide.active { display: block; }
+
+  .guide-header {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 2rem 2.5rem;
+    margin-bottom: 2rem;
+    border-left: 5px solid var(--gold);
+  }
+
+  .guide-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+
+  .guide-header p { font-size: 0.85rem; opacity: 0.6; font-weight: 300; }
+
+  .scoring-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2.5rem;
+    font-size: 0.85rem;
+  }
+
+  .scoring-table th {
+    background: var(--parchment);
+    padding: 0.7rem 1rem;
+    text-align: left;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 700;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .scoring-table td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  .scoring-table tr:nth-child(even) td { background: rgba(240,234,216,0.3); }
+
+  .genre-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: white;
+  }
+
+  .genre-results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .genre-result-card {
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    background: white;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .genre-result-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+  }
+
+  .genre-result-card .card-genre-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+
+  .card-tagline {
+    font-style: italic;
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 0.9rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .card-section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+    margin-top: 0.9rem;
+  }
+
+  .card-section-text {
+    font-size: 0.85rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+
+  .traits-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.5rem;
+  }
+
+  .trait-tag {
+    padding: 0.2rem 0.55rem;
+    background: var(--parchment);
+    font-size: 0.72rem;
+    color: var(--muted);
+    border-radius: 2px;
+  }
+
+  .key-authors {
+    font-size: 0.82rem;
+    font-style: italic;
+    color: var(--muted);
+    margin-top: 0.4rem;
+  }
+
+  /* Print button */
+  .btn-print {
+    padding: 0.8rem 2rem;
+    background: var(--rust);
+    color: white;
+    border: none;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-bottom: 2rem;
+    transition: opacity 0.2s;
+  }
+  .btn-print:hover { opacity: 0.85; }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .anim-1 { animation: fadeUp 0.5s 0.1s ease both; }
+  .anim-2 { animation: fadeUp 0.5s 0.2s ease both; }
+  .anim-3 { animation: fadeUp 0.5s 0.3s ease both; }
+  .anim-4 { animation: fadeUp 0.5s 0.4s ease both; }
+  .anim-5 { animation: fadeUp 0.5s 0.5s ease both; }
+
+  /* ─── CONFIRMATION SCREEN ─── */
+  #screen-confirm {
+    min-height: 100vh;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+    text-align: center;
+  }
+  #screen-confirm.active { display: flex; }
+
+  .confirm-icon { font-size: 4rem; margin-bottom: 1.5rem; animation: fadeUp 0.6s ease both; }
+
+  .confirm-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    margin-bottom: 0.8rem;
+    animation: fadeUp 0.6s 0.15s ease both;
+  }
+
+  .confirm-message {
+    max-width: 460px;
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.8;
+    animation: fadeUp 0.6s 0.25s ease both;
+  }
+
+  @media (max-width: 600px) {
+    .quiz-header { padding: 1rem; flex-wrap: wrap; gap: 0.5rem; }
+    .quiz-progress-wrap { margin: 0 0.5rem; }
+    .genre-results-grid { grid-template-columns: 1fr; }
+  }
+
+  @media print {
+    .btn-print { display: none; }
+    #screen-guide { display: block !important; }
+    .screen { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN 1: INTRO
+═══════════════════════════════════════════ -->
+<div id="screen-intro" class="screen active">
+  <div class="quill-icon anim-1">🪶</div>
+  <p class="intro-eyebrow anim-1">Writing Personality Quiz</p>
+  <h1 class="intro-title anim-2">What Kind of<br><em>Writer</em> Are You?</h1>
+  <p class="intro-subtitle anim-2">25 reflective questions · 8 writing genres</p>
+  <div class="intro-divider anim-3"></div>
+  <p class="intro-desc anim-3">
+    Every person carries stories worth telling — but the <em>way</em> you see the world shapes the genre where your voice will shine brightest. Answer honestly. There are no wrong answers.
+  </p>
+  <div class="genre-pills anim-4">
+    <span class="pill">✦ Literary Fiction</span>
+    <span class="pill">🔍 Mystery &amp; Thriller</span>
+    <span class="pill">💌 Romance &amp; Drama</span>
+    <span class="pill">🌌 Fantasy &amp; Sci-Fi</span>
+    <span class="pill">🌱 Self-Help</span>
+    <span class="pill">📖 Memoir</span>
+    <span class="pill">👤 Biography</span>
+    <span class="pill">🔬 Non-Fiction</span>
+  </div>
+  <div class="name-field-wrap anim-5">
+    <label for="student-name">Your Name</label>
+    <input type="text" id="student-name" placeholder="Enter your full name…" />
+  </div>
+  <button class="btn-primary anim-5" onclick="startQuiz()"><span>Begin the Quiz →</span></button>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN 2: QUIZ
+═══════════════════════════════════════════ -->
+<div id="screen-quiz" class="screen">
+  <div class="quiz-header">
+    <span class="quiz-logo">What Kind of Writer Are You?</span>
+    <div class="quiz-progress-wrap">
+      <div class="quiz-progress-track">
+        <div class="quiz-progress-fill" id="progress-fill"></div>
+      </div>
+      <span class="quiz-progress-text" id="progress-text">1 / 25</span>
+    </div>
+  </div>
+  <div class="quiz-body">
+    <div class="question-card" id="question-card"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN 3: SUBMIT
+═══════════════════════════════════════════ -->
+<div id="screen-submit" class="screen">
+  <div class="submit-icon">📬</div>
+  <h2 class="submit-title">Quiz Complete!</h2>
+  <p class="submit-desc">
+    You've answered all 25 questions. Submit your responses and your teacher will send your personalized genre results and writing profile.
+  </p>
+  <div class="email-field-wrap">
+    <label for="student-email">Your Email Address</label>
+    <input type="email" id="student-email" placeholder="you@example.com" />
+  </div>
+  <p class="submit-note">Your answers will be reviewed and results sent within 24 hours.</p>
+  <button class="btn-primary" onclick="submitQuiz()">Submit My Responses →</button>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN 4: CONFIRMATION
+═══════════════════════════════════════════ -->
+<div id="screen-confirm" class="screen">
+  <div class="confirm-icon">✉️</div>
+  <h2 class="confirm-title">You're all set!</h2>
+  <p class="confirm-message" id="confirm-message"></p>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN 5: TEACHER ANSWER GUIDE
+     Access at: ?guide=true in URL
+═══════════════════════════════════════════ -->
+<div id="screen-guide" class="screen">
+  <button class="btn-print" onclick="window.print()">🖨 Print / Save as PDF</button>
+  <div class="guide-header">
+    <h2>📋 Teacher Answer Guide</h2>
+    <p>Writing Genre Personality Quiz — Scoring Key &amp; Full Genre Descriptions</p>
+  </div>
+
+  <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:1rem;">How to Score</h3>
+  <p style="font-size:0.9rem;font-weight:300;line-height:1.7;color:var(--muted);margin-bottom:1.5rem;">
+    Each answer choice corresponds to a genre code (see table below). Tally the codes from all 25 answers.
+    The genre with the <strong>highest count is the student's primary genre</strong>. The second-highest is their secondary genre.
+    Share both results with the student. If two genres are tied, that student is well-suited to both.
+  </p>
+
+  <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:1rem;">Genre Codes</h3>
+  <table class="scoring-table">
+    <thead>
+      <tr>
+        <th>Code</th><th>Genre</th><th>Color</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>LF</strong></td><td>Literary Fiction</td><td><span class="genre-badge" style="background:#4a6741">LF</span></td></tr>
+      <tr><td><strong>MT</strong></td><td>Mystery &amp; Thriller</td><td><span class="genre-badge" style="background:#3a4a5c">MT</span></td></tr>
+      <tr><td><strong>RD</strong></td><td>Romance &amp; Drama</td><td><span class="genre-badge" style="background:#6b4a5e">RD</span></td></tr>
+      <tr><td><strong>FS</strong></td><td>Fantasy &amp; Sci-Fi</td><td><span class="genre-badge" style="background:#2d6b6b">FS</span></td></tr>
+      <tr><td><strong>SH</strong></td><td>Self-Help</td><td><span class="genre-badge" style="background:#b8922a">SH</span></td></tr>
+      <tr><td><strong>ME</strong></td><td>Memoir</td><td><span class="genre-badge" style="background:#8b3a1a">ME</span></td></tr>
+      <tr><td><strong>BI</strong></td><td>Biography</td><td><span class="genre-badge" style="background:#5a4a3a">BI</span></td></tr>
+      <tr><td><strong>NF</strong></td><td>Non-Fiction</td><td><span class="genre-badge" style="background:#2a5a5a">NF</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:1.5rem;">Full Answer Key — All 25 Questions</h3>
+  <table class="scoring-table" id="answer-key-table">
+    <thead>
+      <tr>
+        <th>#</th><th>Question</th><th>A</th><th>B</th><th>C</th><th>D</th>
+      </tr>
+    </thead>
+    <tbody id="answer-key-body"></tbody>
+  </table>
+
+  <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:1.5rem;">Genre Profiles &amp; Student Descriptions</h3>
+  <div class="genre-results-grid" id="genre-cards-container"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// GENRE DATA
+// ═══════════════════════════════════════════════════════
+const GENRES = {
+  LF: {
+    name: "Literary Fiction",
+    emoji: "✦",
+    color: "#4a6741",
+    tagline: "You write to illuminate the human condition.",
+    description: `Literary fiction writers are observers of the deepest order. You are drawn to the quiet, layered complexities of human emotion — the things left unsaid in a conversation, the weight of a glance, the slow collapse or rebirth of a person's identity. You don't need explosions to create tension; you find it in a dinner table argument, in a character's grief, in the gap between who someone is and who they wish they were.\n\nYour writing is deliberate and artistic. You care more about the beauty of a sentence than the speed of a plot. You believe that how a story is told is just as important — maybe more so — than what happens. You're drawn to moral ambiguity, unreliable narrators, and endings that don't tie everything up neatly, because you understand that life rarely does.`,
+    strengths: "Deep character development, lyrical prose, emotional authenticity, thematic richness.",
+    traits: ["Introspective", "Empathetic", "Detail-oriented", "Philosophical", "Patient"],
+    readNext: "Toni Morrison, Kazuo Ishiguro, Marilynne Robinson, Ocean Vuong",
+    challenge: "Learning to balance beauty with forward momentum — literary writers sometimes sacrifice pacing for prose."
+  },
+  MT: {
+    name: "Mystery & Thriller",
+    emoji: "🔍",
+    color: "#3a4a5c",
+    tagline: "You write to unravel the secrets hidden in plain sight.",
+    description: `Mystery and thriller writers are natural architects of tension. Your mind naturally asks "why?" and "what's really going on here?" You notice when things don't add up. You're the person in the room who spots the inconsistency in someone's story, who feels uneasy before anyone else can name the reason.\n\nYou are methodical and strategic. You love the craft of planting clues — giving readers just enough to feel clever, but not so much that they see the ending coming. You understand pacing instinctively: when to accelerate, when to hold back, when to deliver a gut-punch revelation. Your strength is structural: you think of stories as puzzles that must be designed before they can be written. Every scene must earn its place. Every character must serve the mystery.`,
+    strengths: "Plot architecture, pacing, suspense-building, misdirection, structural discipline.",
+    traits: ["Analytical", "Strategic", "Observant", "Meticulous", "Tension-aware"],
+    readNext: "Agatha Christie, Gillian Flynn, Tana French, Patricia Highsmith",
+    challenge: "Ensuring characters feel fully human, not just instruments of the plot."
+  },
+  RD: {
+    name: "Romance & Drama",
+    emoji: "💌",
+    color: "#6b4a5e",
+    tagline: "You write because human connection is the most powerful story there is.",
+    description: `Romance and drama writers have enormous emotional intelligence. You understand, perhaps better than anyone, that what people want most is to feel truly seen — and that the most powerful stories are the ones that make readers feel less alone in their longing, their heartbreak, and their joy.\n\nYou write from the heart, unapologetically. You believe in hope, in transformation, in the idea that love — romantic, familial, or platonic — has the power to change people. You aren't afraid of sentimentality, because you understand the difference between cheap sentiment and earned emotion. Your characters feel deeply, and so do your readers. Drama calls to you because you are fascinated by conflict between people: what they want from each other, what gets in the way, and whether they can find their way through.`,
+    strengths: "Emotional depth, relatable characters, dialogue, romantic tension, cathartic storytelling.",
+    traits: ["Warm", "Emotionally perceptive", "Hopeful", "Expressive", "Relationship-focused"],
+    readNext: "Nora Roberts, Nicholas Sparks, Sally Rooney, Elena Ferrante",
+    challenge: "Avoiding melodrama — the most powerful emotional scenes are often the most restrained."
+  },
+  FS: {
+    name: "Fantasy & Sci-Fi",
+    emoji: "🌌",
+    color: "#2d6b6b",
+    tagline: "You write to explore what is possible when you break the rules of the world.",
+    description: `Fantasy and science fiction writers are world-builders and visionaries. Your imagination doesn't just fill in details — it constructs entire systems: rules of magic, laws of physics, histories of civilizations that never existed. You are captivated by the question "what if?" and you take it to its furthest possible conclusion.\n\nYou use the impossible to say true things about reality. The best speculative fiction isn't escapism — it's a mirror held at an angle, revealing things about power, identity, society, and humanity that realism can't access directly. You are drawn to big themes: freedom versus control, the ethics of technology, the nature of consciousness, the meaning of belonging. You build vast, so that ideas can breathe.`,
+    strengths: "World-building, conceptual originality, imagination, thematic ambition, scope.",
+    traits: ["Creative", "Visionary", "Systems-thinker", "Curious", "Ambitious"],
+    readNext: "Ursula K. Le Guin, N.K. Jemisin, Ted Chiang, Brandon Sanderson",
+    challenge: "Grounding the fantastical in emotional truth so readers care as much about the characters as the world."
+  },
+  SH: {
+    name: "Self-Help",
+    emoji: "🌱",
+    color: "#b8922a",
+    tagline: "You write because you believe in people's capacity to grow.",
+    description: `Self-help writers are teachers at heart. You have likely done significant work on yourself — faced something difficult, found a way through, and emerged with frameworks, insights, or hard-won wisdom that you feel compelled to share. You believe that understanding is transformative. That the right idea, at the right moment, can genuinely change someone's life.\n\nYou are practical and hopeful in equal measure. You don't write to impress — you write to be useful. You care deeply about clarity: your goal is for readers to finish a chapter and feel equipped, motivated, or seen in a new way. You understand that vulnerability is a tool, not a weakness — that sharing your own stumbles and breakthroughs is what makes the guidance feel earned and real.`,
+    strengths: "Clarity, practical insight, motivational voice, accessibility, genuine helpfulness.",
+    traits: ["Encouraging", "Practical", "Reflective", "Generous", "Growth-oriented"],
+    readNext: "Brené Brown, James Clear, Viktor Frankl, Glennon Doyle",
+    challenge: "Avoiding generic advice — the most powerful self-help is specific, personal, and counter-intuitive."
+  },
+  ME: {
+    name: "Memoir",
+    emoji: "📖",
+    color: "#8b3a1a",
+    tagline: "You write because your life is a story worth telling.",
+    description: `Memoir writers understand something profound: the personal is universal. Your own experiences — the ones that shaped you, broke you, remade you — are not just yours. They belong to everyone who has ever felt the same grief, the same confusion, the same unexpected joy. When you write honestly about your own life, you give readers permission to examine theirs.\n\nYou have the courage to be vulnerable on the page — not to expose yourself recklessly, but because you believe that honesty is the highest form of storytelling. You are drawn to examining the past not with bitterness but with curiosity: what really happened? How did it shape me? What does it mean? Memoir requires both the heart of a storyteller and the eye of a journalist. You must render scenes with vivid specificity while also maintaining an analytical perspective on your own experience.`,
+    strengths: "Authenticity, emotional courage, personal voice, narrative arc, self-awareness.",
+    traits: ["Brave", "Reflective", "Honest", "Self-aware", "Narrative-minded"],
+    readNext: "Mary Karr, Roxane Gay, Cheryl Strayed, Ta-Nehisi Coates",
+    challenge: "Learning when to protect yourself — not every wound needs to be written about, and wisdom knows the difference."
+  },
+  BI: {
+    name: "Biography",
+    emoji: "👤",
+    color: "#5a4a3a",
+    tagline: "You write to understand what makes a person extraordinary — or ordinary — and why it matters.",
+    description: `Biography writers are fascinated by other people. Not in a gossip-column way, but in the deepest sense: you want to understand what makes a person who they are. What forces shaped them? What decisions defined them? Where did they compromise their principles, and where did they hold firm? You believe that the story of one life, told carefully and honestly, can illuminate history, culture, and the human condition itself.\n\nYou are a natural researcher. You love archives, letters, interviews, primary sources — the thrill of finding a document that reveals something no one has noticed before. You bring the rigor of a historian and the empathy of a novelist. You understand that biography is an act of interpretation, not just accumulation — your job is to make meaning from facts, to argue a thesis about why this person mattered.`,
+    strengths: "Research skills, empathy, historical understanding, interpretive storytelling, discipline.",
+    traits: ["Scholarly", "Curious", "Thorough", "Empathetic", "Perspective-driven"],
+    readNext: "Robert Caro, Walter Isaacson, Stacy Schiff, Ron Chernow",
+    challenge: "Resisting hagiography — the best biographies show the full, contradictory person, not just the legend."
+  },
+  NF: {
+    name: "Non-Fiction",
+    emoji: "🔬",
+    color: "#2a5a5a",
+    tagline: "You write because ideas and truth are the most powerful forces in the world.",
+    description: `Non-fiction writers are driven by ideas. You want to understand systems, explain phenomena, challenge assumptions, and illuminate truths that are hiding in plain sight. You believe that reality — properly examined — is as gripping and surprising as any invented story. Your job is to take something complex or overlooked and make it impossible to ignore.\n\nYou are a rigorous thinker and an instinctive synthesizer. You gather information from multiple sources, find the pattern connecting them, and then craft a narrative that makes readers feel the excitement of understanding something new. Non-fiction requires intellectual confidence: you must stake a thesis and defend it, be bold in your arguments, and trust that your reader wants to be challenged, not just comforted. Your tool is evidence; your goal is illumination.`,
+    strengths: "Research, argument construction, clarity, intellectual curiosity, narrative non-fiction craft.",
+    traits: ["Analytical", "Truth-seeking", "Disciplined", "Articulate", "Intellectually brave"],
+    readNext: "Malcolm Gladwell, Rebecca Solnit, Michael Lewis, Susan Orlean",
+    challenge: "Keeping the narrative drive alive — the best non-fiction reads like a thriller, but the writing must serve the ideas."
+  }
+};
+
+// ═══════════════════════════════════════════════════════
+// ALL 25 QUESTIONS
+// Format: { q: "question text", opts: [ {text, code}, ... ] }
+// Codes: LF, MT, RD, FS, SH, ME, BI, NF
+// ═══════════════════════════════════════════════════════
+const QUESTIONS = [
+  {
+    q: "When you sit down to write freely, which of these feels most natural to you?",
+    opts: [
+      { text: "Describing a feeling or moment with as much precision as I can find", code: "LF" },
+      { text: "Plotting out a problem that needs to be solved step by step", code: "MT" },
+      { text: "Writing about someone I care about and what happened between us", code: "RD" },
+      { text: "Building an imaginary world with its own rules and history", code: "FS" }
+    ]
+  },
+  {
+    q: "Which of these topics would you most enjoy spending a year researching and writing about?",
+    opts: [
+      { text: "The psychology of a real, complex historical figure", code: "BI" },
+      { text: "A breakthrough in science or culture that changed everything", code: "NF" },
+      { text: "A transformative experience in my own life", code: "ME" },
+      { text: "Habits, mindset shifts, and strategies for personal growth", code: "SH" }
+    ]
+  },
+  {
+    q: "Which of the following best describes how you feel after reading a book that moves you?",
+    opts: [
+      { text: "I want to go back and study every sentence — the writing itself was the point", code: "LF" },
+      { text: "I stayed up too late because I had to know what happened next", code: "MT" },
+      { text: "I felt deeply understood and less alone in what I've experienced", code: "RD" },
+      { text: "My imagination was ignited — I kept thinking about the world long after finishing", code: "FS" }
+    ]
+  },
+  {
+    q: "When you think about the purpose of writing, which resonates most?",
+    opts: [
+      { text: "To help people understand themselves and grow", code: "SH" },
+      { text: "To preserve and interpret the truth of real events and lives", code: "BI" },
+      { text: "To ask difficult questions without offering easy answers", code: "LF" },
+      { text: "To entertain and create an experience that pulls readers in completely", code: "MT" }
+    ]
+  },
+  {
+    q: "Your closest friend asks what you've been thinking about lately. You say:",
+    opts: [
+      { text: "I've been trying to understand why people make the choices they do under pressure", code: "MT" },
+      { text: "I've been processing something that happened to me years ago and finally understand it", code: "ME" },
+      { text: "I've had this image in my head of a place that doesn't exist but I can feel completely", code: "FS" },
+      { text: "I've been thinking about a relationship dynamic that I want to capture on the page", code: "RD" }
+    ]
+  },
+  {
+    q: "What is your relationship with research?",
+    opts: [
+      { text: "I love it — primary sources, archives, and facts are my raw material", code: "NF" },
+      { text: "I research enough to build authenticity, then imagination takes over", code: "FS" },
+      { text: "I research my own memory — journals, photographs, conversations recalled", code: "ME" },
+      { text: "I look for real data and case studies that back up the ideas I'm exploring", code: "SH" }
+    ]
+  },
+  {
+    q: "Which of these narrative endings satisfies you most as a reader?",
+    opts: [
+      { text: "An ending that is ambiguous and asks me to decide what it means", code: "LF" },
+      { text: "A twist that reframes everything I thought I knew", code: "MT" },
+      { text: "A resolution that is emotionally earned and deeply satisfying", code: "RD" },
+      { text: "An ending that expands my understanding of what is possible", code: "FS" }
+    ]
+  },
+  {
+    q: "Which kind of writing challenge excites you most?",
+    opts: [
+      { text: "Writing the same scene five different ways until the language is exactly right", code: "LF" },
+      { text: "Engineering a plot so tight that every detail serves the whole", code: "MT" },
+      { text: "Making a reader cry with a single, perfectly placed moment", code: "RD" },
+      { text: "Designing a magic system or technology that is internally consistent", code: "FS" }
+    ]
+  },
+  {
+    q: "How do you feel about drawing on your own life experiences in your writing?",
+    opts: [
+      { text: "My life is the material — I couldn't write authentically without it", code: "ME" },
+      { text: "I prefer to research and write about others' experiences and the world", code: "NF" },
+      { text: "I fictionalize personal experiences so they serve a larger story", code: "RD" },
+      { text: "I use personal insights as a foundation for advice and frameworks", code: "SH" }
+    ]
+  },
+  {
+    q: "You're describing a character to a friend. Which version feels most like you?",
+    opts: [
+      { text: "She had the kind of silence that made you feel you'd already said too much.", code: "LF" },
+      { text: "He'd been lying so long he'd forgotten which parts were true.", code: "MT" },
+      { text: "She looked at him the way you look at something you know you're about to lose.", code: "RD" },
+      { text: "He was born in a city that had been built on the bones of a forgotten god.", code: "FS" }
+    ]
+  },
+  {
+    q: "What draws you most powerfully to a real person's story?",
+    opts: [
+      { text: "The gap between their public image and their private reality", code: "BI" },
+      { text: "How they overcame something that seemed insurmountable", code: "SH" },
+      { text: "What their life reveals about the era and culture they lived in", code: "NF" },
+      { text: "The contradictions — how they were both admirable and deeply flawed", code: "ME" }
+    ]
+  },
+  {
+    q: "Which writing environment appeals to you most?",
+    opts: [
+      { text: "A quiet room, a notebook, time — I need slowness to find the right words", code: "LF" },
+      { text: "A whiteboard, index cards, a plot map spread across my desk", code: "MT" },
+      { text: "Surrounded by music that matches the emotional tone I'm trying to write", code: "RD" },
+      { text: "Deep in a worldbuilding document, surrounded by maps and notes", code: "FS" }
+    ]
+  },
+  {
+    q: "What do you believe is the most important thing a piece of writing can do?",
+    opts: [
+      { text: "Witness — to say: this happened, this is true, this person existed", code: "BI" },
+      { text: "Expand — to help readers imagine what they could not before", code: "FS" },
+      { text: "Transform — to leave the reader changed in some measurable way", code: "SH" },
+      { text: "Connect — to make the reader feel a sense of shared humanity", code: "ME" }
+    ]
+  },
+  {
+    q: "How do you approach the concept of truth in writing?",
+    opts: [
+      { text: "Emotional truth matters more than factual accuracy — what did it feel like?", code: "LF" },
+      { text: "Facts are sacred — I would never misrepresent what I can verify", code: "NF" },
+      { text: "Truth is a perspective — I want to show multiple valid viewpoints", code: "BI" },
+      { text: "My truth — what I actually lived and felt — is what I'm most qualified to write", code: "ME" }
+    ]
+  },
+  {
+    q: "Which type of conflict interests you most to write?",
+    opts: [
+      { text: "A person against their own memories and self-concept", code: "ME" },
+      { text: "Two people who want each other but are kept apart by circumstances", code: "RD" },
+      { text: "A protagonist who slowly realizes they've been chasing the wrong thing", code: "MT" },
+      { text: "A society that must decide between security and freedom", code: "FS" }
+    ]
+  },
+  {
+    q: "When you read non-fiction, what makes you feel it has succeeded?",
+    opts: [
+      { text: "I learned something that fundamentally changed how I see the world", code: "NF" },
+      { text: "I felt the author's personal courage on every page", code: "ME" },
+      { text: "I came away with tools I can actually use in my own life", code: "SH" },
+      { text: "I felt I truly understood another human being in all their complexity", code: "BI" }
+    ]
+  },
+  {
+    q: "Which phrase best captures how you think about your audience when writing?",
+    opts: [
+      { text: "I write for the reader who wants to be challenged and slightly unsettled", code: "LF" },
+      { text: "I write for the reader who needs to feel less alone", code: "RD" },
+      { text: "I write for the reader who is trying to improve and needs honest guidance", code: "SH" },
+      { text: "I write for the reader who wants to escape completely into another world", code: "FS" }
+    ]
+  },
+  {
+    q: "You overhear a fascinating conversation in a café. Your first instinct is to:",
+    opts: [
+      { text: "Note every word and nuance — the specific language tells you everything about the character", code: "LF" },
+      { text: "Try to piece together what secret or problem is underneath what's being said", code: "MT" },
+      { text: "Feel moved by the emotion between them and want to capture that feeling in writing", code: "RD" },
+      { text: "Wonder what would happen if you changed one element — what if they were strangers? What if it was 200 years from now?", code: "FS" }
+    ]
+  },
+  {
+    q: "Which of these statements best reflects your relationship with structure?",
+    opts: [
+      { text: "Structure emerges from the story — I outline loosely and let it breathe", code: "LF" },
+      { text: "Structure is everything — I need a tight outline before I write a single scene", code: "MT" },
+      { text: "Structure follows the emotional arc — what needs to happen for the feeling to land?", code: "RD" },
+      { text: "I build structure like I build a world — layered systems that support each other", code: "FS" }
+    ]
+  },
+  {
+    q: "Which of these projects would you be most proud to complete?",
+    opts: [
+      { text: "A deeply researched account of how a single idea changed history", code: "NF" },
+      { text: "A book about someone's life that makes readers feel they knew them personally", code: "BI" },
+      { text: "A memoir chapter that finally puts into words something I've carried for years", code: "ME" },
+      { text: "A book that helps someone break a pattern that has held them back for a decade", code: "SH" }
+    ]
+  },
+  {
+    q: "Which of these words most excites you when you see it in a title?",
+    opts: [
+      { text: "Invisible / Quiet / Between", code: "LF" },
+      { text: "Disappeared / The Last / Before She", code: "MT" },
+      { text: "Always / The Heart / What We Keep", code: "RD" },
+      { text: "The End of / Beyond / The Age of", code: "FS" }
+    ]
+  },
+  {
+    q: "What role does vulnerability play in your writing?",
+    opts: [
+      { text: "It's the price of admission — I must be exposed to write something true", code: "ME" },
+      { text: "It's a tool — strategic vulnerability builds trust with my reader", code: "SH" },
+      { text: "It belongs to the characters, not the author — I observe, I don't expose", code: "LF" },
+      { text: "It's less relevant — I'm more interested in ideas and structures than feelings", code: "NF" }
+    ]
+  },
+  {
+    q: "Which of these best describes how you would handle a character based on a real person?",
+    opts: [
+      { text: "I would fictionalize them — change enough details that they are no longer recognizable", code: "RD" },
+      { text: "I would research them exhaustively and let the evidence shape my portrait", code: "BI" },
+      { text: "I would use them as a lens to examine a larger truth about society or history", code: "NF" },
+      { text: "I would write about my relationship with them and what it revealed about me", code: "ME" }
+    ]
+  },
+  {
+    q: "If you could choose how readers describe your writing style, which would you prefer?",
+    opts: [
+      { text: "Precise, lyrical, and devastating", code: "LF" },
+      { text: "Gripping, ingenious, and propulsive", code: "MT" },
+      { text: "Warm, honest, and deeply felt", code: "RD" },
+      { text: "Epic, original, and immersive", code: "FS" }
+    ]
+  },
+  {
+    q: "Finally: which of these phrases most feels like your reason for writing?",
+    opts: [
+      { text: "To make someone feel something they didn't expect to feel", code: "LF" },
+      { text: "To discover and share a truth the world needs to hear", code: "NF" },
+      { text: "To tell my story before it disappears", code: "ME" },
+      { text: "To give someone a map for where I found my way through", code: "SH" }
+    ]
+  }
+];
+
+// ═══════════════════════════════════════════════════════
+// QUIZ STATE
+// ═══════════════════════════════════════════════════════
+let currentQ = 0;
+let answers = new Array(25).fill(null); // stores genre code
+let studentName = "";
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+}
+
+function startQuiz() {
+  studentName = document.getElementById('student-name').value.trim() || "Student";
+  currentQ = 0;
+  answers = new Array(25).fill(null);
+  showScreen('quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[currentQ];
+  const pct = (currentQ / 25) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = (currentQ + 1) + ' / 25';
+
+  const letters = ['a', 'b', 'c', 'd'];
+  const optionsHTML = q.opts.map((opt, i) => `
+    <button class="option-btn ${answers[currentQ] === opt.code ? 'selected' : ''}"
+      onclick="selectAnswer('${opt.code}', this)" data-code="${opt.code}">
+      <span class="opt-letter">${letters[i]}.</span>
+      <span class="opt-text">${opt.text}</span>
+    </button>
+  `).join('');
+
+  document.getElementById('question-card').innerHTML = `
+    <div class="q-meta">Question ${currentQ + 1} of 25</div>
+    <div class="q-text">${q.q}</div>
+    <div class="options-grid">${optionsHTML}</div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="prevQuestion()" ${currentQ === 0 ? 'style="visibility:hidden"' : ''}>← Back</button>
+      <button class="btn-next ${answers[currentQ] ? 'enabled' : ''}" id="btn-next" onclick="nextQuestion()">
+        ${currentQ === 24 ? 'Finish Quiz →' : 'Next →'}
+      </button>
+    </div>
+  `;
+}
+
+function selectAnswer(code, btnEl) {
+  answers[currentQ] = code;
+  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  btnEl.classList.add('selected');
+  document.getElementById('btn-next').classList.add('enabled');
+}
+
+function prevQuestion() {
+  if (currentQ > 0) { currentQ--; renderQuestion(); }
+}
+
+function nextQuestion() {
+  if (!answers[currentQ]) return;
+  if (currentQ < 24) {
+    currentQ++;
+    renderQuestion();
+  } else {
+    showScreen('submit');
+  }
+}
+
+function submitQuiz() {
+  const email = document.getElementById('student-email').value.trim();
+  const scores = tally();
+  const sorted = Object.entries(scores).sort((a,b) => b[1]-a[1]);
+  const primary = sorted[0][0];
+  const secondary = sorted[1][0];
+
+  // Build printable summary for teacher
+  const answerLog = answers.map((code, i) => `Q${i+1}: ${code}`).join(' | ');
+
+  document.getElementById('confirm-message').innerHTML = `
+    Thank you, <strong>${studentName}</strong>! Your responses have been recorded.<br><br>
+    Your teacher will review your answers and send your personalized writing genre results to <strong>${email || "your teacher"}</strong> soon.<br><br>
+    <small style="color:var(--muted)">Answer summary for teacher: ${answerLog}<br>Primary genre suggestion: ${GENRES[primary].name} | Secondary: ${GENRES[secondary].name}</small>
+  `;
+  showScreen('confirm');
+}
+
+function tally() {
+  const scores = { LF:0, MT:0, RD:0, FS:0, SH:0, ME:0, BI:0, NF:0 };
+  answers.forEach(code => { if (code) scores[code]++; });
+  return scores;
+}
+
+// ═══════════════════════════════════════════════════════
+// TEACHER GUIDE — BUILD DYNAMICALLY
+// ═══════════════════════════════════════════════════════
+function buildGuide() {
+  // Answer key table
+  const tbody = document.getElementById('answer-key-body');
+  const letters = ['A','B','C','D'];
+  tbody.innerHTML = QUESTIONS.map((q, i) => {
+    const cells = q.opts.map((opt, j) => {
+      const g = GENRES[opt.code];
+      return `<td><span class="genre-badge" style="background:${g.color}">${opt.code}</span></td>`;
+    }).join('');
+    return `<tr>
+      <td style="font-weight:700;color:var(--gold)">${i+1}</td>
+      <td style="font-size:0.8rem;font-weight:300">${q.q}</td>
+      ${cells}
+    </tr>`;
+  }).join('');
+
+  // Genre result cards
+  const container = document.getElementById('genre-cards-container');
+  container.innerHTML = Object.entries(GENRES).map(([code, g]) => `
+    <div class="genre-result-card" style="border-top:4px solid ${g.color}">
+      <div class="card-genre-name">${g.emoji} ${g.name}</div>
+      <div class="card-tagline">${g.tagline}</div>
+
+      <div class="card-section-label">Full Description (Share with Student)</div>
+      <div class="card-section-text">${g.description.replace(/\n\n/g, '<br><br>')}</div>
+
+      <div class="card-section-label">Key Strengths</div>
+      <div class="card-section-text">${g.strengths}</div>
+
+      <div class="card-section-label">Personality Traits</div>
+      <div class="traits-list">${g.traits.map(t => `<span class="trait-tag">${t}</span>`).join('')}</div>
+
+      <div class="card-section-label">Writers to Study</div>
+      <div class="key-authors">${g.readNext}</div>
+
+      <div class="card-section-label">Growth Edge</div>
+      <div class="card-section-text">${g.challenge}</div>
+
+      <div class="card-section-label">Genre Code</div>
+      <span class="genre-badge" style="background:${g.color};margin-top:0.3rem;display:inline-block">${code}</span>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', () => {
+  buildGuide();
+  // Check URL for teacher guide mode
+  if (window.location.search.includes('guide=true')) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-guide').classList.add('active');
+  }
+});
+</script>
+</body>
+</html>

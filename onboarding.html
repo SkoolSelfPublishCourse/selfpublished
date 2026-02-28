@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Your Onboarding Call — Self-Publish Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;0,700;1,300;1,500;1,700&family=DM+Sans:wght@300;400;500;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f0e0c;--surface:#161310;--card:#1d1a15;--border:rgba(184,146,42,0.2);--gold:#b8922a;--gold-lt:#e8c96a;--cream:#f0e8d5;--white:#faf8f4;--muted:#8a7e6e;--soft:#4a4438;--green-lt:#5eb84d;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--cream);min-height:100vh;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.5;}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(15,14,12,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.nav-brand{font-family:'Dancing Script',cursive;font-size:1.5rem;color:var(--gold-lt);text-decoration:none;}
+.nav-right{display:flex;align-items:center;gap:1rem;}
+.nav-back{font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+.nav-back:hover{color:var(--gold-lt);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+
+/* PAGE */
+.page-wrap{max-width:980px;margin:0 auto;padding:0 1.5rem;}
+.page-top{padding:7rem 0 4rem;text-align:center;position:relative;}
+.page-glow{position:absolute;width:500px;height:300px;background:radial-gradient(ellipse,rgba(184,146,42,.1) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+.page-eyebrow{font-size:.65rem;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.8rem;animation:fadeUp .7s ease both;}
+.page-title{font-family:'Cormorant',serif;font-size:clamp(2.2rem,6vw,4rem);font-weight:700;color:var(--white);line-height:1.1;margin-bottom:.5rem;animation:fadeUp .7s .1s ease both;}
+.page-title em{font-style:italic;color:var(--gold-lt);font-weight:300;}
+.page-sub{font-size:.92rem;font-weight:300;color:var(--muted);line-height:1.8;max-width:520px;margin:0 auto;animation:fadeUp .7s .2s ease both;}
+
+/* WHAT TO EXPECT */
+.expect-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:3rem 0;}
+.expect-item{background:var(--card);padding:1.5rem;}
+.ei-icon{font-size:1.4rem;margin-bottom:.7rem;display:block;}
+.ei-title{font-family:'Cormorant',serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:.3rem;}
+.ei-desc{font-size:.78rem;font-weight:300;line-height:1.6;color:var(--muted);}
+
+/* FORM LAYOUT */
+.form-layout{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:5rem;}
+@media(max-width:640px){.form-layout{grid-template-columns:1fr;}}
+
+.form-card{background:var(--card);border:1px solid rgba(184,146,42,.35);padding:2rem;position:relative;overflow:hidden;}
+.form-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold-lt));}
+
+.info-card{background:var(--surface);border:1px solid var(--border);padding:2rem;display:flex;flex-direction:column;gap:1.5rem;}
+
+.fc-title{font-family:'Cormorant',serif;font-size:1.4rem;font-weight:700;color:var(--white);margin-bottom:.3rem;}
+.fc-sub{font-size:.82rem;font-weight:300;color:var(--muted);line-height:1.6;margin-bottom:1.5rem;}
+
+.form-group{display:flex;flex-direction:column;gap:.4rem;margin-bottom:.85rem;}
+.form-group label{font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:.85rem 1rem;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--cream);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s;resize:vertical;}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--gold);}
+.form-group input::placeholder,.form-group textarea::placeholder{color:var(--soft);}
+.form-group select option{background:var(--bg);color:var(--cream);}
+
+.btn-submit{width:100%;padding:1.1rem;background:var(--gold);color:var(--bg);border:none;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:all .25s;margin-top:.5rem;}
+.btn-submit:hover{background:var(--gold-lt);transform:translateY(-2px);}
+
+.form-note{font-size:.72rem;font-weight:300;color:var(--soft);text-align:center;margin-top:.7rem;line-height:1.5;}
+
+.success-box{display:none;padding:1.5rem;background:rgba(46,90,30,.25);border:1px solid rgba(94,184,77,.3);color:var(--green-lt);font-size:.88rem;font-weight:300;line-height:1.75;text-align:center;}
+.success-box strong{font-weight:700;display:block;margin-bottom:.4rem;font-size:1rem;}
+
+.ic-item{display:flex;flex-direction:column;gap:.3rem;}
+.ic-label{font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);}
+.ic-text{font-size:.85rem;font-weight:300;line-height:1.65;color:var(--muted);}
+.ic-text strong{color:var(--cream);font-weight:500;}
+
+.ic-divider{width:100%;height:1px;background:var(--border);}
+
+.pro-only-banner{background:rgba(184,146,42,.08);border:1px solid rgba(184,146,42,.25);padding:1rem 1.5rem;display:flex;align-items:center;gap:.8rem;margin-bottom:2rem;font-size:.85rem;font-weight:300;color:var(--muted);}
+.pro-only-banner strong{color:var(--gold);font-weight:700;}
+
+footer{border-top:1px solid var(--border);padding:2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;position:relative;z-index:1;}
+.footer-brand{font-family:'Dancing Script',cursive;font-size:1.2rem;color:var(--gold-lt);}
+.footer-note{font-size:.72rem;font-weight:300;color:var(--soft);}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">Self&#8209;Publish</a>
+  <div class="nav-right">
+    <a href="dashboard.html" class="nav-back" id="dash-link" style="display:none;">← Dashboard</a>
+    <a href="index.html" class="nav-back">← Hub</a>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <div class="page-top">
+    <div class="page-glow"></div>
+    <span class="page-eyebrow">Self-Publish Pro · Exclusive Benefit</span>
+    <h1 class="page-title">Book Your<br><em>Onboarding Call</em></h1>
+    <p class="page-sub">Every Self-Publish Pro member gets a personal 1-on-1 call with your instructor — before you write a single word. Start with a clear plan, not guesswork.</p>
+  </div>
+
+  <!-- PRO BADGE -->
+  <div class="pro-only-banner reveal" id="pro-banner">
+    <span style="font-size:1.2rem;">✦</span>
+    <span><strong>Self-Publish Pro Benefit</strong> — This onboarding call is exclusive to paid members. You have full access.</span>
+  </div>
+
+  <!-- WHAT TO EXPECT -->
+  <span style="font-size:.65rem;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:1rem;" class="reveal">What happens on your call</span>
+  <div class="expect-grid reveal">
+    <div class="expect-item">
+      <span class="ei-icon">🎯</span>
+      <div class="ei-title">Set Your 90-Day Goal</div>
+      <div class="ei-desc">Lock in exactly what you want to accomplish and build a clear, realistic timeline to your published book.</div>
+    </div>
+    <div class="expect-item">
+      <span class="ei-icon">📖</span>
+      <div class="ei-title">Map Your Manuscript</div>
+      <div class="ei-desc">Get your book concept reviewed and refined — what your book is, who it's for, and why it will sell.</div>
+    </div>
+    <div class="expect-item">
+      <span class="ei-icon">🗺️</span>
+      <div class="ei-title">Plan Your Course Path</div>
+      <div class="ei-desc">Get a personalized recommendation for which modules to prioritize based on where you are right now.</div>
+    </div>
+    <div class="expect-item">
+      <span class="ei-icon">❓</span>
+      <div class="ei-title">Ask Anything</div>
+      <div class="ei-desc">Bring your biggest questions, doubts, or roadblocks. Leave with answers and the confidence to move forward.</div>
+    </div>
+  </div>
+
+  <!-- FORM + INFO -->
+  <div class="form-layout">
+
+    <!-- CONTACT FORM -->
+    <div class="form-card reveal">
+      <div class="fc-title">Request Your Onboarding Call</div>
+      <div class="fc-sub">Fill in your details and your instructor will be in touch within 24–48 hours to confirm your call time.</div>
+
+      <div id="onboard-form">
+        <div class="form-group">
+          <label>Your Full Name</label>
+          <input type="text" id="ob-name" placeholder="Your name…" />
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="ob-email" placeholder="you@example.com" />
+        </div>
+        <div class="form-group">
+          <label>Your Book Concept (brief)</label>
+          <input type="text" id="ob-concept" placeholder="e.g. A self-help book about recovering from burnout…" />
+        </div>
+        <div class="form-group">
+          <label>Where Are You in the Writing Process?</label>
+          <select id="ob-stage">
+            <option value="">Select your current stage…</option>
+            <option value="not-started">I haven't started writing yet</option>
+            <option value="early">I've written some notes / early pages</option>
+            <option value="halfway">I'm about halfway through my draft</option>
+            <option value="almost">My manuscript is almost complete</option>
+            <option value="done">My manuscript is done — I need publishing help</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Your #1 Question or Challenge Right Now</label>
+          <textarea id="ob-question" rows="3" placeholder="What's the biggest thing you need help with?"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Best Times for Your Call</label>
+          <textarea id="ob-times" rows="2" placeholder="e.g. Weekday mornings EST, or weekend afternoons…"></textarea>
+        </div>
+        <button class="btn-submit" onclick="submitOnboard()">Request My Onboarding Call →</button>
+        <p class="form-note">📞 Your instructor will email you within 24–48 hours to confirm your call date and time.</p>
+      </div>
+
+      <div class="success-box" id="ob-success">
+        <strong>📞 Call Request Received!</strong>
+        Your instructor will email you within 24–48 hours to confirm your call time. Check your inbox (and spam folder just in case).
+        <br><br>
+        In the meantime, start with the <a href="writing-genre-quiz.html" style="color:var(--gold-lt);font-weight:700;text-decoration:none;">Writing Genre Quiz →</a>
+      </div>
+    </div>
+
+    <!-- INFO PANEL -->
+    <div class="info-card reveal d1">
+      <div class="ic-item">
+        <div class="ic-label">Call Duration</div>
+        <div class="ic-text"><strong>30–45 minutes</strong> — enough time to cover everything without wasting yours.</div>
+      </div>
+      <div class="ic-divider"></div>
+      <div class="ic-item">
+        <div class="ic-label">Format</div>
+        <div class="ic-text">Video or phone call — whichever you prefer. Your instructor will confirm the platform when they reach out.</div>
+      </div>
+      <div class="ic-divider"></div>
+      <div class="ic-item">
+        <div class="ic-label">When It Happens</div>
+        <div class="ic-text">Your instructor will reach out within <strong>24–48 hours</strong> to schedule a time that works for you.</div>
+      </div>
+      <div class="ic-divider"></div>
+      <div class="ic-item">
+        <div class="ic-label">What to Bring</div>
+        <div class="ic-text">
+          Your book idea (even if it's rough), any pages you've written, your questions, and an open mind. You don't need to have everything figured out — that's what the call is for.
+        </div>
+      </div>
+      <div class="ic-divider"></div>
+      <div class="ic-item">
+        <div class="ic-label">Exclusive To</div>
+        <div class="ic-text"><strong>Self-Publish Pro members only.</strong> This call is one of the most valuable things included in your membership — don't skip it.</div>
+      </div>
+      <div class="ic-divider"></div>
+      <div class="ic-item">
+        <div class="ic-label">After Your Call</div>
+        <div class="ic-text">You'll have a clear 90-day roadmap, your first module to begin, and direct access to your instructor. From there — it's just execution.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <span class="footer-brand">Self&#8209;Publish</span>
+  <span class="footer-note">Self-Publish Pro · Onboarding</span>
+  <a href="dashboard.html" style="font-size:.72rem;color:var(--muted);text-decoration:none;">← Back to Dashboard</a>
+</footer>
+
+<script src="membership.js"></script>
+<script>
+  // Show dashboard link and pre-fill if logged in
+  window.addEventListener('load', () => {
+    if(SP_ACCESS.isPro()){
+      document.getElementById('dash-link').style.display = 'inline';
+      document.getElementById('ob-name').value = SP_ACCESS.getName();
+      document.getElementById('ob-email').value = SP_ACCESS.getEmail();
+    } else if(!SP_ACCESS.isLoggedIn()){
+      document.getElementById('pro-banner').innerHTML = `<span style="font-size:1.2rem">🔒</span> <span>This onboarding call is a <strong>Self-Publish Pro</strong> exclusive benefit. <a href="upgrade.html" style="color:var(--gold-lt);font-weight:700;text-decoration:none;">Upgrade to access →</a></span>`;
+    }
+  });
+
+  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.08});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+  function submitOnboard(){
+    const name=document.getElementById('ob-name').value.trim();
+    const email=document.getElementById('ob-email').value.trim();
+    const concept=document.getElementById('ob-concept').value.trim();
+    const stage=document.getElementById('ob-stage').value;
+    if(!name||!email||!concept||!stage){alert('Please fill in all required fields.');return;}
+    if(!/\S+@\S+\.\S+/.test(email)){alert('Please enter a valid email address.');return;}
+    document.getElementById('onboard-form').style.display='none';
+    document.getElementById('ob-success').style.display='block';
+  }
+</script>
+</body>
+</html>

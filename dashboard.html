@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Dashboard — Self-Publish Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;0,700;1,300;1,500;1,700&family=DM+Sans:wght@300;400;500;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f0e0c;--surface:#161310;--card:#1d1a15;--card2:#221e18;--border:rgba(184,146,42,0.2);--gold:#b8922a;--gold-lt:#e8c96a;--gold-dim:rgba(184,146,42,.1);--cream:#f0e8d5;--white:#faf8f4;--muted:#8a7e6e;--soft:#4a4438;--green:#2d5a1e;--green-lt:#5eb84d;--teal:#2d6b6b;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--cream);min-height:100vh;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.5;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(15,14,12,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);gap:1rem;flex-wrap:wrap;}
+.nav-brand{font-family:'Dancing Script',cursive;font-size:1.5rem;color:var(--gold-lt);text-decoration:none;}
+.nav-badge{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(184,146,42,.4);padding:.25rem .65rem;}
+.nav-right{display:flex;align-items:center;gap:1rem;}
+.nav-user{font-size:.8rem;font-weight:300;color:var(--muted);}
+.nav-logout{background:none;border:1px solid var(--soft);color:var(--soft);font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .8rem;cursor:pointer;transition:all .2s;}
+.nav-logout:hover{border-color:#e74c3c;color:#e74c3c;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
+
+/* LAYOUT */
+.dash-wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem;}
+.page-top{padding:7rem 0 3rem;border-bottom:1px solid var(--border);}
+
+/* WELCOME BANNER */
+.welcome-banner{background:linear-gradient(135deg,#1f1a0f 0%,#1a1510 100%);border:1px solid rgba(184,146,42,.35);padding:2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;position:relative;overflow:hidden;margin-bottom:3rem;}
+.welcome-banner::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold-lt),var(--gold));}
+.wb-text {}
+.wb-eyebrow{font-size:.65rem;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem;}
+.wb-name{font-family:'Cormorant',serif;font-size:1.8rem;font-weight:700;color:var(--white);line-height:1.1;}
+.wb-sub{font-size:.85rem;font-weight:300;color:var(--muted);margin-top:.3rem;}
+.wb-badge{display:flex;align-items:center;gap:.5rem;font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);background:rgba(184,146,42,.1);border:1px solid rgba(184,146,42,.3);padding:.5rem 1rem;flex-shrink:0;}
+
+/* ONBOARDING STEPS */
+.onboard-section{padding:3rem 0;border-bottom:1px solid var(--border);}
+.section-label{font-size:.65rem;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:1.5rem;}
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);}
+.step-card{background:var(--card);padding:1.5rem;position:relative;}
+.step-card.complete{background:#141a12;}
+.step-card.active{background:#1f1a0f;border:1px solid rgba(184,146,42,.3);}
+.step-num-circle{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;margin-bottom:1rem;border:1.5px solid;}
+.step-num-circle.done{background:rgba(46,90,30,.3);border-color:var(--green-lt);color:var(--green-lt);}
+.step-num-circle.now{background:rgba(184,146,42,.15);border-color:var(--gold);color:var(--gold);}
+.step-num-circle.wait{background:rgba(74,68,56,.2);border-color:var(--soft);color:var(--soft);}
+.step-title{font-family:'Cormorant',serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:.3rem;}
+.step-desc{font-size:.78rem;font-weight:300;line-height:1.6;color:var(--muted);}
+.step-action{display:inline-block;margin-top:.9rem;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(184,146,42,.3);padding-bottom:.1rem;transition:border-color .2s;}
+.step-action:hover{border-color:var(--gold);}
+.step-done-label{display:inline-block;margin-top:.9rem;font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green-lt);}
+
+/* COURSE MODULES */
+.modules-section{padding:3rem 0;border-bottom:1px solid var(--border);}
+.module-list{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1px solid var(--border);}
+.module-row{background:var(--card);padding:1.2rem 1.5rem;display:flex;align-items:center;gap:1.2rem;cursor:pointer;transition:background .2s;text-decoration:none;color:inherit;}
+.module-row:hover{background:var(--card2);}
+.mod-num{font-family:'Cormorant',serif;font-style:italic;font-size:1.1rem;color:var(--gold);min-width:1.8rem;flex-shrink:0;}
+.mod-icon{font-size:1.2rem;flex-shrink:0;}
+.mod-info{flex:1;}
+.mod-title{font-family:'Cormorant',serif;font-size:1.05rem;font-weight:700;color:var(--white);margin-bottom:.15rem;}
+.mod-desc{font-size:.78rem;font-weight:300;color:var(--muted);}
+.mod-status{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .55rem;flex-shrink:0;}
+.mod-status.available{background:rgba(184,146,42,.12);color:var(--gold);border:1px solid rgba(184,146,42,.3);}
+.mod-status.complete{background:rgba(46,90,30,.25);color:var(--green-lt);border:1px solid rgba(94,184,77,.3);}
+.mod-arrow{color:var(--soft);font-size:.85rem;flex-shrink:0;transition:transform .2s;}
+.module-row:hover .mod-arrow{transform:translateX(3px);color:var(--gold);}
+
+/* LIVE CALLS */
+.calls-section{padding:3rem 0;border-bottom:1px solid var(--border);}
+.calls-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.2rem;}
+.call-card{background:var(--card);border:1px solid var(--border);padding:1.5rem;position:relative;overflow:hidden;}
+.call-card.upcoming{border-color:rgba(184,146,42,.35);}
+.call-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;}
+.call-card.upcoming::before{background:var(--gold);}
+.call-card.past::before{background:var(--soft);}
+.call-label{font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:.6rem;display:inline-block;padding:.2rem .55rem;border-radius:2px;}
+.call-label.upcoming{background:rgba(184,146,42,.15);color:var(--gold);border:1px solid rgba(184,146,42,.3);}
+.call-label.past{background:rgba(74,68,56,.3);color:var(--soft);border:1px solid var(--soft);}
+.call-author{font-family:'Cormorant',serif;font-size:1.15rem;font-weight:700;color:var(--white);margin-bottom:.2rem;}
+.call-topic{font-size:.82rem;font-style:italic;color:var(--muted);margin-bottom:.8rem;}
+.call-date{font-size:.75rem;font-weight:500;color:var(--gold-lt);margin-bottom:1rem;}
+.call-desc{font-size:.8rem;font-weight:300;line-height:1.65;color:var(--muted);margin-bottom:1rem;}
+.call-btn{display:inline-block;padding:.55rem 1.3rem;background:var(--gold);color:var(--bg);font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;transition:background .2s;}
+.call-btn:hover{background:var(--gold-lt);}
+.call-btn.outline{background:transparent;color:var(--muted);border:1px solid var(--soft);}
+.call-btn.outline:hover{border-color:var(--muted);color:var(--cream);}
+
+/* DOWNLOADS */
+.downloads-section{padding:3rem 0;border-bottom:1px solid var(--border);}
+.dl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);}
+.dl-item{background:var(--card);padding:1.3rem;display:flex;align-items:center;gap:1rem;transition:background .2s;text-decoration:none;color:inherit;cursor:pointer;}
+.dl-item:hover{background:var(--card2);}
+.dl-icon{font-size:1.5rem;flex-shrink:0;}
+.dl-name{font-size:.88rem;font-weight:500;color:var(--white);margin-bottom:.15rem;}
+.dl-type{font-size:.7rem;font-weight:300;color:var(--muted);}
+.dl-arrow{margin-left:auto;color:var(--soft);font-size:.85rem;flex-shrink:0;transition:color .2s;}
+.dl-item:hover .dl-arrow{color:var(--gold);}
+
+/* AUTHOR BRAND */
+.brand-section{padding:3rem 0;}
+.brand-card{background:linear-gradient(135deg,#1a1810 0%,#16130e 100%);border:1px solid rgba(184,146,42,.3);padding:2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:start;}
+@media(max-width:640px){.brand-card{grid-template-columns:1fr;}}
+.brand-left{}
+.brand-right{background:var(--card);padding:1.8rem;border:1px solid var(--border);}
+.brand-title{font-family:'Cormorant',serif;font-size:1.6rem;font-weight:700;color:var(--white);margin-bottom:.5rem;}
+.brand-desc{font-size:.88rem;font-weight:300;line-height:1.75;color:var(--muted);margin-bottom:1.5rem;}
+.brand-desc strong{color:var(--cream);font-weight:500;}
+.brand-bullets{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.5rem;}
+.brand-bullet{display:flex;align-items:flex-start;gap:.6rem;font-size:.83rem;font-weight:300;color:var(--muted);line-height:1.5;}
+.brand-bullet::before{content:'✦';color:var(--gold);font-size:.65rem;flex-shrink:0;margin-top:.2rem;}
+.brand-form-title{font-family:'Cormorant',serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:.3rem;}
+.brand-form-sub{font-size:.78rem;font-weight:300;color:var(--muted);margin-bottom:1rem;line-height:1.5;}
+.form-group{display:flex;flex-direction:column;gap:.4rem;margin-bottom:.8rem;}
+.form-group label{font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:.8rem 1rem;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--cream);font-family:'DM Sans',sans-serif;font-size:.85rem;outline:none;transition:border-color .2s;resize:vertical;}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--gold);}
+.form-group input::placeholder,.form-group textarea::placeholder{color:var(--soft);}
+.btn-submit{width:100%;padding:1rem;background:var(--gold);color:var(--bg);border:none;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:all .25s;}
+.btn-submit:hover{background:var(--gold-lt);transform:translateY(-2px);}
+.brand-success{display:none;padding:1rem;background:rgba(46,90,30,.25);border:1px solid rgba(94,184,77,.3);color:var(--green-lt);font-size:.85rem;font-weight:300;line-height:1.65;text-align:center;margin-top:.8rem;}
+
+footer{background:var(--surface);border-top:1px solid var(--border);padding:2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;position:relative;z-index:1;}
+.footer-brand{font-family:'Dancing Script',cursive;font-size:1.2rem;color:var(--gold-lt);}
+.footer-note{font-size:.72rem;font-weight:300;color:var(--soft);}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">Self&#8209;Publish</a>
+  <span class="nav-badge">✦ Self-Publish Pro</span>
+  <div class="nav-right">
+    <span class="nav-user" id="nav-name"></span>
+    <button class="nav-logout" onclick="SP_ACCESS.logout()">Sign Out</button>
+  </div>
+</nav>
+
+<div class="dash-wrap">
+
+  <!-- PAGE TOP / WELCOME -->
+  <div class="page-top">
+    <div class="welcome-banner reveal">
+      <div class="wb-text">
+        <div class="wb-eyebrow">Self-Publish Pro Dashboard</div>
+        <div class="wb-name" id="welcome-name">Welcome back.</div>
+        <div class="wb-sub">Your author journey is underway — here's everything you have access to.</div>
+      </div>
+      <div class="wb-badge">✦ Full Pro Access Active</div>
+    </div>
+  </div>
+
+  <!-- ── STEP 1: ONBOARDING ── -->
+  <div class="onboard-section">
+    <span class="section-label reveal">Your Getting Started Steps</span>
+    <div class="steps-grid">
+
+      <div class="step-card complete reveal">
+        <div class="step-num-circle done">✓</div>
+        <div class="step-title">Create Your Account</div>
+        <div class="step-desc">You've joined Self-Publish Pro and your full access is active.</div>
+        <span class="step-done-label">✓ Complete</span>
+      </div>
+
+      <div class="step-card active reveal d1">
+        <div class="step-num-circle now">2</div>
+        <div class="step-title">Book Your Onboarding Call</div>
+        <div class="step-desc">Schedule your personal 1-on-1 call with your instructor. Set your goals, map your 90-day plan, and start with total clarity.</div>
+        <a href="onboarding.html" class="step-action">Request Your Call →</a>
+      </div>
+
+      <div class="step-card reveal d2">
+        <div class="step-num-circle wait">3</div>
+        <div class="step-title">Take the Writing Style Quiz</div>
+        <div class="step-desc">Discover your genre, voice, and writing strengths before beginning the course.</div>
+        <a href="writing-genre-quiz.html" class="step-action">Start Quiz →</a>
+      </div>
+
+      <div class="step-card reveal d3">
+        <div class="step-num-circle wait">4</div>
+        <div class="step-title">Begin Module 1</div>
+        <div class="step-desc">Dive into the course — your first module covers finding your voice and defining your book concept.</div>
+        <a href="#modules" class="step-action">Go to Modules →</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── COURSE MODULES ── -->
+  <div class="modules-section" id="modules">
+    <span class="section-label reveal">Course Modules — All Unlocked</span>
+    <div class="module-list reveal">
+      <a href="writing-genre-quiz.html" class="module-row">
+        <span class="mod-num">01</span><span class="mod-icon">🪶</span>
+        <div class="mod-info"><div class="mod-title">Writing Style Discovery</div><div class="mod-desc">Take the 25-question genre quiz — identify your voice, genre, and creative strengths</div></div>
+        <span class="mod-status available">Start</span><span class="mod-arrow">→</span>
+      </a>
+      <div class="module-row" onclick="comingSoon(this)">
+        <span class="mod-num">02</span><span class="mod-icon">📐</span>
+        <div class="mod-info"><div class="mod-title">Book Architecture</div><div class="mod-desc">Outline frameworks for every genre — structure your ideas before you write a word</div></div>
+        <span class="mod-status available">Unlocked</span><span class="mod-arrow">→</span>
+      </div>
+      <div class="module-row" onclick="comingSoon(this)">
+        <span class="mod-num">03</span><span class="mod-icon">✍️</span>
+        <div class="mod-info"><div class="mod-title">The Writing Process</div><div class="mod-desc">Daily routines, word count systems, and momentum techniques to finish your manuscript</div></div>
+        <span class="mod-status available">Unlocked</span><span class="mod-arrow">→</span>
+      </div>
+      <div class="module-row" onclick="comingSoon(this)">
+        <span class="mod-num">04</span><span class="mod-icon">🔍</span>
+        <div class="mod-info"><div class="mod-title">Editing &amp; Self-Revision</div><div class="mod-desc">Three-pass editing method, beta reader strategy, knowing when your manuscript is ready</div></div>
+        <span class="mod-status available">Unlocked</span><span class="mod-arrow">→</span>
+      </div>
+      <div class="module-row" onclick="comingSoon(this)">
+        <span class="mod-num">05</span><span class="mod-icon">📱</span>
+        <div class="mod-info"><div class="mod-title">eBook Formatting</div><div class="mod-desc">Format for Kindle, ePub, and PDF — step by step, no technical overwhelm</div></div>
+        <span class="mod-status available">Unlocked</span><span class="mod-arrow">→</span>
+      </div>
+      <div class="module-row" onclick="comingSoon(this)">
+        <span class="mod-num">06</span><span class="mod-icon">📗</span>
+        <div class="mod-info"><div class="mod-title">Print Book Formatting</div><div class="mod-desc">Interior layout, trim sizes, margins — everything needed to produce a print-ready file</div></div>
+        <span class="mod-status available">Unlocked</span><span class="mod-arrow">→</span>
+      </div>
+      <div class="module-row" onclick="comingSoon(this)">
+        <span class="mod-num">07</span><span class="mod-icon">🎨</span>
+        <div class="mod-info"><div class="mod-title">Cover Design Strategy</div><div class="mod-desc">What makes a cover sell, how to brief a designer, and DIY options that look professional</div></div>
+        <span class="mod-status available">Unlocked</span><span class="mod-arrow">→</span>
+      </div>
+      <div class="module-row" onclick="comingSoon(this)">
+        <span class="mod-num">08</span><span class="mod-icon">🚀</span>
+        <div class="mod-info"><div class="mod-title">Publishing on KDP &amp; Beyond</div><div class="mod-desc">Full walkthrough of Amazon KDP, ISBN, pricing, categories, and global distribution</div></div>
+        <span class="mod-status available">Unlocked</span><span class="mod-arrow">→</span>
+      </div>
+      <div class="module-row" onclick="comingSoon(this)">
+        <span class="mod-num">09</span><span class="mod-icon">📣</span>
+        <div class="mod-info"><div class="mod-title">Author Marketing &amp; Launch</div><div class="mod-desc">Launch strategy, Amazon SEO, email list building, ARC readers, and ongoing sales systems</div></div>
+        <span class="mod-status available">Unlocked</span><span class="mod-arrow">→</span>
+      </div>
+      <div class="module-row" onclick="comingSoon(this)">
+        <span class="mod-num">10</span><span class="mod-icon">💰</span>
+        <div class="mod-info"><div class="mod-title">Making Money with Your Writing</div><div class="mod-desc">Royalties, pricing psychology, and turning one book into a catalog of income</div></div>
+        <span class="mod-status available">Unlocked</span><span class="mod-arrow">→</span>
+      </div>
+      <div class="module-row" onclick="comingSoon(this)">
+        <span class="mod-num">11</span><span class="mod-icon">👤</span>
+        <div class="mod-info"><div class="mod-title">Building Your Author Brand</div><div class="mod-desc">Author bio, social strategy, Amazon author page, and the brand that grows your readership</div></div>
+        <span class="mod-status available">Unlocked</span><span class="mod-arrow">→</span>
+      </div>
+      <div class="module-row" onclick="comingSoon(this)">
+        <span class="mod-num">12</span><span class="mod-icon">🌐</span>
+        <div class="mod-info"><div class="mod-title">Long-Term Author Career</div><div class="mod-desc">Series planning, reader community building, and systems that generate revenue for years</div></div>
+        <span class="mod-status available">Unlocked</span><span class="mod-arrow">→</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── NYT AUTHOR LIVE CALLS ── -->
+  <div class="calls-section">
+    <span class="section-label reveal">🏆 Live Author Chats — NYT Bestsellers</span>
+    <div class="calls-grid">
+
+      <div class="call-card upcoming reveal">
+        <span class="call-label upcoming">● Upcoming</span>
+        <div class="call-author">Live Author Masterclass</div>
+        <div class="call-topic">"From Manuscript to Bestseller List — What Nobody Tells You"</div>
+        <div class="call-date">📅 Date TBA — Check Skool community for schedule</div>
+        <div class="call-desc">An intimate live conversation with a New York Times Bestselling Author. Ask your questions directly. This session covers the real story behind getting published, building a readership from scratch, and navigating the self-publishing landscape.</div>
+        <a href="https://www.skool.com/selfpublish" target="_blank" class="call-btn">Join on Skool →</a>
+      </div>
+
+      <div class="call-card upcoming reveal d1">
+        <span class="call-label upcoming">● Upcoming</span>
+        <div class="call-author">Author Brand Deep Dive</div>
+        <div class="call-topic">"Building the Author Identity That Sells Books While You Sleep"</div>
+        <div class="call-date">📅 Date TBA — Announced in community</div>
+        <div class="call-desc">A featured NYT Bestseller breaks down how they built their author brand — from their first book to a recognized name in their genre. Learn what actually works in brand-building for authors.</div>
+        <a href="https://www.skool.com/selfpublish" target="_blank" class="call-btn">Join on Skool →</a>
+      </div>
+
+      <div class="call-card upcoming reveal d2">
+        <span class="call-label upcoming">● Upcoming</span>
+        <div class="call-author">Marketing &amp; Launch Secrets</div>
+        <div class="call-topic">"The Launch Strategy That Got Me on the Bestseller List"</div>
+        <div class="call-date">📅 Date TBA — Members get early access</div>
+        <div class="call-desc">A live Q&amp;A with a bestselling author who launched their book with no publisher, no agent, and no marketing budget — and hit the list anyway. Pure strategy, no fluff.</div>
+        <a href="https://www.skool.com/selfpublish" target="_blank" class="call-btn">Join on Skool →</a>
+      </div>
+
+    </div>
+    <p style="font-size:.78rem;font-weight:300;color:var(--soft);margin-top:1rem;">All live sessions are announced in the <a href="https://www.skool.com/selfpublish" target="_blank" style="color:var(--gold);text-decoration:none;">Skool community</a>. Pro members get first access to registration links.</p>
+  </div>
+
+  <!-- ── DOWNLOADS ── -->
+  <div class="downloads-section">
+    <span class="section-label reveal">Downloads &amp; Resources</span>
+    <div class="dl-grid reveal">
+      <div class="dl-item" onclick="dlClick('Writing Style Workbook')">
+        <span class="dl-icon">📓</span><div><div class="dl-name">Writing Style Workbook</div><div class="dl-type">PDF Workbook · Module 1</div></div><span class="dl-arrow">↓</span>
+      </div>
+      <div class="dl-item" onclick="dlClick('Book Outline Template')">
+        <span class="dl-icon">📐</span><div><div class="dl-name">Book Outline Template</div><div class="dl-type">PDF Template · Module 2</div></div><span class="dl-arrow">↓</span>
+      </div>
+      <div class="dl-item" onclick="dlClick('90-Day Writing Planner')">
+        <span class="dl-icon">📅</span><div><div class="dl-name">90-Day Writing Planner</div><div class="dl-type">PDF Planner · Module 3</div></div><span class="dl-arrow">↓</span>
+      </div>
+      <div class="dl-item" onclick="dlClick('Manuscript Editing Checklist')">
+        <span class="dl-icon">✅</span><div><div class="dl-name">Manuscript Editing Checklist</div><div class="dl-type">PDF Checklist · Module 4</div></div><span class="dl-arrow">↓</span>
+      </div>
+      <div class="dl-item" onclick="dlClick('eBook Formatting Guide')">
+        <span class="dl-icon">📱</span><div><div class="dl-name">eBook Formatting Guide</div><div class="dl-type">PDF Guide · Module 5</div></div><span class="dl-arrow">↓</span>
+      </div>
+      <div class="dl-item" onclick="dlClick('KDP Publishing Walkthrough')">
+        <span class="dl-icon">🚀</span><div><div class="dl-name">KDP Publishing Walkthrough</div><div class="dl-type">PDF Guide · Module 8</div></div><span class="dl-arrow">↓</span>
+      </div>
+      <div class="dl-item" onclick="dlClick('Book Launch Checklist')">
+        <span class="dl-icon">📣</span><div><div class="dl-name">Book Launch Checklist</div><div class="dl-type">PDF Checklist · Module 9</div></div><span class="dl-arrow">↓</span>
+      </div>
+      <div class="dl-item" onclick="dlClick('Author Brand Workbook')">
+        <span class="dl-icon">✦</span><div><div class="dl-name">Author Brand Workbook</div><div class="dl-type">PDF Workbook · Module 11</div></div><span class="dl-arrow">↓</span>
+      </div>
+    </div>
+    <p style="font-size:.75rem;font-weight:300;color:var(--soft);margin-top:.8rem;">Downloads will be linked as modules are released. Check back as the course progresses.</p>
+  </div>
+
+  <!-- ── AUTHOR BRAND COACHING ── -->
+  <div class="brand-section">
+    <span class="section-label reveal">✦ Author Brand Development</span>
+    <div class="brand-card reveal">
+      <div class="brand-left">
+        <div class="brand-title">Build the Brand That Gets You Recognized</div>
+        <div class="brand-desc">
+          Your author brand is more than a headshot and a bio. It's the <strong>total experience of you as a writer</strong> — the voice your readers recognize, the visual identity that stops the scroll, and the positioning that makes you unforgettable in your genre.
+          <br><br>
+          As a Self-Publish Pro member, you get <strong>personalized author brand coaching</strong>. Submit your info below and your instructor will work with you one-on-one to develop the brand elements that set your book apart.
+        </div>
+        <div class="brand-bullets">
+          <div class="brand-bullet">Author voice and tone definition</div>
+          <div class="brand-bullet">Genre positioning and ideal reader profile</div>
+          <div class="brand-bullet">Author bio crafted to convert browsers into readers</div>
+          <div class="brand-bullet">Visual identity direction (colors, fonts, imagery)</div>
+          <div class="brand-bullet">Amazon author page optimization</div>
+          <div class="brand-bullet">Social media brand strategy for authors</div>
+        </div>
+      </div>
+      <div class="brand-right">
+        <div class="brand-form-title">Start Your Brand Coaching</div>
+        <div class="brand-form-sub">Tell us where you are and what you need. Your instructor will follow up within 48 hours.</div>
+        <div id="brand-form">
+          <div class="form-group">
+            <label>Your Book Title or Concept</label>
+            <input type="text" id="brand-book" placeholder="e.g. A memoir about my grandmother's immigration story" />
+          </div>
+          <div class="form-group">
+            <label>Genre</label>
+            <input type="text" id="brand-genre" placeholder="e.g. Memoir, Self-Help, Fantasy…" />
+          </div>
+          <div class="form-group">
+            <label>Your Target Reader</label>
+            <input type="text" id="brand-reader" placeholder="Who is your book for?" />
+          </div>
+          <div class="form-group">
+            <label>What You Need Most Right Now</label>
+            <textarea id="brand-need" rows="3" placeholder="e.g. I'm not sure how to describe myself as an author, or what my brand should feel like…"></textarea>
+          </div>
+          <button class="btn-submit" onclick="submitBrand()">Submit for Brand Coaching →</button>
+        </div>
+        <div class="brand-success" id="brand-success">
+          ✓ &nbsp;<strong>Received!</strong> Your instructor will be in touch within 48 hours to begin your author brand development.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end dash-wrap -->
+
+<footer>
+  <span class="footer-brand">Self&#8209;Publish</span>
+  <span class="footer-note">Self-Publish Pro · Full Access Active</span>
+  <a href="https://www.skool.com/selfpublish" target="_blank" style="font-size:.72rem;color:var(--muted);text-decoration:none;">Go to Skool Community →</a>
+</footer>
+
+<script src="membership.js"></script>
+<script>
+  // Guard: pro only
+  if(!SP_ACCESS.isPro()){
+    window.location.href = 'upgrade.html';
+  }
+
+  // Set name
+  document.getElementById('nav-name').textContent = '👤 ' + SP_ACCESS.getName();
+  document.getElementById('welcome-name').textContent = 'Welcome back, ' + SP_ACCESS.getName() + '.';
+
+  // Scroll reveal
+  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.06});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+  function comingSoon(el){
+    const t=el.querySelector('.mod-title').textContent;
+    alert('📖 ' + t + '\n\nThis module will be available soon. Check back as the course progresses, or watch the Skool community for announcements.');
+  }
+
+  function dlClick(name){
+    alert('📥 ' + name + '\n\nThis download will be attached when its corresponding module goes live. Your instructor will announce downloads in the Skool community.');
+  }
+
+  function submitBrand(){
+    const book=document.getElementById('brand-book').value.trim();
+    const need=document.getElementById('brand-need').value.trim();
+    if(!book||!need){alert('Please fill in your book concept and what you need most.');return;}
+    document.getElementById('brand-form').style.display='none';
+    document.getElementById('brand-success').style.display='block';
+  }
+</script>
+</body>
+</html>
