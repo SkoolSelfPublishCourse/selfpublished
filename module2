@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 2: Concept Creation — Self-Publish 101</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F9F5EE; --ink: #1A1510; --gold: #C8963E; --gold-light: #E8C97A;
+    --rust: #8B4A2A; --sage: #4A5E4A; --mist: #E8E2D8; --shadow: rgba(26,21,16,0.12);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); overflow-x: hidden; font-size: 16px; line-height: 1.7; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(26,21,16,0.97); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(200,150,62,0.2); }
+  .nav-inner { max-width: 900px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--cream); text-decoration: none; }
+  .nav-logo span { color: var(--gold); }
+  .nav-back { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(249,245,238,0.5); text-decoration: none; transition: color 0.2s; display: flex; align-items: center; gap: 0.4rem; }
+  .nav-back:hover { color: var(--gold); }
+  .nav-tabs { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .tab { padding: 0.85rem 1.2rem; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(249,245,238,0.4); text-decoration: none; border-bottom: 2px solid transparent; white-space: nowrap; transition: color 0.2s, border-color 0.2s; }
+  .tab:hover { color: rgba(249,245,238,0.8); }
+  .tab.active { color: var(--cream); border-color: var(--gold); }
+
+  /* HERO */
+  .hero { background: var(--ink); padding: 4rem 2rem 3.5rem; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 60% at 10% 90%, rgba(200,150,62,0.15) 0%, transparent 55%), radial-gradient(ellipse 40% 40% at 90% 10%, rgba(139,74,42,0.1) 0%, transparent 50%); }
+  .hero-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 2; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(200,150,62,0.12); border: 1px solid rgba(200,150,62,0.3); border-radius: 2rem; padding: 0.35rem 0.9rem; margin-bottom: 1.5rem; }
+  .hero-badge span { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold-light); }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 900; line-height: 1.08; color: var(--cream); margin-bottom: 1rem; }
+  .hero h1 em { font-style: italic; color: var(--gold); }
+  .hero-sub { font-size: 1rem; color: rgba(249,245,238,0.55); max-width: 520px; line-height: 1.65; font-weight: 300; }
+
+  /* VIDEO */
+  .video-wrap { background: #0d0b08; padding: 3rem 2rem; }
+  .video-inner { max-width: 900px; margin: 0 auto; }
+  .video-label { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+  video { width: 100%; border-radius: 0.35rem; display: block; max-height: 520px; background: #000; }
+
+  /* CONTENT */
+  .content { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+  .section { padding: 4.5rem 0; border-bottom: 1px solid var(--mist); }
+  .section:last-child { border-bottom: none; }
+  .eyebrow { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.6rem; }
+  .eyebrow::after { content: ''; display: block; height: 1px; width: 32px; background: var(--gold); opacity: 0.4; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; line-height: 1.15; margin-bottom: 1.25rem; }
+  .lead { font-size: 1.05rem; color: rgba(26,21,16,0.72); line-height: 1.75; margin-bottom: 1.25rem; }
+  p { margin-bottom: 1.1rem; color: rgba(26,21,16,0.78); }
+
+  /* CALLOUT */
+  .callout { background: var(--ink); color: var(--cream); border-radius: 0.5rem; padding: 1.75rem 2rem; margin: 2rem 0; position: relative; overflow: hidden; }
+  .callout::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+  .callout-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+  .callout h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; margin-bottom: 0.6rem; color: var(--cream); }
+  .callout p { color: rgba(249,245,238,0.75); margin-bottom: 0; font-size: 0.95rem; }
+
+  /* LESSON TITLE */
+  .lesson-title { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 700; margin: 2.5rem 0 0.75rem; color: var(--ink); }
+  .lesson-title:first-child { margin-top: 0; }
+
+  /* PILLARS */
+  .pillar { border: 1px solid var(--mist); border-radius: 0.5rem; padding: 1.75rem; margin-bottom: 1.25rem; position: relative; transition: border-color 0.2s, box-shadow 0.2s; }
+  .pillar:hover { border-color: var(--gold); box-shadow: 0 4px 20px var(--shadow); }
+  .pillar-num { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; color: var(--gold); opacity: 0.18; position: absolute; top: 1rem; right: 1.25rem; line-height: 1; }
+  .pillar h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .pillar p { margin-bottom: 0; font-size: 0.92rem; }
+
+  /* TWO COL */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin: 1.5rem 0; }
+  .col-box { background: var(--mist); border-radius: 0.5rem; padding: 1.5rem; }
+  .col-box h4 { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700; margin-bottom: 1rem; padding-bottom: 0.6rem; border-bottom: 1px solid rgba(26,21,16,0.1); }
+  .col-box ul { list-style: none; }
+  .col-box li { padding: 0.4rem 0; font-size: 0.87rem; color: rgba(26,21,16,0.75); border-bottom: 1px solid rgba(26,21,16,0.05); display: flex; gap: 0.5rem; align-items: flex-start; }
+  .col-box li::before { content: '·'; color: var(--gold); font-size: 1.1rem; line-height: 1.3; flex-shrink: 0; }
+
+  /* STEPS */
+  .step { display: flex; gap: 1.25rem; margin-bottom: 1.75rem; align-items: flex-start; }
+  .step-num { flex-shrink: 0; width: 2.25rem; height: 2.25rem; background: var(--ink); color: var(--gold); font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-top: 0.1rem; }
+  .step h4 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .step p { margin-bottom: 0; font-size: 0.92rem; }
+
+  /* HIGHLIGHT BOX */
+  .highlight { background: linear-gradient(135deg, var(--sage), #3a4a3a); color: var(--cream); border-radius: 0.5rem; padding: 1.75rem 2rem; margin: 2rem 0; }
+  .highlight h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.6rem; }
+  .highlight p { color: rgba(249,245,238,0.78); margin-bottom: 0; font-style: italic; font-size: 0.93rem; }
+
+  /* ASSIGNMENTS */
+  .assignment { border: 1.5px solid var(--mist); border-radius: 0.5rem; overflow: hidden; margin-bottom: 1.75rem; }
+  .assign-header { background: var(--ink); padding: 1.1rem 1.5rem; display: flex; align-items: center; gap: 0.9rem; }
+  .assign-num { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.12em; color: var(--gold); background: rgba(200,150,62,0.12); border: 1px solid rgba(200,150,62,0.25); padding: 0.2rem 0.55rem; border-radius: 0.2rem; flex-shrink: 0; }
+  .assign-header h3 { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--cream); margin: 0; }
+  .assign-body { padding: 1.5rem; }
+  .assign-prompt { font-style: italic; color: rgba(26,21,16,0.6); font-size: 0.92rem; margin-bottom: 1rem; line-height: 1.6; }
+  textarea.write { background: white; border: 1.5px solid var(--mist); border-radius: 0.3rem; padding: 1rem; min-height: 130px; font-family: 'DM Sans', sans-serif; font-size: 0.92rem; color: var(--ink); line-height: 1.65; resize: vertical; width: 100%; outline: none; transition: border-color 0.2s; }
+  textarea.write:focus { border-color: var(--gold); }
+  textarea.write::placeholder { color: rgba(26,21,16,0.25); font-style: italic; }
+
+  /* TRACKER */
+  .progress-wrap { background: var(--mist); border-radius: 2rem; height: 5px; margin: 1.25rem 0 0.4rem; overflow: hidden; }
+  .progress-bar { height: 100%; background: linear-gradient(90deg, var(--sage), #6a8a6a); border-radius: 2rem; transition: width 0.4s ease; width: 0%; }
+  .progress-text { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: rgba(26,21,16,0.4); letter-spacing: 0.1em; margin-bottom: 1.5rem; }
+  .tracker-item { display: flex; align-items: center; gap: 0.9rem; padding: 0.8rem 0.9rem; border-radius: 0.3rem; cursor: pointer; transition: background 0.15s; user-select: none; margin-bottom: 0.4rem; }
+  .tracker-item:hover { background: var(--mist); }
+  .tracker-item.done { background: rgba(74,94,74,0.07); }
+  .tracker-check { width: 1.25rem; height: 1.25rem; border: 2px solid rgba(26,21,16,0.18); border-radius: 0.22rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: border-color 0.2s, background 0.2s; }
+  .tracker-item.done .tracker-check { border-color: var(--sage); background: var(--sage); }
+  .tracker-check svg { display: none; }
+  .tracker-item.done .tracker-check svg { display: block; }
+  .tracker-label { font-size: 0.92rem; color: rgba(26,21,16,0.78); transition: color 0.2s; }
+  .tracker-item.done .tracker-label { color: rgba(26,21,16,0.38); text-decoration: line-through; }
+
+  /* QUIZ */
+  .quiz-q { margin-bottom: 2rem; }
+  .quiz-q h4 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.85rem; line-height: 1.4; }
+  .radio-group { display: flex; flex-direction: column; gap: 0.5rem; }
+  .radio-opt { display: flex; align-items: center; gap: 0.7rem; padding: 0.7rem 0.9rem; border: 1.5px solid var(--mist); border-radius: 0.3rem; cursor: pointer; transition: border-color 0.15s, background 0.15s; font-size: 0.9rem; }
+  .radio-opt:hover { border-color: rgba(200,150,62,0.35); background: rgba(200,150,62,0.04); }
+  .radio-opt input { display: none; }
+  .radio-dot { width: 1rem; height: 1rem; border: 2px solid rgba(26,21,16,0.18); border-radius: 50%; flex-shrink: 0; position: relative; transition: border-color 0.15s; }
+  .radio-opt input:checked ~ .radio-dot { border-color: var(--gold); }
+  .radio-opt input:checked ~ .radio-dot::after { content: ''; position: absolute; inset: 2.5px; background: var(--gold); border-radius: 50%; }
+
+  /* READY BOX */
+  .ready-box { background: var(--ink); border-radius: 0.5rem; padding: 2.5rem; margin-top: 2.5rem; text-align: center; position: relative; overflow: hidden; }
+  .ready-box::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(200,150,62,0.13) 0%, transparent 60%); }
+  .ready-box h2 { font-family: 'Playfair Display', serif; font-size: 1.75rem; font-weight: 700; color: var(--cream); margin-bottom: 0.75rem; position: relative; }
+  .ready-box p { color: rgba(249,245,238,0.62); max-width: 460px; margin: 0 auto 1.75rem; position: relative; font-size: 0.95rem; }
+  .btn-primary { display: inline-block; background: var(--gold); color: var(--ink); padding: 0.85rem 2rem; border-radius: 0.25rem; font-weight: 500; font-size: 0.92rem; text-decoration: none; transition: background 0.2s, transform 0.15s; position: relative; }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  /* TABLE */
+  .table-wrap { overflow-x: auto; margin: 1.5rem 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  th { background: var(--ink); color: var(--gold); font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.75rem 0.9rem; text-align: left; font-weight: 500; }
+  td { padding: 0; border-bottom: 1px solid var(--mist); vertical-align: middle; }
+  tr:hover td { background: rgba(200,150,62,0.03); }
+  .td-label { padding: 0.65rem 0.9rem; font-family: 'DM Mono', monospace; font-size: 0.72rem; color: rgba(26,21,16,0.38); width: 3.5rem; text-align: center; }
+  .td-input { border: none; background: transparent; padding: 0.65rem 0.75rem; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; color: var(--ink); width: 100%; outline: none; }
+  .td-input:focus { background: rgba(200,150,62,0.06); }
+  .td-input::placeholder { color: rgba(26,21,16,0.22); font-style: italic; }
+
+  footer { background: var(--ink); color: rgba(249,245,238,0.3); text-align: center; padding: 2rem; font-size: 0.78rem; letter-spacing: 0.08em; margin-top: 2rem; }
+  footer strong { color: var(--gold); }
+
+  @media (max-width: 640px) {
+    .hero { padding: 3rem 1.5rem 2.5rem; }
+    .content { padding: 0 1.5rem; }
+    .video-wrap { padding: 2rem 1.5rem; }
+    .two-col { grid-template-columns: 1fr; }
+    .nav-inner { flex-wrap: wrap; gap: 0.5rem; }
+  }
+
+  /* ── DARK THEME OVERRIDE ── */
+  body { background: #0F0D0A !important; color: #F9F5EE; }
+  .content, main { background: #0F0D0A; }
+  .section { border-bottom-color: rgba(249,245,238,0.07) !important; }
+  .hero { background: #1A1510 !important; }
+  .video-wrap { background: #0d0b08 !important; }
+
+  /* panels */
+  .pillar { background: #1E1912; border-color: rgba(249,245,238,0.07); color: #F9F5EE; }
+  .pillar h3 { color: #F9F5EE; }
+  .pillar p { color: rgba(249,245,238,0.65); }
+  .callout { background: #1A1510 !important; }
+  .highlight { background: linear-gradient(135deg,#2A3A2A,#1E2A1E) !important; }
+  .two-col .col-box { background: #1E1912; }
+  .two-col .col-box h4 { color: #F9F5EE; border-bottom-color: rgba(249,245,238,0.08); }
+  .two-col .col-box li { color: rgba(249,245,238,0.65); border-bottom-color: rgba(249,245,238,0.04); }
+  .step h4 { color: #F9F5EE; }
+  .step p { color: rgba(249,245,238,0.65); }
+  p { color: rgba(249,245,238,0.72); }
+  .lead { color: rgba(249,245,238,0.8); }
+  .section-title { color: #F9F5EE; }
+
+  /* assignments */
+  .assignment { background: #1A1510; border-color: rgba(249,245,238,0.07); }
+  .assign-body { background: #1A1510; }
+  textarea.write { background: #221D16; border-color: rgba(249,245,238,0.1); color: #F9F5EE; }
+  textarea.write:focus { border-color: #C8963E; }
+  textarea.write::placeholder { color: rgba(249,245,238,0.2); }
+  .assign-prompt { color: rgba(249,245,238,0.5); }
+
+  /* tracker */
+  .tracker-item:hover { background: rgba(249,245,238,0.04); }
+  .tracker-item.done { background: rgba(74,94,74,0.15); }
+  .tracker-check { border-color: rgba(249,245,238,0.15); }
+  .tracker-label { color: rgba(249,245,238,0.75); }
+  .tracker-item.done .tracker-label { color: rgba(249,245,238,0.3); }
+  .progress-wrap { background: rgba(249,245,238,0.07); }
+  .progress-text { color: rgba(249,245,238,0.35); }
+
+  /* quiz */
+  .radio-opt { border-color: rgba(249,245,238,0.08); color: #F9F5EE; }
+  .radio-opt:hover { border-color: rgba(200,150,62,0.3); background: rgba(200,150,62,0.05); }
+  .quiz-q h4 { color: #F9F5EE; }
+  .radio-dot { border-color: rgba(249,245,238,0.15); }
+
+  /* table */
+  td { border-bottom-color: rgba(249,245,238,0.07); }
+  tr:hover td { background: rgba(200,150,62,0.04); }
+  .td-label { color: rgba(249,245,238,0.3); }
+  .td-input { color: #F9F5EE; }
+  .td-input:focus { background: rgba(200,150,62,0.06); }
+  .td-input::placeholder { color: rgba(249,245,238,0.18); }
+
+  /* footer */
+  footer { background: #0F0D0A; border-top: 1px solid rgba(249,245,238,0.07); }
+
+</style>
+</head>
+<body>
+<!-- ACCESS GATE -->
+<div id="gate" style="display:none; position:fixed; inset:0; z-index:9999; background:#0F0D0A; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:2rem;">
+  <div style="max-width:480px;">
+    <div style="font-size:2.5rem; margin-bottom:1.25rem;">🔒</div>
+    <div style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:#C8963E; margin-bottom:0.75rem;">Members Only</div>
+    <h2 style="font-family:'Playfair Display',serif; font-size:clamp(1.6rem,4vw,2.4rem); font-weight:700; color:#F9F5EE; margin-bottom:1rem; line-height:1.15;">This Module is for<br>Course Members</h2>
+    <p style="color:rgba(249,245,238,0.55); font-size:0.97rem; line-height:1.7; margin-bottom:2rem;">Module 1 is free. To access this module and the full Self-Publish 101 course, join us on Skool.</p>
+    <div style="display:flex; flex-direction:column; gap:0.75rem;">
+      <a href="https://www.skool.com/selfpublish" target="_blank" style="background:#C8963E; color:#0F0D0A; font-weight:600; font-size:1rem; padding:1rem 2rem; border-radius:0.25rem; text-decoration:none; display:block; transition:background 0.2s;">Join Self-Publish 101 on Skool →</a>
+      <a href="../index.html#signup" style="border:1px solid rgba(200,150,62,0.3); color:#E8C97A; font-size:0.9rem; padding:0.85rem 2rem; border-radius:0.25rem; text-decoration:none; display:block;">Start Free with Module 1</a>
+    </div>
+    <p style="margin-top:1.5rem; font-size:0.78rem; color:rgba(249,245,238,0.22);">Already a member? <a href="../index.html#signup" style="color:#C8963E; text-decoration:none;">Sign in →</a></p>
+  </div>
+</div>
+
+<script>
+(function() {
+  var access = localStorage.getItem('sp101_access');
+  var gate = document.getElementById('gate');
+  if (!access) {
+    gate.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+})();
+</script>
+
+
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-back">← All Modules</a>
+    <a href="../index.html" class="nav-logo">Self-Publish <span>101</span></a>
+  </div>
+  <div class="nav-tabs" style="max-width:900px;margin:0 auto;padding:0 2rem;">
+    <a href="#overview" class="tab active" data-s="overview">Overview</a>
+    <a href="#lessons" class="tab" data-s="lessons">Lessons</a>
+    <a href="#assignments" class="tab" data-s="assignments">Assignments</a>
+    <a href="#tracker" class="tab" data-s="tracker">Tracker</a>
+    <a href="#quiz" class="tab" data-s="quiz">Quiz</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge"><span>Module 02 · Phase One · Writing</span></div>
+    <h1>Concept Creation</h1>
+    <p class="hero-sub">Turn your idea into a writing-ready concept. Define your book, your reader, and your promise — before you write a single word.</p>
+  </div>
+</section>
+
+
+  <div class="video-wrap" id="video">
+    <div class="video-inner">
+      <div class="video-label">Module 2 · Lesson Video</div>
+      <video controls poster="" preload="metadata">
+        <source src="../videos/Idea_to_Blueprint.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+
+<main class="content">
+
+  <section class="section" id="overview">
+    <div class="eyebrow">Overview</div>
+    <h2 class="section-title">What You'll Accomplish</h2>
+    <p class="lead">Every published book began as a single fragile idea. That idea became a concept. That concept became a plan. That plan became a book.</p><p>This module gives you the framework to transform your spark into a defined, writing-ready concept — complete with a clear genre, a specific reader, a unique angle, and a central promise. Without this foundation, manuscripts drift, stall, and contradict themselves. With it, you always know where you're going.</p>
+    <div class="callout">
+      <div class="callout-label">Module 2 Deliverable</div>
+      <p>A complete book concept: your core subject or story in 1–2 sentences, your target reader defined specifically, your genre and structure chosen, and your central promise written clearly.</p>
+    </div>
+  </section>
+
+  <section class="section" id="lessons">
+    <div class="eyebrow">Lesson Content</div>
+    <h2 class="section-title">What You'll Learn</h2>
+    <div class="lesson-title">What Is a Book Concept?</div>
+  <p>A concept answers five essential questions: <strong>What</strong> is your book about? <strong>Who</strong> is it for? <strong>Why</strong> does it need to exist? <strong>How</strong> will it be delivered? <strong>So What</strong> — what changes for the reader?</p>
+  <div class="two-col">
+    <div class="col-box"><h4>An Idea (Starting Point)</h4><ul>
+      <li>"I want to write about my grandmother"</li>
+      <li>"A detective who solves crimes using music"</li>
+      <li>"A book about getting over fear"</li>
+      <li>"Something set in space with AI"</li>
+    </ul></div>
+    <div class="col-box"><h4>A Concept (Writing-Ready)</h4><ul>
+      <li>A memoir about immigration exploring identity across three generations</li>
+      <li>A noir thriller where a blind pianist solves murder through sound memories</li>
+      <li>A practical guide for high-achievers who use perfectionism to hide fear</li>
+      <li>A sci-fi novel exploring what makes us human when AI can replicate everything except regret</li>
+    </ul></div>
+  </div>
+  <div class="lesson-title">The Six Elements of a Strong Concept</div>
+  <div class="pillar"><div class="pillar-num">1</div><h3>Core Subject or Story</h3><p>The central focus of the book, stated in 1–2 sentences without ambiguity.</p></div>
+  <div class="pillar"><div class="pillar-num">2</div><h3>Target Reader</h3><p>A specific, identifiable person. Not "everyone" or "adults." The more specific, the stronger.</p></div>
+  <div class="pillar"><div class="pillar-num">3</div><h3>Genre and Format</h3><p>The category your book lives in and how it will be structured.</p></div>
+  <div class="pillar"><div class="pillar-num">4</div><h3>Unique Angle</h3><p>What makes your approach, perspective, or story different from others in your genre.</p></div>
+  <div class="pillar"><div class="pillar-num">5</div><h3>Central Promise</h3><p>The transformation, experience, or understanding the reader will gain by finishing.</p></div>
+  <div class="pillar"><div class="pillar-num">6</div><h3>Emotional Core</h3><p>The feeling the book will leave readers with. This is what makes books memorable.</p></div>
+  <div class="highlight"><h3>The Quick Concept Test</h3><p>Can you describe this book in two sentences to a stranger and have them immediately understand what it is and whether they want to read it? If yes — your concept is ready. If not — keep refining.</p></div>
+  </section>
+
+  <section class="section" id="assignments">
+    <div class="eyebrow">Assignments</div>
+    <h2 class="section-title">Your Work</h2>
+    <p class="lead">Complete each assignment before moving to the next module.</p>
+    <div class="assignment">
+    <div class="assign-header"><span class="assign-num">2.1</span><h3>Your Core Concept Statement</h3></div>
+    <div class="assign-body">
+      <p class="assign-prompt">Write your book concept in 2 sentences. Sentence 1: What it is and who it's for. Sentence 2: What the reader gains and what makes it unique.</p>
+      <textarea class="write" placeholder="My book is..."></textarea>
+    </div>
+  </div>
+  <div class="assignment">
+    <div class="assign-header"><span class="assign-num">2.2</span><h3>Your Target Reader Profile</h3></div>
+    <div class="assign-body">
+      <p class="assign-prompt">Describe your ideal reader in detail: age, life stage, what they want, what they fear, what they already know, and where they find books.</p>
+      <textarea class="write" style="min-height:160px;" placeholder="My ideal reader is..."></textarea>
+    </div>
+  </div>
+  <div class="assignment">
+    <div class="assign-header"><span class="assign-num">2.3</span><h3>Genre, Structure & Comp Titles</h3></div>
+    <div class="assign-body">
+      <p class="assign-prompt">State your primary genre, sub-genre, structure model, and 2–3 recently published comp titles that share your audience.</p>
+      <textarea class="write" placeholder="My genre is... My structure model is... My comp titles are..."></textarea>
+    </div>
+  </div>
+  <div class="assignment">
+    <div class="assign-header"><span class="assign-num">2.4</span><h3>Your Opening Paragraph (Draft)</h3></div>
+    <div class="assign-body">
+      <p class="assign-prompt">Write the first paragraph of your book. This will change — but commit to something now. It must create immediate curiosity, tension, or emotional connection.</p>
+      <textarea class="write" style="min-height:160px;" placeholder="Write your opening paragraph here..."></textarea>
+    </div>
+  </div>
+  </section>
+
+  <section class="section" id="tracker">
+    <div class="eyebrow">Progress Tracker</div>
+    <h2 class="section-title">Module 2 Checklist</h2>
+    <p>Check off each item as you complete it.</p>
+    <div class="progress-wrap"><div class="progress-bar" id="prog-bar"></div></div>
+    <p class="progress-text" id="prog-text">0 of 8 complete</p>
+    <div id="tracker-list">
+      <div class="tracker-item" onclick="toggleTracker(this)">
+        <div class="tracker-check"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span class="tracker-label">Watched the Module 2 video</span>
+      </div>
+      <div class="tracker-item" onclick="toggleTracker(this)">
+        <div class="tracker-check"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span class="tracker-label">Read: What Is a Book Concept?</span>
+      </div>
+      <div class="tracker-item" onclick="toggleTracker(this)">
+        <div class="tracker-check"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span class="tracker-label">Read: The Six Elements of a Strong Concept</span>
+      </div>
+      <div class="tracker-item" onclick="toggleTracker(this)">
+        <div class="tracker-check"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span class="tracker-label">Completed Assignment 2.1 — Core Concept Statement</span>
+      </div>
+      <div class="tracker-item" onclick="toggleTracker(this)">
+        <div class="tracker-check"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span class="tracker-label">Completed Assignment 2.2 — Target Reader Profile</span>
+      </div>
+      <div class="tracker-item" onclick="toggleTracker(this)">
+        <div class="tracker-check"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span class="tracker-label">Completed Assignment 2.3 — Genre, Structure & Comp Titles</span>
+      </div>
+      <div class="tracker-item" onclick="toggleTracker(this)">
+        <div class="tracker-check"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span class="tracker-label">Completed Assignment 2.4 — Opening Paragraph (Draft)</span>
+      </div>
+      <div class="tracker-item" onclick="toggleTracker(this)">
+        <div class="tracker-check"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span class="tracker-label">Concept passes the two-sentence test</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="quiz">
+    <div class="eyebrow">Reflection Quiz</div>
+    <h2 class="section-title">Self-Assessment</h2>
+    <p>Complete this before moving to the next module.</p>
+    <div style="margin-top:2rem;">
+      <div class="quiz-q"><h4>How clear is your book concept right now?</h4>
+    <div class="radio-group">
+      <label class="radio-opt"><input type="radio" name="q1" value="a"><div class="radio-dot"></div><span>Crystal clear — I can describe it in two sentences to anyone</span></label>
+      <label class="radio-opt"><input type="radio" name="q1" value="b"><div class="radio-dot"></div><span>Mostly clear — the core is solid but some details are fuzzy</span></label>
+      <label class="radio-opt"><input type="radio" name="q1" value="c"><div class="radio-dot"></div><span>Getting there — I have the idea but the concept needs more work</span></label>
+      <label class="radio-opt"><input type="radio" name="q1" value="d"><div class="radio-dot"></div><span>Still murky — I need to revisit before moving on</span></label>
+    </div>
+  </div>
+  <div class="quiz-q"><h4>Do you know specifically who your book is for?</h4>
+    <div class="radio-group">
+      <label class="radio-opt"><input type="radio" name="q2" value="a"><div class="radio-dot"></div><span>Yes — I can describe one specific reader in detail</span></label>
+      <label class="radio-opt"><input type="radio" name="q2" value="b"><div class="radio-dot"></div><span>Mostly — I have a general picture</span></label>
+      <label class="radio-opt"><input type="radio" name="q2" value="c"><div class="radio-dot"></div><span>Not really — it's still quite broad</span></label>
+    </div>
+  </div>
+  <div class="quiz-q"><h4>Reflection: What is the central promise your book makes to your reader?</h4>
+    <textarea class="write" placeholder="By the end of my book, the reader will..."></textarea>
+  </div>
+    </div>
+    <div class="ready-box">
+      <h2>Ready for Module 3?</h2>
+      <p>If your tracker is fully checked off and your assignments are complete, you are ready for the next step.</p>
+      <a href="module-03.html" class="btn-primary">Continue to Module 3 →</a>
+    </div>
+  </section>
+
+</main>
+
+<footer><strong>Self-Publish 101</strong> · Manuscript to Marketing · selfpublished101.com</footer>
+
+<script>
+  // Tab scroll highlighting
+  const secs = document.querySelectorAll('section[id]');
+  const tabs = document.querySelectorAll('.tab');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        tabs.forEach(t => t.classList.remove('active'));
+        const a = document.querySelector(`.tab[href="#${e.target.id}"]`);
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  secs.forEach(s => obs.observe(s));
+
+  // Tracker
+  function toggleTracker(el) {
+    el.classList.toggle('done');
+    const items = document.querySelectorAll('.tracker-item');
+    const done = document.querySelectorAll('.tracker-item.done').length;
+    document.getElementById('prog-bar').style.width = (done / items.length * 100) + '%';
+    document.getElementById('prog-text').textContent = done + ' of ' + items.length + ' complete';
+  }
+
+  // Radio styling
+  document.querySelectorAll('.radio-opt input').forEach(inp => {
+    inp.addEventListener('change', function() {
+      document.querySelectorAll(`input[name="${this.name}"]`).forEach(i => {
+        i.closest('.radio-opt').style.borderColor = '';
+        i.closest('.radio-opt').style.background = '';
+      });
+      this.closest('.radio-opt').style.borderColor = 'var(--gold)';
+      this.closest('.radio-opt').style.background = 'rgba(200,150,62,0.06)';
+    });
+  });
+</script>
+</body>
+</html>
